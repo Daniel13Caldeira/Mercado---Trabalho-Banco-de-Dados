@@ -25,7 +25,7 @@ public class Login extends javax.swing.JFrame {
         entrarButton = new javax.swing.JButton();
         cadastroNavigate = new javax.swing.JLabel();
         tittleArea = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        tittleLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login");
@@ -51,7 +51,6 @@ public class Login extends javax.swing.JFrame {
         senhaText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         senhaText.setText("Senha");
 
-        userInput.setEditable(false);
         userInput.setBackground(new java.awt.Color(129, 126, 137));
         userInput.setForeground(new java.awt.Color(9, 9, 91));
         userInput.addActionListener(new java.awt.event.ActionListener() {
@@ -81,6 +80,12 @@ public class Login extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 cadastroNavigateMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                cadastroNavigateMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                cadastroNavigateMouseExited(evt);
+            }
         });
 
         javax.swing.GroupLayout inputAreaLayout = new javax.swing.GroupLayout(inputArea);
@@ -88,7 +93,7 @@ public class Login extends javax.swing.JFrame {
         inputAreaLayout.setHorizontalGroup(
             inputAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(inputAreaLayout.createSequentialGroup()
-                .addContainerGap(109, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(inputAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(inputAreaLayout.createSequentialGroup()
                         .addComponent(userText, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -98,18 +103,18 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(senhaText, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(senhaInput, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(109, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, inputAreaLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(40, Short.MAX_VALUE)
                 .addComponent(cadastroNavigate)
-                .addGap(88, 88, 88)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
                 .addComponent(entrarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31))
         );
         inputAreaLayout.setVerticalGroup(
             inputAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(inputAreaLayout.createSequentialGroup()
-                .addContainerGap(59, Short.MAX_VALUE)
+                .addContainerGap(80, Short.MAX_VALUE)
                 .addGroup(inputAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(userText, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(userInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -117,11 +122,11 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(inputAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(senhaText, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(senhaInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(inputAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(entrarButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cadastroNavigate, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout formAreaLayout = new javax.swing.GroupLayout(formArea);
@@ -129,40 +134,40 @@ public class Login extends javax.swing.JFrame {
         formAreaLayout.setHorizontalGroup(
             formAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formAreaLayout.createSequentialGroup()
-                .addContainerGap(95, Short.MAX_VALUE)
+                .addContainerGap(131, Short.MAX_VALUE)
                 .addComponent(inputArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addContainerGap(131, Short.MAX_VALUE))
         );
         formAreaLayout.setVerticalGroup(
             formAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(formAreaLayout.createSequentialGroup()
-                .addContainerGap(70, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formAreaLayout.createSequentialGroup()
+                .addContainerGap(50, Short.MAX_VALUE)
                 .addComponent(inputArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         tittleArea.setBackground(new java.awt.Color(0, 255, 255));
 
-        jLabel1.setBackground(new java.awt.Color(9, 9, 91));
-        jLabel1.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(9, 9, 91));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Mercado");
+        tittleLabel.setBackground(new java.awt.Color(9, 9, 91));
+        tittleLabel.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 24)); // NOI18N
+        tittleLabel.setForeground(new java.awt.Color(9, 9, 91));
+        tittleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tittleLabel.setText("Mercado");
 
         javax.swing.GroupLayout tittleAreaLayout = new javax.swing.GroupLayout(tittleArea);
         tittleArea.setLayout(tittleAreaLayout);
         tittleAreaLayout.setHorizontalGroup(
             tittleAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tittleAreaLayout.createSequentialGroup()
-                .addContainerGap(80, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(tittleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         tittleAreaLayout.setVerticalGroup(
             tittleAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tittleAreaLayout.createSequentialGroup()
                 .addContainerGap(55, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tittleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(46, Short.MAX_VALUE))
         );
 
@@ -172,12 +177,10 @@ public class Login extends javax.swing.JFrame {
             containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(containerLayout.createSequentialGroup()
                 .addContainerGap(20, Short.MAX_VALUE)
-                .addComponent(formArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(formArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tittleArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(20, Short.MAX_VALUE))
-            .addGroup(containerLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(tittleArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         containerLayout.setVerticalGroup(
             containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,6 +216,14 @@ public class Login extends javax.swing.JFrame {
     private void cadastroNavigateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastroNavigateMouseClicked
         JOptionPane.showMessageDialog(null, "HOla!");
     }//GEN-LAST:event_cadastroNavigateMouseClicked
+
+    private void cadastroNavigateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastroNavigateMouseEntered
+        cadastroNavigate.setText("<html><u>Não Possui uma conta?<u>");
+    }//GEN-LAST:event_cadastroNavigateMouseEntered
+
+    private void cadastroNavigateMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastroNavigateMouseExited
+        cadastroNavigate.setText("Não Possui uma conta?");
+    }//GEN-LAST:event_cadastroNavigateMouseExited
 
 
     public static void main(String args[]) {
@@ -253,10 +264,10 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton entrarButton;
     private javax.swing.JPanel formArea;
     private javax.swing.JPanel inputArea;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPasswordField senhaInput;
     private javax.swing.JLabel senhaText;
     private javax.swing.JPanel tittleArea;
+    private javax.swing.JLabel tittleLabel;
     private javax.swing.JTextField userInput;
     private javax.swing.JLabel userText;
     // End of variables declaration//GEN-END:variables
