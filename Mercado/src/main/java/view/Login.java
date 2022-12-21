@@ -214,7 +214,8 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_userInputActionPerformed
 
     private void cadastroNavigateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastroNavigateMouseClicked
-        JOptionPane.showMessageDialog(null, "HOla!");
+        setVisible(false);
+        new Cadastro().setVisible(true);
     }//GEN-LAST:event_cadastroNavigateMouseClicked
 
     private void cadastroNavigateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastroNavigateMouseEntered
