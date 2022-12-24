@@ -1,15 +1,15 @@
-
 package view;
 
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.net.URL;
 import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
 
-
     public Login() {
         initComponents();
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -35,23 +35,21 @@ public class Login extends javax.swing.JFrame {
         container.setForeground(new java.awt.Color(51, 255, 255));
         container.setPreferredSize(new java.awt.Dimension(720, 500));
 
-        formArea.setBackground(new java.awt.Color(255, 255, 255));
+        formArea.setBackground(new java.awt.Color(169, 169, 169));
         formArea.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         formArea.setPreferredSize(new java.awt.Dimension(680, 345));
 
-        inputArea.setBackground(new java.awt.Color(255, 255, 255));
+        inputArea.setBackground(new java.awt.Color(169, 169, 169));
 
-        userText.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 16)); // NOI18N
+        userText.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
         userText.setForeground(new java.awt.Color(9, 9, 91));
-        userText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         userText.setText("Usuário");
 
-        senhaText.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 16)); // NOI18N
+        senhaText.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
         senhaText.setForeground(new java.awt.Color(9, 9, 91));
-        senhaText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         senhaText.setText("Senha");
 
-        userInput.setBackground(new java.awt.Color(129, 126, 137));
+        userInput.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 14)); // NOI18N
         userInput.setForeground(new java.awt.Color(9, 9, 91));
         userInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -59,7 +57,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        senhaInput.setBackground(new java.awt.Color(129, 126, 137));
+        senhaInput.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 14)); // NOI18N
         senhaInput.setForeground(new java.awt.Color(9, 9, 91));
         senhaInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -134,9 +132,9 @@ public class Login extends javax.swing.JFrame {
         formAreaLayout.setHorizontalGroup(
             formAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formAreaLayout.createSequentialGroup()
-                .addContainerGap(131, Short.MAX_VALUE)
+                .addContainerGap(125, Short.MAX_VALUE)
                 .addComponent(inputArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(131, Short.MAX_VALUE))
+                .addContainerGap(124, Short.MAX_VALUE))
         );
         formAreaLayout.setVerticalGroup(
             formAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,7 +197,7 @@ public class Login extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(container, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
+            .addComponent(container, javax.swing.GroupLayout.PREFERRED_SIZE, 507, Short.MAX_VALUE)
         );
 
         pack();
@@ -215,7 +213,7 @@ public class Login extends javax.swing.JFrame {
 
     private void cadastroNavigateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastroNavigateMouseClicked
         setVisible(false);
-        new Cadastro().setVisible(true);
+        new Cadastro_Cliente().setVisible(true);
     }//GEN-LAST:event_cadastroNavigateMouseClicked
 
     private void cadastroNavigateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastroNavigateMouseEntered
@@ -225,7 +223,6 @@ public class Login extends javax.swing.JFrame {
     private void cadastroNavigateMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastroNavigateMouseExited
         cadastroNavigate.setText("Não Possui uma conta?");
     }//GEN-LAST:event_cadastroNavigateMouseExited
-
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
