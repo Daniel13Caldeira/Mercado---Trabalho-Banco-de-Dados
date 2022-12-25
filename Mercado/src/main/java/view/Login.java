@@ -1,8 +1,6 @@
 package view;
 
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.net.URL;
+
 import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
@@ -70,6 +68,11 @@ public class Login extends javax.swing.JFrame {
         entrarButton.setForeground(new java.awt.Color(255, 255, 255));
         entrarButton.setText("Entrar");
         entrarButton.setPreferredSize(new java.awt.Dimension(60, 28));
+        entrarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                entrarButtonActionPerformed(evt);
+            }
+        });
 
         cadastroNavigate.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
         cadastroNavigate.setForeground(new java.awt.Color(9, 9, 91));
@@ -223,6 +226,11 @@ public class Login extends javax.swing.JFrame {
     private void cadastroNavigateMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastroNavigateMouseExited
         cadastroNavigate.setText("Não Possui uma conta?");
     }//GEN-LAST:event_cadastroNavigateMouseExited
+
+    private void entrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrarButtonActionPerformed
+        this.setVisible(false);
+        new Cadastro_Funcionario().setVisible(true);
+    }//GEN-LAST:event_entrarButtonActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
