@@ -4,13 +4,13 @@ public class Entregador extends Funcionario {
 
     private String placaVeiculo;
 
-    public Entregador(String placaVeiculo, String nome, String cpf, int id) {
-        super(nome, cpf, id);
+    public Entregador(String placaVeiculo, int id, String nome, String cpf, String senha, Endereco endereco) {
+        super(id, nome, cpf, senha, endereco);
         this.placaVeiculo = placaVeiculo;
     }
 
-    public Entregador(String placaVeiculo, String nome, String cpf, Endereco endereco, int id) {
-        super(nome, cpf, endereco, id);
+    public Entregador(String placaVeiculo, int id, String nome, String cpf, String senha) {
+        super(id, nome, cpf, senha);
         this.placaVeiculo = placaVeiculo;
     }
 
