@@ -229,7 +229,7 @@ public class Login extends javax.swing.JFrame {
 
     private void entrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrarButtonActionPerformed
         this.setVisible(false);
-        new Cadastro_Funcionario().setVisible(true);
+        new Cadastro_Produto().setVisible(true);
     }//GEN-LAST:event_entrarButtonActionPerformed
 
     public static void main(String args[]) {

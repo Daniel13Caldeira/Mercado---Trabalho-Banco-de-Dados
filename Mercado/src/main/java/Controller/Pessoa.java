@@ -5,16 +5,16 @@ public abstract class Pessoa {
     protected String nome, cpf, senha;
     protected Endereco endereco;
 
-    public Pessoa(String nome, String cpf, String senha, Endereco endereco) {
-        this.nome = nome;
-        this.cpf = cpf;
-        this.senha = senha;
-        this.endereco = endereco;
-    }
-
     public Pessoa(String nome, String cpf, String senha) {
         this.nome = nome;
         this.cpf = cpf;
+        this.senha = senha;
+    }
+
+    public Pessoa(String nome, String cpf, Endereco endereco, String senha) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.endereco = endereco;
         this.senha = senha;
     }
 
