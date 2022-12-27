@@ -6,12 +6,12 @@ public class Cliente extends Pessoa{
     private Carrinho carrino;
     private ArrayList<Pedido> pedidos;
 
-    public Cliente(String nome, String cpf) {
-        super(nome, cpf);
+    public Cliente(String nome, String cpf,String senha) {
+        super(nome, cpf,senha);
     }
 
-    public Cliente(String nome, String cpf, Endereco endereco) {
-        super(nome, cpf, endereco);
+    public Cliente(String nome, String cpf, Endereco endereco,String senha) {
+        super(nome, cpf, endereco,senha);
     }
 
     public Carrinho getCarrino() {

@@ -3,14 +3,16 @@ package Controller;
 public class Funcionario extends Pessoa {
 
     protected int id;
+    protected String cargo;
     
-    public Funcionario(String nome, String cpf, int id) {
-        super(nome, cpf);
+    public Funcionario(String nome, String cpf, int id,String cargo,String senha) {
+        super(nome, cpf,senha);
         this.id = id;
+        this.cargo = cargo;
     }
 
-    public Funcionario(String nome, String cpf, Endereco endereco, int id) {
-        super(nome, cpf, endereco);
+    public Funcionario(String nome, String cpf, Endereco endereco, int id,String senha) {
+        super(nome, cpf, endereco,senha);
         this.id = id;
     }
 

@@ -31,12 +31,8 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
         formArea = new javax.swing.JPanel();
         nomeLable = new javax.swing.JLabel();
         cpfLabel = new javax.swing.JLabel();
-        dataDeNascLabel = new javax.swing.JLabel();
-        telefoneLabel = new javax.swing.JLabel();
         nomeInput = new javax.swing.JTextField();
         cpfInput = new javax.swing.JTextField();
-        dataInput = new javax.swing.JTextField();
-        telefoneInput = new javax.swing.JTextField();
         tittleEndLabel = new javax.swing.JLabel();
         line = new javax.swing.JPanel();
         FormEndArea = new javax.swing.JPanel();
@@ -81,14 +77,6 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
         cpfLabel.setText("CPF");
         cpfLabel.setPreferredSize(new java.awt.Dimension(57, 16));
 
-        dataDeNascLabel.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
-        dataDeNascLabel.setForeground(new java.awt.Color(9, 9, 91));
-        dataDeNascLabel.setText("Data de Nascimento");
-
-        telefoneLabel.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
-        telefoneLabel.setForeground(new java.awt.Color(9, 9, 91));
-        telefoneLabel.setText("Telefone");
-
         nomeInput.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 14)); // NOI18N
         nomeInput.setForeground(new java.awt.Color(9, 9, 91));
         nomeInput.addActionListener(new java.awt.event.ActionListener() {
@@ -105,22 +93,6 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
             }
         });
 
-        dataInput.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 14)); // NOI18N
-        dataInput.setForeground(new java.awt.Color(9, 9, 91));
-        dataInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dataInputActionPerformed(evt);
-            }
-        });
-
-        telefoneInput.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 14)); // NOI18N
-        telefoneInput.setForeground(new java.awt.Color(9, 9, 91));
-        telefoneInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                telefoneInputActionPerformed(evt);
-            }
-        });
-
         tittleEndLabel.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 22)); // NOI18N
         tittleEndLabel.setForeground(new java.awt.Color(9, 9, 91));
         tittleEndLabel.setText("Endereço");
@@ -132,7 +104,7 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
         line.setLayout(lineLayout);
         lineLayout.setHorizontalGroup(
             lineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 620, Short.MAX_VALUE)
         );
         lineLayout.setVerticalGroup(
             lineLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -272,13 +244,23 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
         formArea.setLayout(formAreaLayout);
         formAreaLayout.setHorizontalGroup(
             formAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formAreaLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cadastroButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
             .addGroup(formAreaLayout.createSequentialGroup()
                 .addGap(29, 29, 29)
+                .addComponent(nomeLable, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(nomeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(cpfLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cpfInput, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(54, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formAreaLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(formAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formAreaLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 489, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cadastroButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(22, 22, 22))
                     .addGroup(formAreaLayout.createSequentialGroup()
                         .addComponent(senhaLabel)
                         .addGap(18, 18, 18)
@@ -289,28 +271,9 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
                         .addComponent(cargoBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(formAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(FormEndArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(line, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(tittleEndLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(formAreaLayout.createSequentialGroup()
-                            .addGroup(formAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(formAreaLayout.createSequentialGroup()
-                                    .addComponent(dataDeNascLabel)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(dataInput, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(26, 26, 26)
-                                    .addComponent(telefoneLabel))
-                                .addGroup(formAreaLayout.createSequentialGroup()
-                                    .addComponent(nomeLable, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(nomeInput)))
-                            .addGap(18, 18, 18)
-                            .addGroup(formAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(formAreaLayout.createSequentialGroup()
-                                    .addComponent(cpfLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(cpfInput, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(telefoneInput, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(line, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tittleEndLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         formAreaLayout.setVerticalGroup(
             formAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -321,19 +284,13 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
                     .addComponent(nomeInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cpfLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cpfInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(formAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(dataDeNascLabel)
-                    .addComponent(dataInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(telefoneInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(telefoneLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(22, 22, 22)
                 .addGroup(formAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(senhaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(senhaInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cargoLabel)
                     .addComponent(cargoBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
+                .addGap(31, 31, 31)
                 .addComponent(tittleEndLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(line, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -341,7 +298,7 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
                 .addComponent(FormEndArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14)
                 .addComponent(cadastroButton)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
 
         tittleArea.setBackground(new java.awt.Color(0, 255, 255));
@@ -411,14 +368,6 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cpfInputActionPerformed
 
-    private void dataInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataInputActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_dataInputActionPerformed
-
-    private void telefoneInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_telefoneInputActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_telefoneInputActionPerformed
-
     private void cepInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cepInputActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cepInputActionPerformed
@@ -476,8 +425,6 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
     private javax.swing.JPanel container;
     private javax.swing.JTextField cpfInput;
     private javax.swing.JLabel cpfLabel;
-    private javax.swing.JLabel dataDeNascLabel;
-    private javax.swing.JTextField dataInput;
     private javax.swing.JPanel formArea;
     private javax.swing.JPanel line;
     private javax.swing.JTextField nomeInput;
@@ -488,8 +435,6 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
     private javax.swing.JLabel ruaLabel;
     private javax.swing.JPasswordField senhaInput;
     private javax.swing.JLabel senhaLabel;
-    private javax.swing.JTextField telefoneInput;
-    private javax.swing.JLabel telefoneLabel;
     private javax.swing.JPanel tittleArea;
     private javax.swing.JLabel tittleEndLabel;
     private javax.swing.JLabel tittleLabel;
