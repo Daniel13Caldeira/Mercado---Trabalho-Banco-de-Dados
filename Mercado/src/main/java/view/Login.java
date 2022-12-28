@@ -1,6 +1,5 @@
 package view;
 
-
 import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
@@ -204,6 +203,7 @@ public class Login extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void senhaInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_senhaInputActionPerformed
@@ -228,16 +228,11 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_cadastroNavigateMouseExited
 
     private void entrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrarButtonActionPerformed
-        this.setVisible(false);
-        new Cadastro_Produto().setVisible(true);
+        new Edit_Fornecedor().setVisible(true);
     }//GEN-LAST:event_entrarButtonActionPerformed
 
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {

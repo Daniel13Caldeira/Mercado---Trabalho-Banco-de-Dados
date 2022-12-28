@@ -1,13 +1,17 @@
-
 package view;
 
+import Utilitarios.BuscaCep;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JTextField;
 
 public class Cadastro_Cliente extends javax.swing.JFrame {
 
     public Cadastro_Cliente() {
         initComponents();
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -23,7 +27,6 @@ public class Cadastro_Cliente extends javax.swing.JFrame {
         line = new javax.swing.JPanel();
         FormEndArea = new javax.swing.JPanel();
         ufLabel = new javax.swing.JLabel();
-        ufInput = new javax.swing.JTextField();
         cidadeLabel = new javax.swing.JLabel();
         cidadeInput = new javax.swing.JTextField();
         cepLabel = new javax.swing.JLabel();
@@ -34,11 +37,14 @@ public class Cadastro_Cliente extends javax.swing.JFrame {
         bairroInput = new javax.swing.JTextField();
         numeroLabel = new javax.swing.JLabel();
         numeroInput = new javax.swing.JTextField();
+        ufBox = new javax.swing.JComboBox<>();
         cadastroButton = new javax.swing.JButton();
         senhaLabel = new javax.swing.JLabel();
         senhaInput = new javax.swing.JPasswordField();
+        mostrarSenhaLabel = new javax.swing.JLabel();
         tittleArea = new javax.swing.JPanel();
         tittleLabel = new javax.swing.JLabel();
+        voltarButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cadastro");
@@ -69,12 +75,28 @@ public class Cadastro_Cliente extends javax.swing.JFrame {
                 nomeInputActionPerformed(evt);
             }
         });
+        nomeInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                nomeInputKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nomeInputKeyTyped(evt);
+            }
+        });
 
         cpfInput.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 14)); // NOI18N
         cpfInput.setForeground(new java.awt.Color(9, 9, 91));
         cpfInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cpfInputActionPerformed(evt);
+            }
+        });
+        cpfInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                cpfInputKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cpfInputKeyTyped(evt);
             }
         });
 
@@ -102,13 +124,12 @@ public class Cadastro_Cliente extends javax.swing.JFrame {
         ufLabel.setForeground(new java.awt.Color(9, 9, 91));
         ufLabel.setText("UF");
 
-        ufInput.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 14)); // NOI18N
-
         cidadeLabel.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
         cidadeLabel.setForeground(new java.awt.Color(9, 9, 91));
         cidadeLabel.setText("Cidade");
 
         cidadeInput.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 14)); // NOI18N
+        cidadeInput.setForeground(new java.awt.Color(9, 9, 91));
 
         cepLabel.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
         cepLabel.setForeground(new java.awt.Color(9, 9, 91));
@@ -119,6 +140,14 @@ public class Cadastro_Cliente extends javax.swing.JFrame {
         cepInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cepInputActionPerformed(evt);
+            }
+        });
+        cepInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                cepInputKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cepInputKeyTyped(evt);
             }
         });
 
@@ -134,6 +163,7 @@ public class Cadastro_Cliente extends javax.swing.JFrame {
         bairroLabel.setText("Bairro");
 
         bairroInput.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 14)); // NOI18N
+        bairroInput.setForeground(new java.awt.Color(9, 9, 91));
 
         numeroLabel.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
         numeroLabel.setForeground(new java.awt.Color(9, 9, 91));
@@ -141,6 +171,18 @@ public class Cadastro_Cliente extends javax.swing.JFrame {
 
         numeroInput.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 14)); // NOI18N
         numeroInput.setForeground(new java.awt.Color(9, 9, 91));
+        numeroInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                numeroInputKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                numeroInputKeyTyped(evt);
+            }
+        });
+
+        ufBox.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 14)); // NOI18N
+        ufBox.setForeground(new java.awt.Color(9, 9, 91));
+        ufBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
 
         javax.swing.GroupLayout FormEndAreaLayout = new javax.swing.GroupLayout(FormEndArea);
         FormEndArea.setLayout(FormEndAreaLayout);
@@ -152,8 +194,8 @@ public class Cadastro_Cliente extends javax.swing.JFrame {
                     .addGroup(FormEndAreaLayout.createSequentialGroup()
                         .addComponent(ufLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(ufInput, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
+                        .addComponent(ufBox, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
                         .addComponent(cidadeLabel))
                     .addGroup(FormEndAreaLayout.createSequentialGroup()
                         .addComponent(ruaLabel)
@@ -184,11 +226,11 @@ public class Cadastro_Cliente extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(FormEndAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ufLabel)
-                    .addComponent(ufInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cidadeLabel)
                     .addComponent(cidadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cepLabel)
-                    .addComponent(cepInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cepInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ufBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
                 .addGroup(FormEndAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ruaLabel)
@@ -216,6 +258,27 @@ public class Cadastro_Cliente extends javax.swing.JFrame {
 
         senhaInput.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 14)); // NOI18N
         senhaInput.setForeground(new java.awt.Color(9, 9, 91));
+        senhaInput.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                senhaInputKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                senhaInputKeyTyped(evt);
+            }
+        });
+
+        mostrarSenhaLabel.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
+        mostrarSenhaLabel.setForeground(new java.awt.Color(9, 9, 91));
+        mostrarSenhaLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        mostrarSenhaLabel.setText("Mostrar senha");
+        mostrarSenhaLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                mostrarSenhaLabelMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                mostrarSenhaLabelMouseExited(evt);
+            }
+        });
 
         javax.swing.GroupLayout formAreaLayout = new javax.swing.GroupLayout(formArea);
         formArea.setLayout(formAreaLayout);
@@ -227,7 +290,9 @@ public class Cadastro_Cliente extends javax.swing.JFrame {
                     .addGroup(formAreaLayout.createSequentialGroup()
                         .addComponent(senhaLabel)
                         .addGap(18, 18, 18)
-                        .addComponent(senhaInput, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(senhaInput, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(mostrarSenhaLabel))
                     .addGroup(formAreaLayout.createSequentialGroup()
                         .addComponent(nomeLable, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -262,8 +327,9 @@ public class Cadastro_Cliente extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(formAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(senhaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(senhaInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
+                    .addComponent(senhaInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mostrarSenhaLabel))
+                .addGap(43, 43, 43)
                 .addComponent(tittleEndLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(line, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -271,7 +337,7 @@ public class Cadastro_Cliente extends javax.swing.JFrame {
                 .addComponent(FormEndArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14)
                 .addComponent(cadastroButton)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         tittleArea.setBackground(new java.awt.Color(0, 255, 255));
@@ -282,6 +348,16 @@ public class Cadastro_Cliente extends javax.swing.JFrame {
         tittleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         tittleLabel.setText("Novo Usuário");
 
+        voltarButton.setBackground(new java.awt.Color(9, 9, 91));
+        voltarButton.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
+        voltarButton.setForeground(new java.awt.Color(255, 255, 255));
+        voltarButton.setText("Voltar");
+        voltarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                voltarButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout tittleAreaLayout = new javax.swing.GroupLayout(tittleArea);
         tittleArea.setLayout(tittleAreaLayout);
         tittleAreaLayout.setHorizontalGroup(
@@ -289,13 +365,17 @@ public class Cadastro_Cliente extends javax.swing.JFrame {
             .addGroup(tittleAreaLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(tittleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(160, 160, 160)
+                .addComponent(voltarButton)
+                .addContainerGap())
         );
         tittleAreaLayout.setVerticalGroup(
             tittleAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tittleAreaLayout.createSequentialGroup()
+            .addGroup(tittleAreaLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(tittleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(tittleAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(voltarButton)
+                    .addComponent(tittleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -331,6 +411,7 @@ public class Cadastro_Cliente extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void nomeInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomeInputActionPerformed
@@ -349,6 +430,128 @@ public class Cadastro_Cliente extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cadastroButtonActionPerformed
 
+    private void voltarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarButtonActionPerformed
+        this.setVisible(false);
+        new Login().setVisible(true);
+    }//GEN-LAST:event_voltarButtonActionPerformed
+
+    private void nomeInputKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nomeInputKeyReleased
+        limita(nomeInput);
+    }//GEN-LAST:event_nomeInputKeyReleased
+
+    private void nomeInputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nomeInputKeyTyped
+        limita(nomeInput);
+    }//GEN-LAST:event_nomeInputKeyTyped
+
+    private void cpfInputKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cpfInputKeyReleased
+        mascaraCPF(cpfInput);
+    }//GEN-LAST:event_cpfInputKeyReleased
+
+    private void cpfInputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cpfInputKeyTyped
+        mascaraCPF(cpfInput);
+    }//GEN-LAST:event_cpfInputKeyTyped
+
+    private void senhaInputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_senhaInputKeyTyped
+        limitaSenha(senhaInput);
+    }//GEN-LAST:event_senhaInputKeyTyped
+
+    private void senhaInputKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_senhaInputKeyReleased
+        limitaSenha(senhaInput);
+    }//GEN-LAST:event_senhaInputKeyReleased
+
+    private void mostrarSenhaLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mostrarSenhaLabelMouseEntered
+        senhaInput.setEchoChar('\u0000');
+    }//GEN-LAST:event_mostrarSenhaLabelMouseEntered
+
+    private void mostrarSenhaLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mostrarSenhaLabelMouseExited
+        senhaInput.setEchoChar('\u25cf');
+    }//GEN-LAST:event_mostrarSenhaLabelMouseExited
+
+    private void numeroInputKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_numeroInputKeyReleased
+        limitaNum(numeroInput);
+    }//GEN-LAST:event_numeroInputKeyReleased
+
+    private void numeroInputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_numeroInputKeyTyped
+        limitaNum(numeroInput);
+    }//GEN-LAST:event_numeroInputKeyTyped
+
+    private void cepInputKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cepInputKeyReleased
+        validaCep(cepInput);
+    }//GEN-LAST:event_cepInputKeyReleased
+
+    private void cepInputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cepInputKeyTyped
+        validaCep(cepInput);
+    }//GEN-LAST:event_cepInputKeyTyped
+
+    private void limitaNum(JTextField textField) {
+        String texto = textField.getText();
+        if (texto.length() > 0) {
+            if (texto.length() > 10) {
+                texto = texto.substring(0, texto.length() - 1);
+            }
+        }
+        textField.setText(texto);
+    }
+
+    private void limita(JTextField textField) {
+        String texto = textField.getText();
+        if (texto.length() > 0) {
+            if (texto.length() > 50) {
+                texto = texto.substring(0, texto.length() - 1);
+            }
+        }
+        textField.setText(texto);
+    }
+
+    private void limitaSenha(JTextField textField) {
+        String texto = textField.getText();
+        if (texto.length() > 0) {
+            if (texto.length() > 20) {
+                texto = texto.substring(0, texto.length() - 1);
+            }
+        }
+        textField.setText(texto);
+    }
+
+    private void mascaraCPF(JTextField textField) {
+        String texto = textField.getText();
+        if (texto.length() > 0) {
+            if (texto.length() > 11 || texto.charAt(texto.length() - 1) < '0' || texto.charAt(texto.length() - 1) > '9') {
+                texto = texto.substring(0, texto.length() - 1);
+            }
+        }
+        textField.setText(texto);
+    }
+
+    private void validaCep(JTextField textField) {
+        String texto = textField.getText();
+        if (texto.length() > 0) {
+            //Verifica o tamanho da string excedeu 8 caracteres e se o último caractere digitado é um número
+            if (texto.length() > 8 || texto.charAt(texto.length() - 1) < '0' || texto.charAt(texto.length() - 1) > '9') {
+                //Apaga o caractere digitado
+                texto = texto.substring(0, texto.length() - 1);
+            }
+        }
+        textField.setText(texto);
+        if (texto.length() == 8) {
+            BuscaCep bus = new BuscaCep();
+            String json = BuscaCep.buscarCep(texto);
+            Map<String, String> mapa = new HashMap<>();
+            if (json != null) {
+
+                Matcher matcher = Pattern.compile("\"\\D.*?\": \".*?\"").matcher(json);
+                while (matcher.find()) {
+                    String[] group = matcher.group().split(":");
+                    mapa.put(group[0].replaceAll("\"", "").trim(), group[1].replaceAll("\"", "").trim());
+                }
+                cidadeInput.setText(mapa.get("localidade"));
+                ruaInput.setText(mapa.get("logradouro"));
+                bairroInput.setText(mapa.get("bairro"));
+                ufBox.setSelectedItem(mapa.get("uf"));
+            }
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel FormEndArea;
     private javax.swing.JTextField bairroInput;
@@ -363,6 +566,7 @@ public class Cadastro_Cliente extends javax.swing.JFrame {
     private javax.swing.JLabel cpfLabel;
     private javax.swing.JPanel formArea;
     private javax.swing.JPanel line;
+    private javax.swing.JLabel mostrarSenhaLabel;
     private javax.swing.JTextField nomeInput;
     private javax.swing.JLabel nomeLable;
     private javax.swing.JTextField numeroInput;
@@ -374,7 +578,8 @@ public class Cadastro_Cliente extends javax.swing.JFrame {
     private javax.swing.JPanel tittleArea;
     private javax.swing.JLabel tittleEndLabel;
     private javax.swing.JLabel tittleLabel;
-    private javax.swing.JTextField ufInput;
+    private javax.swing.JComboBox<String> ufBox;
     private javax.swing.JLabel ufLabel;
+    private javax.swing.JButton voltarButton;
     // End of variables declaration//GEN-END:variables
 }
