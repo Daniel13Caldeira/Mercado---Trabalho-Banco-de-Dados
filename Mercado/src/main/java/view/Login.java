@@ -228,7 +228,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_cadastroNavigateMouseExited
 
     private void entrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrarButtonActionPerformed
-        new Edit_Fornecedor().setVisible(true);
+        new Tela_Cliente().setVisible(true);
     }//GEN-LAST:event_entrarButtonActionPerformed
 
     public static void main(String args[]) {
