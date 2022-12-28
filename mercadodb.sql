@@ -8,12 +8,18 @@ CREATE table if not exists endereco(
 	cep varchar(8) not null
 );
 
-CREATE table if not exists cliente(
+create table if not exists pessoa(
 	cpf varchar(11) primary key,
 	nome varchar(50) not null,
 	senha varchar(20) not null,
 	endereco integer,
 	FOREIGN KEY (endereco) REFERENCES public.endereco (id)
+);
+
+CREATE table if not exists cliente(
+	cpf varchar(11) primary key,
+	conta real not null default 0,
+	FOREIGN KEY (cpf) REFERENCES public.pessoa (cpf)
 );
 
 CREATE table if not exists fornecedor(
@@ -23,12 +29,9 @@ CREATE table if not exists fornecedor(
 
 CREATE table if not exists funcionario(
 	id serial primary key,
-	nome varchar(50) not null,
-	cpf varchar(11) not null unique,
-	cargo varchar not null,
-	senha varchar(20) not null,
-	endereco integer,
-	FOREIGN KEY (endereco) REFERENCES public.endereco (id)
+	cpf varchar(11) unique not null,
+	cargo varchar(11),
+	FOREIGN KEY (cpf) REFERENCES public.pessoa (cpf)
 );
 
 create table if not exists entregador(
