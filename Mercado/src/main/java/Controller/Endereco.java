@@ -2,10 +2,9 @@ package Controller;
 
 public class Endereco {
 
-    String Cidade, bairro, rua, cep, uf;
-    int numero;
+    String Cidade, bairro, rua, cep, uf, numero;
 
-    public Endereco(String Cidade, String bairro, String rua, String cep, String uf, int numero) {
+    public Endereco(String Cidade, String bairro, String rua, String cep, String uf, String numero) {
         this.Cidade = Cidade;
         this.bairro = bairro;
         this.rua = rua;
@@ -42,7 +41,7 @@ public class Endereco {
         return rua;
     }
 
-    public int getNumero() {
+    public String getNumero() {
         return numero;
     }
 
@@ -58,7 +57,7 @@ public class Endereco {
         this.rua = rua;
     }
 
-    public void setNumero(int numero) {
+    public void setNumero(String numero) {
         this.numero = numero;
     }
 }
