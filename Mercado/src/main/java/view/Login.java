@@ -1,6 +1,12 @@
 package view;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import model.ConexaoDAO;
 
 public class Login extends javax.swing.JFrame {
 
@@ -228,7 +234,19 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_cadastroNavigateMouseExited
 
     private void entrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrarButtonActionPerformed
-        new Tela_Cliente().setVisible(true);
+        try {
+            Connection conexao = new ConexaoDAO().getConection();
+            
+            String sql = "INSERT INTO public.pessoa(cpf, nome, senha) values ('12345678912','teste','teste123');";
+            PreparedStatement prepareStatement = conexao.prepareStatement(sql);
+            prepareStatement.execute();
+            
+            conexao.close();
+            JOptionPane.showMessageDialog(null, "Deu certo!!");
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_entrarButtonActionPerformed
 
     public static void main(String args[]) {
