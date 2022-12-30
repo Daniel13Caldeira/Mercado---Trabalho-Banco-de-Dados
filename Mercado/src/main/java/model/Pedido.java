@@ -1,6 +1,4 @@
-package Controller;
-
-
+package model;
 public class Pedido{
     protected Carrinho carrinho;
     protected Cliente cliente;

@@ -1,5 +1,4 @@
-package Controller;
-
+package model;
 public class Vendas {
 
     private int id;

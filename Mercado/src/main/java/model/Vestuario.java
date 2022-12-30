@@ -1,5 +1,4 @@
-package Controller;
-
+package model;
 public class Vestuario extends Produto {
 
     protected String tamanho;

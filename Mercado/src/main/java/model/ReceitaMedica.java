@@ -1,5 +1,4 @@
-package Controller;
-
+package model;
 import java.util.ArrayList;
 
 public class ReceitaMedica {

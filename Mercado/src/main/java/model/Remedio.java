@@ -1,5 +1,4 @@
-package Controller;
-
+package model;
 public class Remedio extends Produto {
 
     protected boolean precisaReceita;

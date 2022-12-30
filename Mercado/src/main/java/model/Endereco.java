@@ -1,5 +1,4 @@
-package Controller;
-
+package model;
 public class Endereco {
 
     String Cidade, bairro, rua, cep, uf, numero;

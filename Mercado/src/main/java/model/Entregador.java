@@ -1,5 +1,4 @@
-package Controller;
-
+package model;
 public class Entregador extends Funcionario {
 
     private String placaVeiculo;

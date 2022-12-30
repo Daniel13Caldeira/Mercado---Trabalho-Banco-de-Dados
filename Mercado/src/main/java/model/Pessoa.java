@@ -1,5 +1,4 @@
-package Controller;
-
+package model;
 public abstract class Pessoa {
 
     protected String nome, cpf, senha;

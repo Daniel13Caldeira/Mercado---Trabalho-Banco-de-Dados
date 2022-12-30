@@ -1,6 +1,5 @@
 
-package Controller;
-
+package model;
 /**
  *
  * @author danie

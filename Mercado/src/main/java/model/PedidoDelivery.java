@@ -1,5 +1,4 @@
-package Controller;
-
+package model;
 public class PedidoDelivery extends Pedido {
 
     Entregador entregador;

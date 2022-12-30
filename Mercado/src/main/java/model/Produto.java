@@ -1,5 +1,4 @@
-package Controller;
-
+package model;
 public class Produto {
 
     protected int id;

@@ -1,5 +1,4 @@
-package Controller;
-
+package model;
 public class Funcionario extends Pessoa {
 
     protected int id;
