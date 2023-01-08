@@ -10,7 +10,7 @@ import model.Produto;
 public class ProdutoDAO {
 
     protected final Connection conexao;
-
+    
     public ProdutoDAO(Connection conexao) {
         this.conexao = conexao;
     }

@@ -76,15 +76,6 @@ create table if not exists produtooutro(
 	FOREIGN KEY (id) REFERENCES public.produto (id)
 );
 
-create table if not exists receita(
-	id serial primary key,
-	cliente varchar(11) not null,
-	remedio integer not null,
-	quantidade integer not null,
-	FOREIGN KEY (cliente) REFERENCES public.cliente (cpf),
-	FOREIGN KEY (remedio) REFERENCES public.remedio (id)
-);
-
 create table if not exists carrinho(
 	cliente varchar(11) not null,
 	produto integer not null,
