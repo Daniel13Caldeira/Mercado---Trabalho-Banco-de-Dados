@@ -2,6 +2,7 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.Cliente;
 
@@ -32,10 +33,14 @@ public class ClienteDAO extends PessoaDAO {
         prepareStatement.execute();
 
         //pega o id do endereço
-        sql = "SELECT MAX(id) FROM endereco;";
+        sql = "SELECT MAX(id) as id FROM endereco;";
         prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.execute();
-        int endereco = prepareStatement.getResultSet().getInt(1);
+        ResultSet result = prepareStatement.getResultSet();
+        int endereco = -1;
+        if (result.next()) {
+            endereco = result.getInt("id");
+        }
 
         //insere na tabela pessoa
         sql = "INSERT INTO pessoa (cpf, nome, senha, endereco) VALUES (?,?,?,?);";

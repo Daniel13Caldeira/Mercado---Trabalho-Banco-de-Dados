@@ -2,6 +2,7 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import model.Cliente;
@@ -31,9 +32,13 @@ public class ReceitaDAO {
         String sql = "SELECT remedio FROM receita WHERE id = ?;";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setInt(1, receita.getId());
-        prepareStatement.execute();
-        int id =prepareStatement.getResultSet().getInt(1);
-        
+        ResultSet resultado = prepareStatement.getResultSet();
+        while (resultado.next()) {
+            int id = resultado.getInt("remedio");
+            double quantidade = resultado.getDouble("quantidade");
+            remedios.add(new Remedio(id,quantidade));
+        }
+
         return remedios;
     }
     

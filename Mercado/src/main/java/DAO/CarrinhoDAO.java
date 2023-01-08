@@ -33,9 +33,16 @@ public class CarrinhoDAO {
         prepareStatement.execute();
         ResultSet resultado = prepareStatement.getResultSet();
         ArrayList<Produto> produtos = new ArrayList<>();
+        while (resultado.next()) {
+            int id = resultado.getInt("produto");
+            double quantidade = resultado.getDouble("quantidade");
+            produtos.add(new Produto(id,quantidade));
+        }
+
         return produtos;
     }
-public void setQuantidadeRemedio(Carrinho carrinho, Produto produto) throws SQLException{
+
+    public void setQuantidadeRemedio(Carrinho carrinho, Produto produto) throws SQLException {
         String sql = "UPDATE carrinho SET quantidade = ? WHERE cliente = ? AND remedio = ?;";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setDouble(1, produto.getQuantidade());
@@ -44,13 +51,14 @@ public void setQuantidadeRemedio(Carrinho carrinho, Produto produto) throws SQLE
         prepareStatement.execute();
     }
 
-    public void deleteRemedioReceia(Carrinho carrinho, Produto produto) throws SQLException{
+    public void deleteRemedioReceia(Carrinho carrinho, Produto produto) throws SQLException {
         String sql = "DELETE FROM carrinho WHERE cliente = ? AND remedio = ?;";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setString(2, carrinho.getCliente().getCpf());
         prepareStatement.setInt(2, produto.getId());
         prepareStatement.execute();
     }
+
     public void delete(Carrinho carrinho) throws SQLException {
         String sql = "DELETE FROM carrinho WHERE cliente = ?;";
         PreparedStatement preparedStatement = conexao.prepareStatement(sql);

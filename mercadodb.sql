@@ -1,3 +1,6 @@
+--drop schema public cascade;
+--create schema public;/*
+
 CREATE table if not exists endereco(
 	id serial primary key,
 	uf varchar(2) not null,
@@ -62,13 +65,13 @@ create table if not exists remedio(
 	FOREIGN KEY (id) REFERENCES public.produto (id)
 );
 
-create table if not exists produtoPerecivel(
+create table if not exists produtoperecivel(
 	id integer primary key,
 	validade varchar(10) not null,
 	FOREIGN KEY (id) REFERENCES public.produto (id)
 );
 
-create table if not exists produtoOutro(
+create table if not exists produtooutro(
 	id integer primary key,
 	FOREIGN KEY (id) REFERENCES public.produto (id)
 );
@@ -94,21 +97,27 @@ create table if not exists carrinho(
 create table if not exists pedido(
 	id serial primary key,
 	cliente varchar(11) not null,
+	status varchar(25) not null default 'Aguardando confirmação',
 	FOREIGN KEY (cliente) REFERENCES public.cliente (cpf)
 );
 
-create table if not exists pedidoDelivery(
+create table if not exists pedidodelivery(
 	entregador integer not null,
 	id integer primary key,
-	produto integer not null,
-	quantidade real not null;
 	FOREIGN KEY (id) REFERENCES public.pedido (id),
-	FOREIGN KEY (produto) REFERENCES public.produto (id)
+	FOREIGN KEY (entregador) REFERENCES public.entregador (id)
 );
 
-create table if not exists pedidoRetirar(
+create table if not exists pedidoretirar(
 	id integer primary key,
-	produto integer not null,
-	FOREIGN KEY (id) REFERENCES public.pedido (id),
-	FOREIGN KEY (produto) REFERENCES public.produto (id)
+	FOREIGN KEY (id) REFERENCES public.pedido (id)
 );
+
+create table if not exists produtopedido(
+	pedido integer not null,
+	produto integer not null,
+	quantidade real not null,
+	FOREIGN KEY (pedido) REFERENCES public.pedido (id),
+	FOREIGN KEY (produto) REFERENCES public.produto (id),
+	CONSTRAINT PK_produtopedido PRIMARY KEY (pedido, produto)
+);--*/

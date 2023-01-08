@@ -20,7 +20,11 @@ public class PessoaDAO {
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setString(1, pessoa.getCpf());
         prepareStatement.execute();
-        return prepareStatement.getResultSet().getString(1);
+        ResultSet result = prepareStatement.getResultSet();
+        if (result.next()) {
+            return result.getString("nome");
+        }
+        return null;
     }
 
     public String getSenha(Pessoa pessoa) throws SQLException {
@@ -28,7 +32,11 @@ public class PessoaDAO {
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setString(1, pessoa.getCpf());
         prepareStatement.execute();
-        return prepareStatement.getResultSet().getString(1);
+        ResultSet result = prepareStatement.getResultSet();
+        if (result.next()) {
+            return result.getString("senha");
+        }
+        return null;
     }
 
     public Endereco getEndereco(Pessoa pessoa) throws SQLException {
@@ -36,14 +44,23 @@ public class PessoaDAO {
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setString(1, pessoa.getCpf());
         prepareStatement.execute();
-        int id = prepareStatement.getResultSet().getInt(1);
+        int id = -1;
+        ResultSet result = prepareStatement.getResultSet();
+        if (result.next()) {
+            id = result.getInt("endereco");
+        }else{
+            return null;
+        }
 
         sql = "SELECT cidade, bairro, rua, cep, uf, numero FROM endereco WHERE id = ?;";
         prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setInt(1, id);
         prepareStatement.execute();
         ResultSet endereco = prepareStatement.getResultSet();
-        return new Endereco(endereco.getString(1), endereco.getString(2), endereco.getString(3), endereco.getString(4), endereco.getString(5), endereco.getString(6));
+        if (endereco.next()) {
+            return new Endereco(endereco.getString("cidade"), endereco.getString("bairro"), endereco.getString("rua"), endereco.getString("cep"), endereco.getString("uf"), endereco.getString("numero"));
+        }
+        return null;
     }
 
     public void setSenha(Pessoa pessoa) throws SQLException {

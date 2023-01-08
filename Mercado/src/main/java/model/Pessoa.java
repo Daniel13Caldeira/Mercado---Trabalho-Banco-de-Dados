@@ -10,6 +10,9 @@ public abstract class Pessoa {
         this.senha = senha;
     }
 
+    public Pessoa() {
+    }
+
     public Pessoa(String nome, String cpf, Endereco endereco, String senha) {
         this.nome = nome;
         this.cpf = cpf;

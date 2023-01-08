@@ -2,6 +2,7 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.ProdutoOutro;
 
@@ -20,11 +21,14 @@ public class ProdutoOutroDAO extends ProdutoDAO {
         prepareStatement.setDouble(4, produto.getQuantidade());
         prepareStatement.execute();
 
-        sql = "SELECT MAX(id) FROM produto;";
+        sql = "SELECT MAX(id) as id FROM produto;";
         prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.execute();
-        int id = prepareStatement.getResultSet().getInt(1);
-
+        int id = -1;
+        ResultSet result = prepareStatement.getResultSet();
+        if (result.next()) {
+            id =  result.getInt("id");
+        }
         sql = "INSERT INTO produtooutro (id) VALUES (?);";
         prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setInt(1, id);

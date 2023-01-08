@@ -2,6 +2,7 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.Entregador;
 
@@ -18,10 +19,14 @@ public class EntregadorDAO extends FuncionarioDAO {
         prepareStatement.setString(1, entregador.getCpf());
         prepareStatement.execute();
 
-        sql = "SELECT MAX(id) FROM funcionario;";
+        sql = "SELECT MAX(id) as id FROM funcionario;";
         prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.execute();
-        int id = prepareStatement.getResultSet().getInt(1);
+        ResultSet result = prepareStatement.getResultSet();
+        int id = -1;
+        if (result.next()) {
+            id = result.getInt("id");
+        }
 
         sql = "INSERT INTO entregador (placaveiculo, id) VALUES (?,?);";
         prepareStatement = conexao.prepareStatement(sql);
@@ -42,10 +47,14 @@ public class EntregadorDAO extends FuncionarioDAO {
         prepareStatement.setString(6, entregador.getEndereco().getCep());
         prepareStatement.execute();
         //pega o id do endereço
-        sql = "SELECT MAX(id) FROM endereco;";
+        sql = "SELECT MAX(id) as id FROM endereco;";
         prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.execute();
-        int endereco = prepareStatement.getResultSet().getInt(1);
+        ResultSet result = prepareStatement.getResultSet();
+        int endereco = -1;
+        if (result.next()) {
+            endereco = result.getInt("id");
+        }
 
         sql = "INSERT INTO pessoa (cpf, nome, senha, endereco) VALUES (?,?,?,?);";
         prepareStatement = conexao.prepareStatement(sql);
@@ -74,7 +83,11 @@ public class EntregadorDAO extends FuncionarioDAO {
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setInt(1, entregador.getId());
         prepareStatement.execute();
-        return prepareStatement.getResultSet().getString(1);
+        ResultSet result = prepareStatement.getResultSet();
+        if (result.next()) {
+            return result.getString("placaveiculo");
+        }
+        return null;
     }
 
     public void setPlacaVeiculo(Entregador entregador) throws SQLException {

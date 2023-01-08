@@ -1,7 +1,12 @@
 package model;
+
 public class Entregador extends Funcionario {
 
     private String placaVeiculo;
+
+    public Entregador(int id) {
+        super(id);
+    }
 
     public Entregador(String placaVeiculo, String nome, String cpf, int id, String cargo, String senha) {
         super(nome, cpf, id, cargo, senha);

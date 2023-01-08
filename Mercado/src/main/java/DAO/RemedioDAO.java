@@ -2,6 +2,7 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.Remedio;
 
@@ -20,10 +21,14 @@ public class RemedioDAO extends ProdutoDAO {
         prepareStatement.setDouble(4, remedio.getQuantidade());
         prepareStatement.execute();
 
-        sql = "SELECT MAX(id) FROM produto;";
+        sql = "SELECT MAX(id) as id FROM produto;";
         prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.execute();
-        int id = prepareStatement.getResultSet().getInt(1);
+        int id = -1;
+        ResultSet result = prepareStatement.getResultSet();
+        if (result.next()) {
+            id = result.getInt("id");
+        }
 
         sql = "INSERT INTO remedio (id, precisareceita, validade) VALUES (?,?,?);";
         prepareStatement = conexao.prepareStatement(sql);
@@ -33,20 +38,16 @@ public class RemedioDAO extends ProdutoDAO {
         prepareStatement.execute();
     }
 
-    public String getNome(Remedio remedio) throws SQLException {
-        String sql = "SELECT nome FROM produto WHERE id = ?;";
-        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
-        prepareStatement.setInt(1, remedio.getId());
-        prepareStatement.execute();
-        return prepareStatement.getResultSet().getString(1);
-    }
-
     public String getValidade(Remedio remedio) throws SQLException {
         String sql = "SELECT validade FROM remedio WHERE id = ?;";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setInt(1, remedio.getId());
         prepareStatement.execute();
-        return prepareStatement.getResultSet().getString(1);
+        ResultSet result = prepareStatement.getResultSet();
+        if (result.next()) {
+            return result.getString("validade");
+        }
+        return null;
     }
 
     public boolean isPrecisaReceita(Remedio remedio) throws SQLException {
@@ -54,9 +55,13 @@ public class RemedioDAO extends ProdutoDAO {
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setInt(1, remedio.getId());
         prepareStatement.execute();
-        return prepareStatement.getResultSet().getBoolean(1);
+        ResultSet result = prepareStatement.getResultSet();
+        if (result.next()) {
+            return result.getBoolean("precisareceita");
+        }
+        return true;
     }
-    
+
     public void delete(Remedio remedio) throws SQLException {
         String sql = "DELETE FROM remedio WHERE id = ?;";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);

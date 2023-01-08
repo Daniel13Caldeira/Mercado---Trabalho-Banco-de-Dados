@@ -2,6 +2,7 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.Fornecedor;
 import model.Produto;
@@ -19,7 +20,12 @@ public class ProdutoDAO {
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setInt(1, produto.getId());
         prepareStatement.execute();
-        return prepareStatement.getResultSet().getString(1);
+        ResultSet result = prepareStatement.getResultSet();
+        if (result.next()) {
+            return result.getString("nome");
+        }
+        return null;
+
     }
 
     public Fornecedor getFornecedor(Produto produto) throws SQLException {
@@ -27,7 +33,12 @@ public class ProdutoDAO {
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setInt(1, produto.getId());
         prepareStatement.execute();
-        return new Fornecedor(prepareStatement.getResultSet().getString(1));
+        ResultSet result = prepareStatement.getResultSet();
+        if (result.next()) {
+            return new Fornecedor(result.getString("fornecedor"));
+        }
+        return null;
+
     }
 
     public double getPreco(Produto produto) throws SQLException {
@@ -35,7 +46,11 @@ public class ProdutoDAO {
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setInt(1, produto.getId());
         prepareStatement.execute();
-        return prepareStatement.getResultSet().getDouble(1);
+        ResultSet result = prepareStatement.getResultSet();
+        if (result.next()) {
+            return result.getDouble("preco");
+        }
+        return -1;
     }
 
     public double getQuantidade(Produto produto) throws SQLException {
@@ -43,7 +58,11 @@ public class ProdutoDAO {
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setInt(1, produto.getId());
         prepareStatement.execute();
-        return prepareStatement.getResultSet().getDouble(1);
+        ResultSet result = prepareStatement.getResultSet();
+        if (result.next()) {
+            return result.getDouble("quantidade");
+        }
+        return -1;
     }
 
     public void setQuantidade(Produto produto) throws SQLException {

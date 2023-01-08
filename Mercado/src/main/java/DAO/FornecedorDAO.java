@@ -2,6 +2,7 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.Fornecedor;
 
@@ -26,7 +27,11 @@ public class FornecedorDAO {
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setString(1, fornecedor.getCNPJ());
         prepareStatement.execute();
-        return prepareStatement.getResultSet().getString(1);
+        ResultSet result = prepareStatement.getResultSet();
+        if (result.next()) {
+            return result.getString("nome");
+        }
+        return null;
     }
 
     public void setNome(Fornecedor fornecedor) throws SQLException {
