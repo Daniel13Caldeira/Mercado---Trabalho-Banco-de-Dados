@@ -2,17 +2,13 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.Cliente;
-import model.Endereco;
 
-public class ClienteDAO {
-
-    private final Connection conexao;
+public class ClienteDAO extends PessoaDAO {
 
     public ClienteDAO(Connection conexao) {
-        this.conexao = conexao;
+        super(conexao);
     }
 
     public void clienteBase(Cliente cliente) throws SQLException {
@@ -57,7 +53,6 @@ public class ClienteDAO {
 
         String sql = "INSERT INTO pessoa (cpf, nome, senha) VALUES (?,?,?);";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
-        prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setString(1, cliente.getCpf());
         prepareStatement.setString(2, cliente.getNome());
         prepareStatement.setString(3, cliente.getSenha());
@@ -66,34 +61,4 @@ public class ClienteDAO {
         clienteBase(cliente);
     }
 
-    public String getNome(Cliente cliente) throws SQLException {
-        String sql = "SELECT nome FROM pessoa WHERE cpf = ?;";
-        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
-        prepareStatement.setString(1, cliente.getCpf());
-        prepareStatement.execute();
-        return prepareStatement.getResultSet().getString(1);
-    }
-
-    public String getSenha(Cliente cliente) throws SQLException {
-        String sql = "SELECT senha FROM pessoa WHERE cpf= ?;";
-        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
-        prepareStatement.setString(1, cliente.getCpf());
-        prepareStatement.execute();
-        return prepareStatement.getResultSet().getString(1);
-    }
-
-    public Endereco getEndereco(Cliente cliente) throws SQLException {
-        String sql = "SELECT endereco FROM pessoa WHERE cpf= ?;";
-        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
-        prepareStatement.setString(1, cliente.getCpf());
-        prepareStatement.execute();
-        int id = prepareStatement.getResultSet().getInt(1);
-
-        sql = "SELECT cidade, bairro, rua, cep, uf, numero FROM endereco WHERE id = ?;";
-        prepareStatement = conexao.prepareStatement(sql);
-        prepareStatement.setInt(1, id);
-        prepareStatement.execute();
-        ResultSet endereco = prepareStatement.getResultSet();
-        return new Endereco(endereco.getString(1), endereco.getString(2), endereco.getString(3), endereco.getString(4), endereco.getString(5), endereco.getString(6));
-    }
 }

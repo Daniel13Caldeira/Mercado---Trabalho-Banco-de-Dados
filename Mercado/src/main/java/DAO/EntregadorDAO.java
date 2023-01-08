@@ -7,11 +7,8 @@ import model.Entregador;
 
 public class EntregadorDAO extends FuncionarioDAO {
 
-    private final Connection conexao;
-
     public EntregadorDAO(Connection conexao) {
         super(conexao);
-        this.conexao = conexao;
     }
 
     private void entregadorBase(Entregador entregador) throws SQLException {
@@ -78,5 +75,13 @@ public class EntregadorDAO extends FuncionarioDAO {
         prepareStatement.setInt(1, entregador.getId());
         prepareStatement.execute();
         return prepareStatement.getResultSet().getString(1);
+    }
+
+    public void setPlacaVeiculo(Entregador entregador) throws SQLException {
+        String sql = "UPDATE entregador SET placaveiculo = ? WHERE id = ?;";
+        PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+        preparedStatement.setString(1, entregador.getPlacaVeiculo());
+        preparedStatement.setInt(2, entregador.getId());
+        preparedStatement.execute();
     }
 }

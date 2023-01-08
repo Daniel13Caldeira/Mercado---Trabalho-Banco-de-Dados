@@ -12,6 +12,10 @@ public class Fornecedor {
         return CNPJ;
     }
 
+    public Fornecedor(String CNPJ) {
+        this.CNPJ = CNPJ;
+    }
+
     public String getNome() {
         return nome;
     }

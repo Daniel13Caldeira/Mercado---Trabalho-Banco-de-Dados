@@ -1,4 +1,5 @@
 package model;
+
 public class Produto {
 
     protected int id;
@@ -11,7 +12,7 @@ public class Produto {
         this.preco = preco;
         this.nome = nome;
         this.fornecedor = fornecedor;
-        this. quantidade = quantidade;
+        this.quantidade = quantidade;
     }
 
     public Produto(int id, double quantidade) {

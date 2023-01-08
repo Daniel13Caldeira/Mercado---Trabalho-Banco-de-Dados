@@ -26,8 +26,9 @@ public class CarrinhoDAO {
     }
 
     public ArrayList<Produto> getProdutos(Cliente cliente) throws SQLException {
-        String sql = "SELECT produto, quantidade FROM carrinho where cpf= '" + cliente.getCpf() + "';";
+        String sql = "SELECT produto, quantidade FROM carrinho where cpf = ?;";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.setString(1, cliente.getCpf());
         prepareStatement.execute();
         ResultSet resultado = prepareStatement.getResultSet();
         ArrayList<Produto> produtos = new ArrayList<>();

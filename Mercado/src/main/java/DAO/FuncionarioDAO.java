@@ -2,17 +2,13 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import model.Endereco;
 import model.Funcionario;
 
-public class FuncionarioDAO {
-
-    private final Connection conexao;
+public class FuncionarioDAO extends PessoaDAO {
 
     public FuncionarioDAO(Connection conexao) {
-        this.conexao = conexao;
+        super(conexao);
     }
 
     private void funcionarioBase(Funcionario funcionario) throws SQLException {
@@ -65,36 +61,21 @@ public class FuncionarioDAO {
         funcionarioBase(funcionario);
     }
 
-    public String getNome(Funcionario funcionario) throws SQLException {
-        String sql = "SELECT nome FROM pessoa as p WHERE p.cpf = (SELECT f.cpf FROM funcionario as f WHERE id = ?);";
-        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
-        prepareStatement.setInt(1, funcionario.getId());
-        prepareStatement.execute();
-        return prepareStatement.getResultSet().getString(1);
-    }
-
-    public String getSenha(Funcionario funcionario) throws SQLException {
-        String sql = "SELECT senha FROM pessoa as p WHERE p.cpf = (SELECT f.cpf FROM funcionario as f WHERE id = ?);";
-        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
-        prepareStatement.setInt(1, funcionario.getId());
-        prepareStatement.execute();
-        return prepareStatement.getResultSet().getString(1);
-    }
-
-    public Endereco getEndereco(Funcionario funcionario) throws SQLException {
-        String sql = "SELECT cidade, bairro, rua, cep, uf, numero FROM endereco WHERE id = (SELECT endereco FROM pessoa as p WHERE p.cpf = (SELECT f.cpf FROM funcionario as f WHERE id = ?);";
-        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
-        prepareStatement.setInt(1, funcionario.getId());
-        prepareStatement.execute();
-        ResultSet endereco = prepareStatement.getResultSet();
-        return new Endereco(endereco.getString(1), endereco.getString(2), endereco.getString(3), endereco.getString(4), endereco.getString(5), endereco.getString(6));
-    }
-
     public String getCargo(Funcionario funcionario) throws SQLException {
         String sql = "SELECT cargo FROM funcionario WHERE id= ?;";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setInt(1, funcionario.getId());
         prepareStatement.execute();
         return prepareStatement.getResultSet().getString(1);
+    }
+
+    public void setCargo(Funcionario funcionario) throws SQLException{
+        String sql = "UPDATE funcionario SET cargo = ? WHERE id = ?;";
+        PreparedStatement preparedStatement =  conexao.prepareStatement(sql);
+        preparedStatement.setString(1, funcionario.getCargo());
+        preparedStatement.setInt(2, funcionario.getId());
+        preparedStatement.execute();
+        
+        //add trigger se o novo cargo for entregador
     }
 }

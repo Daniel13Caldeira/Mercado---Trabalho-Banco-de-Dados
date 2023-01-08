@@ -1,9 +1,4 @@
 package model;
-
-/**
- *
- * @author danie
- */
 public class ProdutoPerecivel extends Produto {
 
     private String validade;

@@ -5,21 +5,19 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import model.ProdutoOutro;
 
-public class ProdutoOutroDAO {
+public class ProdutoOutroDAO extends ProdutoDAO {
 
-    private final Connection conexao;
-
-    public ProdutoOutroDAO(Connection connection) {
-        this.conexao = connection;
+    public ProdutoOutroDAO(Connection conexao) {
+        super(conexao);
     }
 
-    public void insert(ProdutoOutro produtoOutro) throws SQLException {
+    public void insert(ProdutoOutro produto) throws SQLException {
         String sql = "INSERT INTO produto (fornecedor, nome, preco, quantidade) VALUES (?,?,?,?);";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
-        prepareStatement.setString(1, produtoOutro.getFornecedor());
-        prepareStatement.setString(2, produtoOutro.getNome());
-        prepareStatement.setDouble(3, produtoOutro.getPreco());
-        prepareStatement.setDouble(4, produtoOutro.getQuantidade());
+        prepareStatement.setString(1, produto.getFornecedor());
+        prepareStatement.setString(2, produto.getNome());
+        prepareStatement.setDouble(3, produto.getPreco());
+        prepareStatement.setDouble(4, produto.getQuantidade());
         prepareStatement.execute();
 
         sql = "SELECT MAX(id) FROM produto;";
@@ -32,4 +30,5 @@ public class ProdutoOutroDAO {
         prepareStatement.setInt(1, id);
         prepareStatement.execute();
     }
+
 }

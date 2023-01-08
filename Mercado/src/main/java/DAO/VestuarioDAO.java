@@ -4,12 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import model.Vestuario;
-public class VestuarioDAO {
 
-    private final Connection conexao;
+public class VestuarioDAO extends ProdutoDAO{
 
-    public VestuarioDAO(Connection connection) {
-        this.conexao = connection;
+    public VestuarioDAO(Connection conexao) {
+        super(conexao);
     }
 
     public void insert(Vestuario vestuario) throws SQLException {
@@ -31,5 +30,13 @@ public class VestuarioDAO {
         prepareStatement.setInt(1, id);
         prepareStatement.setString(2, vestuario.getTamanho());
         prepareStatement.execute();
+    }
+    
+    public String getTamanho(Vestuario vestuario) throws SQLException {
+        String sql = "SELECT tamanho FROM vestuario WHERE id = ?;";
+        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.setInt(1, vestuario.getId());
+        prepareStatement.execute();
+        return prepareStatement.getResultSet().getString(1);
     }
 }

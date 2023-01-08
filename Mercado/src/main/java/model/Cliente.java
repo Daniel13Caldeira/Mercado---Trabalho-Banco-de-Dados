@@ -15,6 +15,10 @@ public class Cliente extends Pessoa {
         super(nome, cpf, senha);
     }
 
+    public Cliente(String cpf) {
+        super(cpf);
+    }
+
     public Carrinho getCarrino() {
         return carrino;
     }

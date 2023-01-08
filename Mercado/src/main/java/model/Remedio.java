@@ -11,6 +11,10 @@ public class Remedio extends Produto {
         this.validade = validade;
     }
 
+    public Remedio(int id, double quantidade) {
+        super(id, quantidade);
+    }
+
     public String getValidade() {
         return validade;
     }
