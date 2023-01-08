@@ -1,14 +1,15 @@
-
 package model;
+
 /**
  *
  * @author danie
  */
-public class ProdutoPerecivel extends Produto{
+public class ProdutoPerecivel extends Produto {
+
     private String validade;
 
-    public ProdutoPerecivel(String validade, int id, double preco, String nome, String fornecedor) {
-        super(id, preco, nome, fornecedor);
+    public ProdutoPerecivel(String validade, int id, double preco, String nome, String fornecedor, double quantidade) {
+        super(id, preco, nome, fornecedor, quantidade);
         this.validade = validade;
     }
 
@@ -25,6 +26,5 @@ public class ProdutoPerecivel extends Produto{
     public String getValidade() {
         return validade;
     }
-    
-    
+
 }

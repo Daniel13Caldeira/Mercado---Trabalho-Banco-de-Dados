@@ -1,29 +1,26 @@
 package model;
+
 public class Remedio extends Produto {
 
     protected boolean precisaReceita;
-    protected int quantidade;
+    protected String validade;
 
-    public Remedio(boolean precisaReceita, int quantidade, int id, double preco, String nome, String fornecedor) {
-        super(id, preco, nome, fornecedor);
+    public Remedio(boolean precisaReceita, int id, double preco, String nome, String fornecedor, String validade, double quantidade) {
+        super(id, preco, nome, fornecedor, quantidade);
         this.precisaReceita = precisaReceita;
-        this.quantidade = quantidade;
+        this.validade = validade;
+    }
+
+    public String getValidade() {
+        return validade;
     }
 
     public boolean isPrecisaReceita() {
         return precisaReceita;
     }
 
-    public int getQuantidade() {
-        return quantidade;
-    }
-
     public Remedio(int quantidade, String nome) {
         super(nome);
-        this.quantidade = quantidade;
-    }
-
-    public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
 }

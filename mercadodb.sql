@@ -45,6 +45,7 @@ create table if not exists produto(
 	fornecedor varchar(13) not null,
 	preco real not null,
 	nome varchar(50) not null,
+	quantidade real not null,
 	FOREIGN KEY (fornecedor) REFERENCES public.fornecedor (cnpj)
 );
 
@@ -97,21 +98,17 @@ create table if not exists pedido(
 );
 
 create table if not exists pedidoDelivery(
-	id integer primary key,
 	entregador integer not null,
+	id integer primary key,
+	produto integer not null,
+	quantidade real not null;
 	FOREIGN KEY (id) REFERENCES public.pedido (id),
-	FOREIGN KEY (entregador) REFERENCES public.entregador (id)
+	FOREIGN KEY (produto) REFERENCES public.produto (id)
 );
 
 create table if not exists pedidoRetirar(
 	id integer primary key,
-	FOREIGN KEY (id) REFERENCES public.pedido (id)
-);
-
-create table if not exists pedidoProduto(
-	id integer primary key,
 	produto integer not null,
-	quantidade real not null,
 	FOREIGN KEY (id) REFERENCES public.pedido (id),
 	FOREIGN KEY (produto) REFERENCES public.produto (id)
 );

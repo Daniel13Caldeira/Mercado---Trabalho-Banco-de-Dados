@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import Controller.ConexaoDAO;
+import DAO.ConexaoDAO;
 
 public class Login extends javax.swing.JFrame {
 

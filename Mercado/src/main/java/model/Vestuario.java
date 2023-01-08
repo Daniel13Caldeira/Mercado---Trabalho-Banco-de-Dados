@@ -2,11 +2,9 @@ package model;
 public class Vestuario extends Produto {
 
     protected String tamanho;
-    protected int quantidade;
 
-    public Vestuario(int id, double preco, String nome, String fornecedor, String tamanho, int quantidade) {
-        super(id, preco, nome, fornecedor);
-        this.quantidade = quantidade;
+    public Vestuario(int id, double preco, String nome, String fornecedor, String tamanho, double quantidade) {
+        super(id, preco, nome, fornecedor, quantidade);
         this.tamanho = tamanho;
     }
 
@@ -14,11 +12,4 @@ public class Vestuario extends Produto {
         return tamanho;
     }
 
-    public int getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
-    }
 }
