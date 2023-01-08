@@ -36,4 +36,11 @@ public class FornecedorDAO {
         prepareStatement.setString(2, fornecedor.getCNPJ());
         prepareStatement.execute();
     }
+
+    public void delete(Fornecedor fornecedor) throws SQLException {
+        String sql = "DELETE FROM fornecedor WHERE cnpj = ?;";
+        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.setString(1, fornecedor.getCNPJ());
+        prepareStatement.execute();
+    }
 }

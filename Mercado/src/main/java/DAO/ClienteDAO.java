@@ -50,7 +50,6 @@ public class ClienteDAO extends PessoaDAO {
     }
 
     public void insertSemEndereco(Cliente cliente) throws SQLException {
-
         String sql = "INSERT INTO pessoa (cpf, nome, senha) VALUES (?,?,?);";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setString(1, cliente.getCpf());
@@ -61,4 +60,15 @@ public class ClienteDAO extends PessoaDAO {
         clienteBase(cliente);
     }
 
+    public void delete(Cliente cliente) throws SQLException {
+        String sql = "DELETE FROM cliente WHERE cpf = ?;";
+        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.setString(1, cliente.getCpf());
+        prepareStatement.execute();
+
+        sql = "DELETE FROM pessoa WHERE cpf = ?;";
+        prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.setString(1, cliente.getCpf());
+        prepareStatement.execute();
+    }
 }

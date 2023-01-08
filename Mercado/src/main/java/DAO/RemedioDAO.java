@@ -56,4 +56,16 @@ public class RemedioDAO extends ProdutoDAO {
         prepareStatement.execute();
         return prepareStatement.getResultSet().getBoolean(1);
     }
+    
+    public void delete(Remedio remedio) throws SQLException {
+        String sql = "DELETE FROM remedio WHERE id = ?;";
+        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.setInt(1, remedio.getId());
+        prepareStatement.execute();
+
+        sql = "DELETE FROM produto WHERE id = ?;";
+        prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.setInt(1, remedio.getId());
+        prepareStatement.execute();
+    }
 }

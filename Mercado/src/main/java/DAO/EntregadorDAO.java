@@ -84,4 +84,28 @@ public class EntregadorDAO extends FuncionarioDAO {
         preparedStatement.setInt(2, entregador.getId());
         preparedStatement.execute();
     }
+
+    public void deleteSetCargo(Entregador entregador) throws SQLException {
+        String sql = "DELETE FROM entregador WHERE id = ?;";
+        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.setInt(1, entregador.getId());
+        prepareStatement.execute();
+    }
+
+    public void delete(Entregador entregador) throws SQLException {
+        String sql = "DELETE FROM entregador WHERE id = ?;";
+        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.setInt(1, entregador.getId());
+        prepareStatement.execute();
+
+        sql = "DELETE FROM funcionario WHERE id = ?;";
+        prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.setInt(1, entregador.getId());
+        prepareStatement.execute();
+
+        sql = "DELETE FROM pessoa WHERE cpf = ?;";
+        prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.setString(1, entregador.getCpf());
+        prepareStatement.execute();
+    }
 }

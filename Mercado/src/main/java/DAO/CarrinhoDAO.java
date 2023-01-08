@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import model.Carrinho;
 import model.Cliente;
 import model.Produto;
 
@@ -33,5 +34,27 @@ public class CarrinhoDAO {
         ResultSet resultado = prepareStatement.getResultSet();
         ArrayList<Produto> produtos = new ArrayList<>();
         return produtos;
+    }
+public void setQuantidadeRemedio(Carrinho carrinho, Produto produto) throws SQLException{
+        String sql = "UPDATE carrinho SET quantidade = ? WHERE cliente = ? AND remedio = ?;";
+        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.setDouble(1, produto.getQuantidade());
+        prepareStatement.setString(2, carrinho.getCliente().getCpf());
+        prepareStatement.setInt(3, produto.getId());
+        prepareStatement.execute();
+    }
+
+    public void deleteRemedioReceia(Carrinho carrinho, Produto produto) throws SQLException{
+        String sql = "DELETE FROM carrinho WHERE cliente = ? AND remedio = ?;";
+        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.setString(2, carrinho.getCliente().getCpf());
+        prepareStatement.setInt(2, produto.getId());
+        prepareStatement.execute();
+    }
+    public void delete(Carrinho carrinho) throws SQLException {
+        String sql = "DELETE FROM carrinho WHERE cliente = ?;";
+        PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+        preparedStatement.setString(1, carrinho.getCliente().getCpf());
+        preparedStatement.execute();
     }
 }

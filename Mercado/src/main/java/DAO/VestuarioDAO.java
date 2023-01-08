@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import model.Vestuario;
 
-public class VestuarioDAO extends ProdutoDAO{
+public class VestuarioDAO extends ProdutoDAO {
 
     public VestuarioDAO(Connection conexao) {
         super(conexao);
@@ -31,12 +31,24 @@ public class VestuarioDAO extends ProdutoDAO{
         prepareStatement.setString(2, vestuario.getTamanho());
         prepareStatement.execute();
     }
-    
+
     public String getTamanho(Vestuario vestuario) throws SQLException {
         String sql = "SELECT tamanho FROM vestuario WHERE id = ?;";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setInt(1, vestuario.getId());
         prepareStatement.execute();
         return prepareStatement.getResultSet().getString(1);
+    }
+
+    public void delete(Vestuario vestuario) throws SQLException {
+        String sql = "DELETE FROM produtooutro WHERE id = ?;";
+        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.setInt(1, vestuario.getId());
+        prepareStatement.execute();
+
+        sql = "DELETE FROM produto WHERE id = ?;";
+        prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.setInt(1, vestuario.getId());
+        prepareStatement.execute();
     }
 }

@@ -31,4 +31,15 @@ public class ProdutoOutroDAO extends ProdutoDAO {
         prepareStatement.execute();
     }
 
+    public void delete(ProdutoOutro produto) throws SQLException {
+        String sql = "DELETE FROM produtooutro WHERE id = ?;";
+        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.setInt(1, produto.getId());
+        prepareStatement.execute();
+
+        sql = "DELETE FROM produto WHERE id = ?;";
+        prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.setInt(1, produto.getId());
+        prepareStatement.execute();
+    }
 }
