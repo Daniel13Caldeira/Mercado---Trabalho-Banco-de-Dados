@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import model.Endereco;
 import model.Entregador;
+import model.Funcionario;
 
 public class EntregadorDAO extends FuncionarioDAO {
 
@@ -120,5 +122,37 @@ public class EntregadorDAO extends FuncionarioDAO {
         prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setString(1, entregador.getCpf());
         prepareStatement.execute();
+    }
+
+    public Entregador getEntregador(Funcionario func) throws SQLException {
+        String sql = "select *\n"
+                + "from (select f.id,f.cpf,f.cargo,p.nome,p.senha,p.endereco,en.placaveiculo\n"
+                + "from pessoa as p , funcionario as f,entregador as en\n"
+                + "where f.cpf=p.cpf) as foo\n"
+                + "where foo.id=?";
+        PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+        preparedStatement.setInt(1, func.getId());
+        preparedStatement.execute();
+        ResultSet result = preparedStatement.getResultSet();
+        if (result.next()) {
+            Entregador en = new Entregador(result.getString("placaveiculo"),result.getString("nome"), result.getString("cpf"), result.getInt("id"), result.getString("cargo"), result.getString("senha"));
+            Endereco end = getEndereco(func);
+            if (end != null) {
+                en.setEndereco(end);
+            }
+            return en;
+        }
+        return null;
+
+    }
+    
+    
+    public void updateEnt(Entregador entregador) throws SQLException{
+        update(entregador);
+        String sql = "update entregador set placaveiculo = ?";
+        PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+        preparedStatement.setString(1, entregador.getPlacaVeiculo());
+        preparedStatement.execute();
+   
     }
 }

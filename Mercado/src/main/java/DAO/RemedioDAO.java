@@ -50,6 +50,23 @@ public class RemedioDAO extends ProdutoDAO {
         return null;
     }
 
+    public Remedio getRemedio(String id) throws SQLException {
+
+        String sql = "select *\n"
+                + "from (select p.id,p.fornecedor,p.preco,p.nome,p.quantidade,r.validade,r.precisareceita\n"
+                + "from produto as p , remedio as r\n"
+                + "where p.id = r.id) as foo\n"
+                + "where foo.id = ?";
+        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.setInt(1,Integer.parseInt(id));
+        prepareStatement.execute();
+        ResultSet result = prepareStatement.getResultSet();
+        if(result.next()){
+            return new Remedio(result.getBoolean("precisareceita"), result.getInt("id"),result.getDouble("preco"),result.getString("nome"), result.getString("fornecedor"), result.getString("validade"),result.getFloat("quantidade"));
+        }
+        return null;
+    }
+
     public boolean isPrecisaReceita(Remedio remedio) throws SQLException {
         String sql = "SELECT precisareceita FROM remedio WHERE id = ?;";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
@@ -72,5 +89,14 @@ public class RemedioDAO extends ProdutoDAO {
         prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setInt(1, remedio.getId());
         prepareStatement.execute();
+    }
+    
+    public void updateR(Remedio remedio) throws SQLException{
+       update(remedio);
+       String sql = "update remedio set validade  = ? where id = ?";
+        PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+        preparedStatement.setString(1, remedio.getValidade());
+        preparedStatement.setInt(2, remedio.getId());
+        preparedStatement.execute();
     }
 }

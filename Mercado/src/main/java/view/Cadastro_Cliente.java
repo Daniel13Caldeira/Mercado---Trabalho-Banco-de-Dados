@@ -463,7 +463,7 @@ public class Cadastro_Cliente extends javax.swing.JFrame {
                 end = true;
             } else {
                 JOptionPane.showMessageDialog(null, "O endereço informado precisa estar completo", "Atenção", JOptionPane.INFORMATION_MESSAGE);
-                end = true;
+                end = false;
                 flag = false;
 
             }

@@ -82,9 +82,9 @@ public class FuncionarioDAO extends PessoaDAO {
             Endereco end = getEndereco(new Pessoa(result.getString("cpf")) {
             });
             if (end != null) {
-                return new Funcionario(result.getString("nome"), result.getString("cpf"), end,result.getInt("id"),result.getString("cargo") ,result.getString("senha"));
+                return new Funcionario(result.getString("nome"), result.getString("cpf"), end, result.getInt("id"), result.getString("cargo"), result.getString("senha"));
             } else {
-                return new Funcionario(result.getString("nome"), result.getString("cpf"),result.getInt("id"),result.getString("cargo") ,result.getString("senha"));
+                return new Funcionario(result.getString("nome"), result.getString("cpf"), result.getInt("id"), result.getString("cargo"), result.getString("senha"));
             }
         }
         return null;
@@ -131,4 +131,27 @@ public class FuncionarioDAO extends PessoaDAO {
         prepareStatement.setString(1, funcionario.getCpf());
         prepareStatement.execute();
     }
+
+    public Funcionario getFuncionario(int id) throws SQLException {
+        String sql = "select *\n"
+                + "from (select f.id,f.cpf,f.cargo,p.nome,p.senha,p.endereco\n"
+                + "from pessoa as p , funcionario as f\n"
+                + "where f.cpf=p.cpf) as foo\n"
+                + "where foo.id=?";
+        PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+        preparedStatement.setInt(1, id);
+        preparedStatement.execute();
+        ResultSet result = preparedStatement.getResultSet();
+        if(result.next()){
+            Funcionario func = new Funcionario(result.getString("nome"),result.getString("cpf"),result.getInt("id"),result.getString("cargo"),result.getString("senha"));
+            Endereco end = getEndereco(func);
+            if(end!=null){
+                func.setEndereco(end);
+            }
+            return func;
+        }
+        return null;
+    }
 }
+
+

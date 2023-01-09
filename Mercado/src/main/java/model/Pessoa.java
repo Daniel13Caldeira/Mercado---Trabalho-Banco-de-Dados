@@ -52,5 +52,8 @@ public abstract class Pessoa {
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
+    public void setSenha(String senha){
+        this.senha = senha;
+    }
 
 }

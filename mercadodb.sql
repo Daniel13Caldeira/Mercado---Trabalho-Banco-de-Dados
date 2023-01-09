@@ -49,6 +49,7 @@ create table if not exists produto(
 	preco real not null,
 	nome varchar(50) not null,
 	quantidade real not null,
+	tipo varchar(25) not null,
 	FOREIGN KEY (fornecedor) REFERENCES public.fornecedor (cnpj)
 );
 

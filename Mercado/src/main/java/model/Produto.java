@@ -6,13 +6,25 @@ public class Produto {
     protected double preco, quantidade;
     protected String nome;
     protected String fornecedor;
+    protected String tipo;
 
-    public Produto(int id, double preco, String nome, String fornecedor, double quantidade) {
+    public Produto(int id, String nome, double preco) {
+        this.id = id;
+        this.nome = nome;
+        this.preco = preco;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public Produto(int id, double preco, String nome, String fornecedor, double quantidade, String tipo) {
         this.id = id;
         this.preco = preco;
         this.nome = nome;
         this.fornecedor = fornecedor;
         this.quantidade = quantidade;
+        this.tipo = tipo;
     }
 
     public Produto(int id, double quantidade) {

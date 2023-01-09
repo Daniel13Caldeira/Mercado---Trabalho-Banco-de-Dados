@@ -49,6 +49,31 @@ public class VestuarioDAO extends ProdutoDAO {
         return null;
     }
 
+    public void updateV(Vestuario vestuario) throws SQLException {
+        update(vestuario);
+        String sql = "update vestuario set tamanho  = ? where id = ?";
+        PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+        preparedStatement.setString(1, vestuario.getTamanho());
+        preparedStatement.setInt(2, vestuario.getId());
+        preparedStatement.execute();
+    }
+
+    public Vestuario getVestuario(String id) throws SQLException {
+        String sql = "select *\n"
+                + "from (select p.id,p.fornecedor,p.preco,p.nome,p.quantidade,v.tamanho\n"
+                + "from produto as p , vestuario as v\n"
+                + "where p.id = v.id) as foo\n"
+                + "where foo.id = ?";
+        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.setInt(1, Integer.parseInt(id));
+        prepareStatement.execute();
+        ResultSet result = prepareStatement.getResultSet();
+        if (result.next()) {
+            return new Vestuario(result.getInt("id"), result.getFloat("preco"), result.getString("nome"), result.getString("fornecedor"), result.getString("tamanho"), result.getDouble("quantidade"));
+        }
+        return null;
+    }
+
     public void delete(Vestuario vestuario) throws SQLException {
         String sql = "DELETE FROM produtooutro WHERE id = ?;";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);

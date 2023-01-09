@@ -36,7 +36,7 @@ public class Cadastro_Produto extends javax.swing.JFrame {
         tittleArea = new javax.swing.JPanel();
         tittleLabel = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle("Cadastro");
         setResizable(false);
 
@@ -201,6 +201,11 @@ public class Cadastro_Produto extends javax.swing.JFrame {
         cadastrarButton.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
         cadastrarButton.setForeground(new java.awt.Color(255, 255, 255));
         cadastrarButton.setText("Cadastrar");
+        cadastrarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cadastrarButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout formArea12Layout = new javax.swing.GroupLayout(formArea12);
         formArea12.setLayout(formArea12Layout);
@@ -384,6 +389,10 @@ public class Cadastro_Produto extends javax.swing.JFrame {
             camp.setVisible(false);
         }
     }//GEN-LAST:event_tipoBoxItemStateChanged
+
+    private void cadastrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarButtonActionPerformed
+         // TODO add your handling code here:
+    }//GEN-LAST:event_cadastrarButtonActionPerformed
 
     private void mascaraData(JTextField textField) {
         String texto = textField.getText();

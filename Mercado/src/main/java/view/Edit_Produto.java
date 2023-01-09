@@ -1,14 +1,34 @@
 package view;
 
+import DAO.ConexaoDAO;
+import DAO.ProdutoDAO;
+import DAO.ProdutoOutroDAO;
+import DAO.ProdutoPerecivelDAO;
+import DAO.RemedioDAO;
+import DAO.VestuarioDAO;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import model.ProdutoOutro;
+import model.ProdutoPerecivel;
+import model.Remedio;
+import model.Vestuario;
 
 public class Edit_Produto extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Edit_Produto
-     */
-    public Edit_Produto() {
+    private String tipo;
+    private Remedio prod_rem;
+    private ProdutoOutro prod_ou;
+    private ProdutoPerecivel prod_pp;
+    private Vestuario prod_ves;
+
+    public Edit_Produto(String idProd) throws SQLException {
+        iniciaProd(idProd);
         initComponents();
+
     }
 
     /**
@@ -20,6 +40,7 @@ public class Edit_Produto extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         container = new javax.swing.JPanel();
         formArea12 = new javax.swing.JPanel();
         nomeLabel = new javax.swing.JLabel();
@@ -35,11 +56,11 @@ public class Edit_Produto extends javax.swing.JFrame {
         validadeInput = new javax.swing.JTextField();
         cReceitaRadioButton = new javax.swing.JRadioButton();
         scReceitaRadioButton = new javax.swing.JRadioButton();
-        quantidadeLabel = new javax.swing.JLabel();
-        quantidadeInput = new javax.swing.JTextField();
         tamanhoLabel = new javax.swing.JLabel();
         tamanhoInput = new javax.swing.JTextField();
         editarButton = new javax.swing.JButton();
+        quantidadeLabel = new javax.swing.JLabel();
+        quantidadeInput = new javax.swing.JTextField();
         tittleArea = new javax.swing.JPanel();
         voltarButton = new javax.swing.JButton();
 
@@ -124,28 +145,17 @@ public class Edit_Produto extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup1.add(cReceitaRadioButton);
         cReceitaRadioButton.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
         cReceitaRadioButton.setForeground(new java.awt.Color(9, 9, 91));
         cReceitaRadioButton.setText("Com receita");
+        cReceitaRadioButton.setEnabled(false);
 
+        buttonGroup1.add(scReceitaRadioButton);
         scReceitaRadioButton.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
         scReceitaRadioButton.setForeground(new java.awt.Color(9, 9, 91));
         scReceitaRadioButton.setText("Sem Receita");
-
-        quantidadeLabel.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
-        quantidadeLabel.setForeground(new java.awt.Color(9, 9, 91));
-        quantidadeLabel.setText("Quantidade");
-
-        quantidadeInput.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 14)); // NOI18N
-        quantidadeInput.setForeground(new java.awt.Color(9, 9, 91));
-        quantidadeInput.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                quantidadeInputKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                quantidadeInputKeyTyped(evt);
-            }
-        });
+        scReceitaRadioButton.setEnabled(false);
 
         tamanhoLabel.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
         tamanhoLabel.setForeground(new java.awt.Color(9, 9, 91));
@@ -160,54 +170,74 @@ public class Edit_Produto extends javax.swing.JFrame {
         campLayout.setHorizontalGroup(
             campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(campLayout.createSequentialGroup()
-                .addGap(130, 130, 130)
-                .addComponent(cReceitaRadioButton)
-                .addGap(18, 18, 18)
-                .addComponent(scReceitaRadioButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(campLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addGap(19, 19, 19)
                 .addGroup(campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(campLayout.createSequentialGroup()
+                        .addGap(112, 112, 112)
+                        .addComponent(cReceitaRadioButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(scReceitaRadioButton))
                     .addGroup(campLayout.createSequentialGroup()
                         .addComponent(tamanhoLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(tamanhoInput, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(campLayout.createSequentialGroup()
-                        .addComponent(quantidadeLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(quantidadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                        .addGap(36, 36, 36)
                         .addComponent(validadeLabel)
                         .addGap(18, 18, 18)
-                        .addComponent(validadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(86, 86, 86))))
+                        .addComponent(validadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(144, Short.MAX_VALUE))
         );
         campLayout.setVerticalGroup(
             campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(campLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(tamanhoLabel)
+                        .addComponent(tamanhoInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(validadeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(quantidadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(quantidadeLabel))
-                    .addComponent(validadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tamanhoLabel)
-                    .addComponent(tamanhoInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                        .addComponent(validadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cReceitaRadioButton)
                     .addComponent(scReceitaRadioButton))
-                .addContainerGap())
+                .addGap(51, 51, 51))
         );
+
+        switch(tipo){
+            case "Perecível": validadeInput.setText(prod_pp.getValidade());
+            break;
+            case "Remédio": validadeInput.setText(prod_rem.getValidade());
+            break;
+            default:
+            break;
+
+        }
+        if(prod_rem.isPrecisaReceita()){
+            cReceitaRadioButton.setSelected(true);
+        }
+        if(!prod_rem.isPrecisaReceita()){
+            scReceitaRadioButton.setSelected(true);
+        }
+        tamanhoInput.setText(prod_ves.getTamanho());
 
         editarButton.setBackground(new java.awt.Color(9, 9, 91));
         editarButton.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
         editarButton.setForeground(new java.awt.Color(255, 255, 255));
         editarButton.setText("Editar");
+        editarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editarButtonActionPerformed(evt);
+            }
+        });
+
+        quantidadeLabel.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
+        quantidadeLabel.setForeground(new java.awt.Color(9, 9, 91));
+        quantidadeLabel.setText("Quantidade");
+
+        quantidadeInput.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 14)); // NOI18N
+        quantidadeInput.setForeground(new java.awt.Color(9, 9, 91));
 
         javax.swing.GroupLayout formArea12Layout = new javax.swing.GroupLayout(formArea12);
         formArea12.setLayout(formArea12Layout);
@@ -219,14 +249,6 @@ public class Edit_Produto extends javax.swing.JFrame {
                     .addComponent(editarButton)
                     .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(formArea12Layout.createSequentialGroup()
-                            .addComponent(fornecedorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(fornecedorBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(tipoBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(formArea12Layout.createSequentialGroup()
                             .addComponent(nomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(nomeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -234,6 +256,19 @@ public class Edit_Produto extends javax.swing.JFrame {
                             .addComponent(precoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(precoInput, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(formArea12Layout.createSequentialGroup()
+                            .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(fornecedorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(quantidadeLabel))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(quantidadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(formArea12Layout.createSequentialGroup()
+                                    .addComponent(fornecedorBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(tipoBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addComponent(camp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(60, 60, 60))
         );
@@ -252,14 +287,83 @@ public class Edit_Produto extends javax.swing.JFrame {
                     .addComponent(fornecedorBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tipoLabel)
                     .addComponent(tipoBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
+                .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(quantidadeLabel)
+                    .addComponent(quantidadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(camp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(camp, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(editarButton)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
+        switch (tipo) {
+            case "Remédio":
+            nomeInput.setText(prod_rem.getNome());
+            break;
+            case "Vestuário":
+            nomeInput.setText(prod_ves.getNome());
+            break;
+            case "Perecível":
+            nomeInput.setText(prod_pp.getNome());
+            break;
+            case "Outros":
+            nomeInput.setText(prod_ou.getNome());
+            break;
+            default:
+            break;
+        }
+        tipoBox.setSelectedItem(tipo);
+        switch (tipo) {
+            case "Remédio":
+            precoInput.setText(prod_rem.getPreco()+"");
+            break;
+            case "Vestuário":
+            precoInput.setText(prod_ves.getPreco()+"");
+            break;
+            case "Perecível":
+            precoInput.setText(prod_pp.getPreco()+"");
+            break;
+            case "Outros":
+            precoInput.setText(prod_ou.getPreco()+"");
+            break;
+            default:
+            break;
+        }
+        switch (tipo) {
+            case "Remédio":
+            fornecedorBox.setSelectedItem(prod_rem.getFornecedor());
+            break;
+            case "Vestuário":
+            fornecedorBox.setSelectedItem(prod_ves.getFornecedor());
+            break;
+            case "Perecível":
+            fornecedorBox.setSelectedItem(prod_pp.getFornecedor());
+            break;
+            case "Outros":
+            fornecedorBox.setSelectedItem(prod_ou.getFornecedor());
+            break;
+            default:
+            break;
+        }
         camp.setVisible(false);
+        switch (tipo) {
+            case "Remédio":
+            quantidadeInput.setText(prod_rem.getQuantidade()+"");
+            break;
+            case "Vestuário":
+            quantidadeInput.setText(prod_ves.getQuantidade()+"");
+            break;
+            case "Perecível":
+            quantidadeInput.setText(prod_pp.getQuantidade()+"");
+            break;
+            case "Outros":
+            quantidadeInput.setText(prod_ou.getQuantidade()+"");
+            break;
+            default:
+            break;
+        }
 
         tittleArea.setBackground(new java.awt.Color(0, 255, 255));
         tittleArea.setPreferredSize(new java.awt.Dimension(100, 90));
@@ -334,8 +438,6 @@ public class Edit_Produto extends javax.swing.JFrame {
         if (!(tip.equals("Outros"))) {
             camp.setVisible(true);
             if (tip.equals("Vestuário")) {
-                quantidadeLabel.setVisible(true);
-                quantidadeInput.setVisible(true);
                 tamanhoLabel.setVisible(true);
                 tamanhoInput.setVisible(true);
                 validadeInput.setVisible(false);
@@ -344,8 +446,6 @@ public class Edit_Produto extends javax.swing.JFrame {
                 scReceitaRadioButton.setVisible(false);
             } else {
                 if (tip.equals("Remédio")) {
-                    quantidadeLabel.setVisible(true);
-                    quantidadeInput.setVisible(true);
                     tamanhoLabel.setVisible(false);
                     tamanhoInput.setVisible(false);
                     validadeInput.setVisible(false);
@@ -353,8 +453,6 @@ public class Edit_Produto extends javax.swing.JFrame {
                     cReceitaRadioButton.setVisible(true);
                     scReceitaRadioButton.setVisible(true);
                 } else {
-                    quantidadeLabel.setVisible(false);
-                    quantidadeInput.setVisible(false);
                     tamanhoLabel.setVisible(false);
                     tamanhoInput.setVisible(false);
                     validadeInput.setVisible(true);
@@ -384,13 +482,46 @@ public class Edit_Produto extends javax.swing.JFrame {
         mascaraData(validadeInput);
     }//GEN-LAST:event_validadeInputKeyTyped
 
-    private void quantidadeInputKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quantidadeInputKeyReleased
-        mascaraInt(quantidadeInput);
-    }//GEN-LAST:event_quantidadeInputKeyReleased
+    private void editarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarButtonActionPerformed
+        boolean flag = true;
+        if (nomeInput.getText().equals("")
+                || precoInput.getText().equals("")
+                || quantidadeInput.getText().equals("")
+                || tamanhoInput.getText().equals("")
+                || validadeInput.getText().equals("")
+                || fornecedorBox.getSelectedItem().toString().equals(fornecedorBox.getItemAt(0))
+                || tipoBox.getSelectedItem().toString().equals(tipoBox.getItemAt(0))) {
+            JOptionPane.showMessageDialog(null, "Todos os campos precisam estar preenchidos!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+            flag = false;
+        }
+        if (flag) {
+            Connection conexao;
+            try {
+                conexao = new ConexaoDAO().getConection();
+                switch (tipo) {
+                    case "Remédio":
+                        new RemedioDAO(conexao).updateR(prod_rem);
+                        break;
+                    case "Vestuário":
+                        new VestuarioDAO(conexao).updateV(prod_ves);
+                        break;
+                    case "Perecível":
+                        new ProdutoPerecivelDAO(conexao).updateP(prod_pp);
+                        break;
+                    case "Outros":
+                        new ProdutoOutroDAO(conexao).updatePo(prod_ou);
+                        break;
+                    default:
+                        break;
+                }
+                JOptionPane.showMessageDialog(null, "Produto editado com sucesso!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                conexao.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(Edit_Produto.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-    private void quantidadeInputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quantidadeInputKeyTyped
-        mascaraInt(quantidadeInput);
-    }//GEN-LAST:event_quantidadeInputKeyTyped
+        }
+    }//GEN-LAST:event_editarButtonActionPerformed
 
     private void mascaraData(JTextField textField) {
         String texto = textField.getText();
@@ -446,6 +577,7 @@ public class Edit_Produto extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JRadioButton cReceitaRadioButton;
     private javax.swing.JPanel camp;
     private javax.swing.JPanel container;
@@ -469,4 +601,26 @@ public class Edit_Produto extends javax.swing.JFrame {
     private javax.swing.JLabel validadeLabel;
     private javax.swing.JButton voltarButton;
     // End of variables declaration//GEN-END:variables
+
+    private void iniciaProd(String idProd) throws SQLException {
+        Connection conexao = new ConexaoDAO().getConection();
+        tipo = new ProdutoDAO(conexao).getTipo(idProd);
+        switch (tipo) {
+            case "Remédio":
+                prod_rem = new RemedioDAO(conexao).getRemedio(idProd);
+                break;
+            case "Vestuário":
+                prod_ves = new VestuarioDAO(conexao).getVestuario(idProd);
+                break;
+            case "Perecível":
+                prod_pp = new ProdutoPerecivelDAO(conexao).getProdutoPerecivel(idProd);
+                break;
+            case "Outros":
+                prod_ou = new ProdutoOutroDAO(conexao).getProdutoOutro(idProd);
+                break;
+            default:
+                break;
+        }
+        conexao.close();
+    }
 }

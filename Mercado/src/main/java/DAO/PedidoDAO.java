@@ -90,7 +90,6 @@ public class PedidoDAO {
             int id = resultado.getInt("id");
             pedidos.add(new Pedido(id));
         }
-
         return pedidos;
     }
 

@@ -243,32 +243,44 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_cadastroNavigateMouseExited
 
     private void entrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrarButtonActionPerformed
+        boolean flag = true;
         if (userInput.getText().equals("") || senhaInput.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Por favor informe usuario e senha!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            flag = false;
         }
-        if (userInput.getText().length() == 11) {
+        if (userInput.getText().length() == 11 && flag) {
             try {
                 Connection conexao = new ConexaoDAO().getConection();
                 ClienteDAO clienteDAO = new ClienteDAO(conexao);
                 Cliente cliente = clienteDAO.getClientePorSenhaEcpf(userInput.getText(), senhaInput.getText());
-                user = cliente.getCpf();
+                if (cliente != null) {
+                    user = cliente.getCpf();
+                    this.setVisible(false);
+                    new Tela_Cliente().setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Usuario ou senha inválidos!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                }
                 conexao.close();
-                this.setVisible(false);
-                new Tela_Cliente().setVisible(true);
             } catch (SQLException ex) {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            try {
-                Connection conexao = new ConexaoDAO().getConection();
-                FuncionarioDAO funcionarioDAO = new FuncionarioDAO(conexao);
-                Funcionario funcionario = funcionarioDAO.getFuncionarioPorIdEsenha(Integer.parseInt(userInput.getText()), senhaInput.getText());
-                user = funcionario.getId() + "";
-                conexao.close();
-                this.setVisible(false);
-                new Tela_Cliente().setVisible(true);
-            } catch (SQLException ex) {
-                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            if (flag) {
+                try {
+                    Connection conexao = new ConexaoDAO().getConection();
+                    FuncionarioDAO funcionarioDAO = new FuncionarioDAO(conexao);
+                    Funcionario funcionario = funcionarioDAO.getFuncionarioPorIdEsenha(Integer.parseInt(userInput.getText()), senhaInput.getText());
+                    if (funcionario != null) {
+                        user = funcionario.getId() + "";
+                        this.setVisible(false);
+                        new Tela_Funcionario(user).setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Usuario ou senha inválidos!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    conexao.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
 
