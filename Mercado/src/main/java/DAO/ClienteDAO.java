@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.Cliente;
+import model.Endereco;
+import model.Pessoa;
 
 public class ClienteDAO extends PessoaDAO {
 
@@ -18,6 +20,27 @@ public class ClienteDAO extends PessoaDAO {
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setString(1, cliente.getCpf());
         prepareStatement.execute();
+    }
+
+    public Cliente getClientePorSenhaEcpf(String cpf, String senha) throws SQLException {
+        String sql = "select * \n"
+                + "from (select c.cpf,p.nome,p.senha,p.endereco,c.conta from pessoa as p inner join cliente as c on p.cpf = c.cpf ) as foo\n"
+                + "where foo.cpf = ? and foo.senha = ?";
+        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.setString(1, cpf);
+        prepareStatement.setString(2, senha);
+        prepareStatement.execute();
+        ResultSet result = prepareStatement.getResultSet();
+        if (result.next()) {
+            Endereco end = getEndereco(new Pessoa(result.getString("cpf")) {
+            });
+            if (end != null) {
+                return new Cliente(result.getString("nome"), result.getString("cpf"), end, result.getString("senha"),result.getFloat("conta"));
+            } else {
+                return new Cliente(result.getString("nome"), result.getString("cpf"),result.getString("senha"),result.getFloat("conta"));
+            }
+        }
+        return null;
     }
 
     public void insertComEndereco(Cliente cliente) throws SQLException {

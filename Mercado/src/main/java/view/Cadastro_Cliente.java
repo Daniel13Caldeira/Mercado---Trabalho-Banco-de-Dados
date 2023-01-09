@@ -1,11 +1,20 @@
 package view;
 
+import DAO.ClienteDAO;
+import DAO.ConexaoDAO;
 import Utilitarios.BuscaCep;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import model.Cliente;
+import model.Endereco;
 
 public class Cadastro_Cliente extends javax.swing.JFrame {
 
@@ -427,7 +436,66 @@ public class Cadastro_Cliente extends javax.swing.JFrame {
     }//GEN-LAST:event_cepInputActionPerformed
 
     private void cadastroButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastroButtonActionPerformed
-        // TODO add your handling code here:
+
+        boolean flag = true;
+        boolean end = false;
+        if (cpfInput.getText().equals("") || nomeInput.getText().equals("") || senhaInput.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Apenas os campos do endereço não são obrigatórios!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+            flag = false;
+        }
+        if (cpfInput.getText().length() > 0 && flag) {
+            if (!validaCPF(cpfInput.getText())) {
+                JOptionPane.showMessageDialog(null, "O CPF precisa ser valido!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+                flag = false;
+            }
+        }
+        String auxUf = ufBox.getSelectedItem().toString();
+        if ((auxUf.equals(ufBox.getItemAt(0)) && ruaInput.getText().equals("")
+                && cidadeInput.getText().equals("")
+                && bairroInput.getText().equals("")
+                && numeroInput.getText().equals(""))) {
+            end = true;
+        } else {
+            if (!(auxUf.equals(ufBox.getItemAt(0)) || ruaInput.getText().equals("")
+                    || cidadeInput.getText().equals("")
+                    || bairroInput.getText().equals("")
+                    || numeroInput.getText().equals(""))) {
+                end = true;
+            } else {
+                JOptionPane.showMessageDialog(null, "O endereço informado precisa estar completo", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+                end = true;
+                flag = false;
+
+            }
+        }
+        if (flag) {
+            Connection conexao;
+            try {
+                conexao = new ConexaoDAO().getConection();
+                ClienteDAO clientedao = new ClienteDAO(conexao);
+                Cliente newCliente = new Cliente(nomeInput.getText(), cpfInput.getText(), senhaInput.getText(),0);
+                if (end) {
+                    Endereco ende = new Endereco(cidadeInput.getText(), bairroInput.getText(), ruaInput.getText(), cepInput.getText(), auxUf, numeroInput.getText());
+                    newCliente.setEndereco(ende);
+                    clientedao.insertComEndereco(newCliente);
+                    JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                    conexao.close();
+                    this.setVisible(false);
+                    new Login().setVisible(true);
+                } else {
+                    clientedao.insertSemEndereco(newCliente);
+                    JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                    conexao.close();
+                    this.setVisible(false);
+                    new Login().setVisible(true);
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(Cadastro_Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
     }//GEN-LAST:event_cadastroButtonActionPerformed
 
     private void voltarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarButtonActionPerformed
@@ -550,6 +618,47 @@ public class Cadastro_Cliente extends javax.swing.JFrame {
                 ufBox.setSelectedItem(mapa.get("uf"));
             }
         }
+    }
+
+    public static boolean validaCPF(String cpf) {
+        for (int i = 0; i < 10; i++) {
+            int cont = 0;
+            for (int j = 0; j < 11; j++) {
+                if (i == Integer.parseInt(cpf.charAt(j) + "")) {
+                    cont++;
+                }
+            }
+            if (cont == 11) {
+                return false;
+            }
+        }
+        int j = 10, soma = 0;
+        for (int i = 0; i < 9; i++) {
+            soma += Integer.parseInt(cpf.charAt(i) + "") * j;
+            j--;
+        }
+        soma = 11 - (soma % 11);
+        if (soma > 9) {
+            soma = 0;
+        }
+        if (soma != Integer.parseInt(cpf.charAt(9) + "")) {
+            return false;
+        }
+        j = 11;
+        soma = 0;
+        for (int i = 0; i < 10; i++) {
+            soma += Integer.parseInt(cpf.charAt(i) + "") * j;
+            j--;
+        }
+        soma = 11 - (soma % 11);
+        if (soma > 9) {
+            soma = 0;
+        }
+
+        if (soma != Integer.parseInt(cpf.charAt(10) + "")) {
+            return false;
+        }
+        return true;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

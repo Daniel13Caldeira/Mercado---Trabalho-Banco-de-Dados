@@ -1,14 +1,23 @@
 package view;
 
+import DAO.ClienteDAO;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import DAO.ConexaoDAO;
+import DAO.FuncionarioDAO;
+import model.Cliente;
+import model.Funcionario;
 
 public class Login extends javax.swing.JFrame {
+
+    private static String user;
+
+    public static String getUser() {
+        return user;
+    }
 
     public Login() {
         initComponents();
@@ -213,11 +222,11 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void senhaInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_senhaInputActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_senhaInputActionPerformed
 
     private void userInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userInputActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_userInputActionPerformed
 
     private void cadastroNavigateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cadastroNavigateMouseClicked
@@ -234,19 +243,35 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_cadastroNavigateMouseExited
 
     private void entrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrarButtonActionPerformed
-        try {
-            Connection conexao = new ConexaoDAO().getConection();
-            
-            String sql = "INSERT INTO public.pessoa(cpf, nome, senha) values ('12345678912','teste','teste123');";
-            PreparedStatement prepareStatement = conexao.prepareStatement(sql);
-            prepareStatement.execute();
-            
-            conexao.close();
-            JOptionPane.showMessageDialog(null, "Deu certo!!");
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        if (userInput.getText().equals("") || senhaInput.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Por favor informe usuario e senha!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
+        if (userInput.getText().length() == 11) {
+            try {
+                Connection conexao = new ConexaoDAO().getConection();
+                ClienteDAO clienteDAO = new ClienteDAO(conexao);
+                Cliente cliente = clienteDAO.getClientePorSenhaEcpf(userInput.getText(), senhaInput.getText());
+                user = cliente.getCpf();
+                conexao.close();
+                this.setVisible(false);
+                new Tela_Cliente().setVisible(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            try {
+                Connection conexao = new ConexaoDAO().getConection();
+                FuncionarioDAO funcionarioDAO = new FuncionarioDAO(conexao);
+                Funcionario funcionario = funcionarioDAO.getFuncionarioPorIdEsenha(Integer.parseInt(userInput.getText()), senhaInput.getText());
+                user = funcionario.getId() + "";
+                conexao.close();
+                this.setVisible(false);
+                new Tela_Cliente().setVisible(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
     }//GEN-LAST:event_entrarButtonActionPerformed
 
     public static void main(String args[]) {

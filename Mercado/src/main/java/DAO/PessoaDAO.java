@@ -26,7 +26,7 @@ public class PessoaDAO {
         }
         return null;
     }
-
+    
     public String getSenha(Pessoa pessoa) throws SQLException {
         String sql = "SELECT senha FROM pessoa WHERE cpf= ?;";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
@@ -48,7 +48,7 @@ public class PessoaDAO {
         ResultSet result = prepareStatement.getResultSet();
         if (result.next()) {
             id = result.getInt("endereco");
-        }else{
+        } else {
             return null;
         }
 
