@@ -91,7 +91,7 @@ public class ProdutoDAO {
         if (result.next()) {
             return result.getDouble("quantidade");
         }
-        return -1;
+        return 0;
     }
 
     public void update(Produto produto) throws SQLException {
@@ -105,6 +105,14 @@ public class ProdutoDAO {
         preparedStatement.execute();
     }
 
+    public void updateQuantidade(Produto produto) throws SQLException {
+        String sql = "update produto set quantidade = ? where id = ?";
+        PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+        preparedStatement.setDouble(1, produto.getQuantidade());
+        preparedStatement.setInt(2, produto.getId());
+        preparedStatement.execute();
+    }
+    
     public void delete(String id) throws SQLException {
         String tipo = getTipo(id);
         switch (tipo) {

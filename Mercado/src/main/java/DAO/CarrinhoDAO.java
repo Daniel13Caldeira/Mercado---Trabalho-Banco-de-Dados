@@ -17,6 +17,16 @@ public class CarrinhoDAO {
         this.conexao = connection;
     }
 
+    public boolean produtoEstaNoCarrinho(Carrinho carrinho,Produto produto) throws SQLException{
+        String sql = "SELECT produto, quantidade FROM carrinho where cpf = ? and produto = ?;";
+        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.setString(1, carrinho.getCliente().getCpf());
+        prepareStatement.setInt(2, produto.getId());
+        prepareStatement.execute();
+        ResultSet resultado = prepareStatement.getResultSet();
+        return resultado.next();
+    }
+    
     public void insertProduto(Cliente cliente, Produto produto) throws SQLException {
         String sql = "INSERT INTO carrinho(cliente, produto, quantidade) VALUES (?,?,?);";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
@@ -42,8 +52,21 @@ public class CarrinhoDAO {
         return produtos;
     }
 
-    public void setQuantidadeRemedio(Carrinho carrinho, Produto produto) throws SQLException {
-        String sql = "UPDATE carrinho SET quantidade = ? WHERE cliente = ? AND remedio = ?;";
+    public double selectQuantidadeProduto(Carrinho carrinho, Produto produto) throws SQLException {
+        String sql = "SELECT quantidade FROM carrinho WHERE cliente = ? AND produto = ?;";
+        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.setString(1, carrinho.getCliente().getCpf());
+        prepareStatement.setInt(2, produto.getId());
+        prepareStatement.execute();
+        ResultSet result = prepareStatement.getResultSet();
+        if (result.next()) {
+            return result.getDouble("quantidade");
+        }
+        return 0;
+    }
+    
+    public void setQuantidadeProduto(Carrinho carrinho, Produto produto) throws SQLException {
+        String sql = "UPDATE carrinho SET quantidade = ? WHERE cliente = ? AND produto = ?;";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setDouble(1, produto.getQuantidade());
         prepareStatement.setString(2, carrinho.getCliente().getCpf());
@@ -51,7 +74,7 @@ public class CarrinhoDAO {
         prepareStatement.execute();
     }
 
-    public void deleteRemedioReceia(Carrinho carrinho, Produto produto) throws SQLException {
+    public void deleteProdutoCarrinho(Carrinho carrinho, Produto produto) throws SQLException {
         String sql = "DELETE FROM carrinho WHERE cliente = ? AND remedio = ?;";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setString(2, carrinho.getCliente().getCpf());

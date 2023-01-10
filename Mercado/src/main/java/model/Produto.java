@@ -1,5 +1,10 @@
 package model;
 
+import DAO.ConexaoDAO;
+import DAO.ProdutoDAO;
+import java.sql.Connection;
+import java.sql.SQLException;
+
 public class Produto {
 
     protected int id;
@@ -66,6 +71,27 @@ public class Produto {
 
     public void setPreco(double preco) {
         this.preco = preco;
+    }
+    
+    public double selectPreco() throws SQLException{
+        ConexaoDAO conexaoDAO = new ConexaoDAO();
+        Connection conexao = conexaoDAO.getConection();
+        ProdutoDAO produtoDAO = new ProdutoDAO(conexao);
+        return produtoDAO.getPreco(this);
+    }
+    
+    public double selectQuantidade() throws SQLException{
+        ConexaoDAO conexaoDAO = new ConexaoDAO();
+        Connection conexao = conexaoDAO.getConection();
+        ProdutoDAO produtoDAO = new ProdutoDAO(conexao);
+        return produtoDAO.getQuantidade(this);
+    }
+    
+    public String selectNome()throws SQLException{
+        ConexaoDAO conexaoDAO = new ConexaoDAO();
+        Connection conexao = conexaoDAO.getConection();
+        ProdutoDAO produtoDAO = new ProdutoDAO(conexao);
+        return produtoDAO.getNome(this);
     }
 
 }

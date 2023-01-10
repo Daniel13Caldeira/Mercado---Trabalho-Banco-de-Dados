@@ -1,6 +1,14 @@
 package view;
 
+import DAO.CarrinhoDAO;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import model.Carrinho;
+import model.Cliente;
+import model.Produto;
 
 public class Tela_Cliente extends javax.swing.JFrame {
 
@@ -28,11 +36,12 @@ public class Tela_Cliente extends javax.swing.JFrame {
         removerButton = new javax.swing.JButton();
         finishButton = new javax.swing.JButton();
         pedidosPainel = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        pedidos = new javax.swing.JTable();
         sairButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Início");
-        setPreferredSize(new java.awt.Dimension(720, 500));
         setResizable(false);
 
         container.setBackground(new java.awt.Color(0, 255, 255));
@@ -91,6 +100,11 @@ public class Tela_Cliente extends javax.swing.JFrame {
         adicionarButton.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
         adicionarButton.setForeground(new java.awt.Color(255, 255, 255));
         adicionarButton.setText("Adicionar");
+        adicionarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adicionarButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -152,9 +166,16 @@ public class Tela_Cliente extends javax.swing.JFrame {
                 "Nome", "Quantidade", "Preço"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Double.class, java.lang.Double.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false, false
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -173,6 +194,11 @@ public class Tela_Cliente extends javax.swing.JFrame {
         removerButton.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
         removerButton.setForeground(new java.awt.Color(255, 255, 255));
         removerButton.setText("Remover");
+        removerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removerButtonActionPerformed(evt);
+            }
+        });
 
         finishButton.setBackground(new java.awt.Color(9, 9, 91));
         finishButton.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
@@ -226,15 +252,48 @@ public class Tela_Cliente extends javax.swing.JFrame {
 
         tabbedPane.addTab("Carrinho", carrinhoPainel);
 
+        pedidos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Número do pedido", "Status"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(pedidos);
+
         javax.swing.GroupLayout pedidosPainelLayout = new javax.swing.GroupLayout(pedidosPainel);
         pedidosPainel.setLayout(pedidosPainelLayout);
         pedidosPainelLayout.setHorizontalGroup(
             pedidosPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 715, Short.MAX_VALUE)
+            .addGroup(pedidosPainelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(257, Short.MAX_VALUE))
         );
         pedidosPainelLayout.setVerticalGroup(
             pedidosPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 429, Short.MAX_VALUE)
+            .addGroup(pedidosPainelLayout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 1, Short.MAX_VALUE))
         );
 
         tabbedPane.addTab("Pedidos", pedidosPainel);
@@ -298,6 +357,38 @@ public class Tela_Cliente extends javax.swing.JFrame {
         mascaraInt(quantidadeInput);
     }//GEN-LAST:event_quantidadeInputKeyTyped
 
+    private void adicionarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarButtonActionPerformed
+        Carrinho carrinhoModel = new Carrinho(new Cliente(Login.getUser()));
+        try {
+            DefaultTableModel modelList = (DefaultTableModel) carrinho.getModel();
+            int id = (int) modelList.getValueAt(list_Prods.getSelectedRow(), 0);
+            double quantidade = Double.parseDouble(quantidadeInput.getText());
+            boolean adicionou = carrinhoModel.addProduto(id, quantidade);
+            if (adicionou) {
+                Produto produto = new Produto(id);
+                String nome = produto.getNome();
+                double preco = produto.getId() * quantidade;
+                DefaultTableModel modelCarrinho = (DefaultTableModel) carrinho.getModel();
+                modelCarrinho.addRow(new Object[]{nome, quantidade, preco});
+                list_Prods.clearSelection();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Tela_Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_adicionarButtonActionPerformed
+
+    private void removerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerButtonActionPerformed
+        Carrinho carrinhoModel = new Carrinho(new Cliente(Login.getUser()));
+        DefaultTableModel modelCarrinho = (DefaultTableModel) carrinho.getModel();
+        int id = (int) modelCarrinho.getValueAt(carrinho.getSelectedRow(), 0);
+        double quantidade = (double) modelCarrinho.getValueAt(carrinho.getSelectedRow(), 0);
+        try {
+            carrinhoModel.removerProduto(id, quantidade);
+        } catch (SQLException ex) {
+            Logger.getLogger(Tela_Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_removerButtonActionPerformed
+
     private void mascaraInt(JTextField textField) {
         String texto = textField.getText();
         if (texto.length() > 0) {
@@ -319,8 +410,10 @@ public class Tela_Cliente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable list_Prods;
     private javax.swing.JPanel list_ProdsPainel;
+    private javax.swing.JTable pedidos;
     private javax.swing.JPanel pedidosPainel;
     private javax.swing.JTextField quantidadeInput;
     private javax.swing.JLabel quantidadeLabel;
