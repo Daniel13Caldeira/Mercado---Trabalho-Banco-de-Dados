@@ -35,9 +35,9 @@ public class ClienteDAO extends PessoaDAO {
             Endereco end = getEndereco(new Pessoa(result.getString("cpf")) {
             });
             if (end != null) {
-                return new Cliente(result.getString("nome"), result.getString("cpf"), end, result.getString("senha"),result.getFloat("conta"));
+                return new Cliente(result.getString("nome"), result.getString("cpf"), end, result.getString("senha"), result.getFloat("conta"));
             } else {
-                return new Cliente(result.getString("nome"), result.getString("cpf"),result.getString("senha"),result.getFloat("conta"));
+                return new Cliente(result.getString("nome"), result.getString("cpf"), result.getString("senha"), result.getFloat("conta"));
             }
         }
         return null;
@@ -98,5 +98,25 @@ public class ClienteDAO extends PessoaDAO {
         prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setString(1, cliente.getCpf());
         prepareStatement.execute();
+    }
+
+    public Cliente getCliente(String cpf) throws SQLException {
+        String sql = "select * \n"
+                + "from (select c.cpf,p.nome,p.senha,p.endereco,c.conta from pessoa as p inner join cliente as c on p.cpf = c.cpf ) as foo\n"
+                + "where foo.cpf = ? ";
+        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.setString(1, cpf);
+        prepareStatement.execute();
+        ResultSet result = prepareStatement.getResultSet();
+        if (result.next()) {
+            Endereco end = getEndereco(new Pessoa(result.getString("cpf")) {
+            });
+            if (end != null) {
+                return new Cliente(result.getString("nome"), result.getString("cpf"), end, result.getString("senha"), result.getFloat("conta"));
+            } else {
+                return new Cliente(result.getString("nome"), result.getString("cpf"), result.getString("senha"), result.getFloat("conta"));
+            }
+        }
+        return null;
     }
 }

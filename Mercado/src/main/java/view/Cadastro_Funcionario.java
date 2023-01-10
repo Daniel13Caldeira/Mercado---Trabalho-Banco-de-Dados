@@ -1,16 +1,30 @@
 package view;
 
+import DAO.ClienteDAO;
+import DAO.ConexaoDAO;
+import DAO.FuncionarioDAO;
 import Utilitarios.BuscaCep;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import model.Endereco;
+import model.Funcionario;
+import static view.Cadastro_Cliente.validaCPF;
 
 public class Cadastro_Funcionario extends javax.swing.JFrame {
 
-    public Cadastro_Funcionario() {
+    private Funcionario func;
+
+    public Cadastro_Funcionario(String id_funcLog) throws SQLException {
+        Connection conexao = new ConexaoDAO().getConection();
+        func = new FuncionarioDAO(conexao).getFuncionario(Integer.parseInt(id_funcLog));
         initComponents();
     }
 
@@ -473,11 +487,69 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
     }//GEN-LAST:event_cepInputActionPerformed
 
     private void cadastroButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastroButtonActionPerformed
-        // TODO add your handling code here:
+        boolean flag = true;
+        boolean end = false;
+        if (cpfInput.getText().equals("") || nomeInput.getText().equals("") || senhaInput.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Apenas os campos do endereço não são obrigatórios!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+            flag = false;
+        }
+        if (cpfInput.getText().length() > 0 && flag) {
+            if (!validaCPF(cpfInput.getText())) {
+                JOptionPane.showMessageDialog(null, "O CPF precisa ser valido!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+                flag = false;
+            }
+        }
+        String auxUf = ufBox.getSelectedItem().toString();
+        if ((auxUf.equals(ufBox.getItemAt(0)) && ruaInput.getText().equals("")
+                && cidadeInput.getText().equals("")
+                && bairroInput.getText().equals("")
+                && numeroInput.getText().equals(""))) {
+            end = true;
+        } else {
+            if (!(auxUf.equals(ufBox.getItemAt(0)) || ruaInput.getText().equals("")
+                    || cidadeInput.getText().equals("")
+                    || bairroInput.getText().equals("")
+                    || numeroInput.getText().equals(""))) {
+                end = true;
+            } else {
+                JOptionPane.showMessageDialog(null, "O endereço informado precisa estar completo", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+                end = false;
+                flag = false;
+
+            }
+        }
+        if (flag) {
+            Connection conexao;
+            try {
+                conexao = new ConexaoDAO().getConection();
+                FuncionarioDAO funcionarioDAO = new FuncionarioDAO(conexao);
+                Funcionario newFuncionario = new Funcionario(cargoBox.getSelectedItem().toString(), nomeInput.getText(), cpfInput.getText(), senhaInput.getText());
+                if (end) {
+                    Endereco ende = new Endereco(cidadeInput.getText(), bairroInput.getText(), ruaInput.getText(), cepInput.getText(), auxUf, numeroInput.getText());
+                    newFuncionario.setEndereco(ende);
+                    funcionarioDAO.insertComEndereco(newFuncionario);
+                    JOptionPane.showMessageDialog(null, "Funcionario cadastrado com sucesso!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                    conexao.close();
+                } else {
+                    funcionarioDAO.insertSemEndereco(newFuncionario);
+                    JOptionPane.showMessageDialog(null, "Funcionario cadastrado com sucesso!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                    conexao.close();
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(Cadastro_Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
     }//GEN-LAST:event_cadastroButtonActionPerformed
 
     private void voltarbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarbuttonActionPerformed
-        // TODO add your handling code here:
+        this.setVisible(false);
+        try {
+            new Tela_Funcionario(func.getId()+"").setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Cadastro_Fornecedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_voltarbuttonActionPerformed
 
     private void mostrarSenhaLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mostrarSenhaLabelMouseEntered
@@ -524,7 +596,7 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
         String carg = (String) cargoBox.getSelectedItem();
         if (carg.equals("Entregador")) {
             placaArea.setVisible(true);
-        }else{
+        } else {
             placaArea.setVisible(false);
         }
     }//GEN-LAST:event_cargoBoxItemStateChanged

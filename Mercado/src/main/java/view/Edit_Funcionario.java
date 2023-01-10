@@ -1,19 +1,39 @@
 package view;
 
+import DAO.ConexaoDAO;
+import DAO.EntregadorDAO;
+import DAO.FuncionarioDAO;
 import Utilitarios.BuscaCep;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import model.Endereco;
+import model.Entregador;
+import model.Funcionario;
 
 public class Edit_Funcionario extends javax.swing.JFrame {
 
+    private Funcionario func_alvo;
+    private Entregador func_alvoen;
+    private String func_log;
 
-    public Edit_Funcionario() {
+    public Edit_Funcionario(String func_alvo, String funcLog) throws SQLException {
+        Connection conexao = new ConexaoDAO().getConection();
+        this.func_alvo = new FuncionarioDAO(conexao).getFuncionario(Integer.parseInt(func_alvo));
+        if (this.func_alvo.getCargo().equals("Entregador")) {
+            this.func_alvoen = new EntregadorDAO(conexao).getEntregador(this.func_alvo);
+        }
+        this.func_log = funcLog;
         initComponents();
+        preenchePerfil();
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -54,7 +74,6 @@ public class Edit_Funcionario extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Editar Dados");
-        setPreferredSize(new java.awt.Dimension(720, 500));
         setResizable(false);
 
         container.setBackground(new java.awt.Color(0, 255, 255));
@@ -93,6 +112,7 @@ public class Edit_Funcionario extends javax.swing.JFrame {
         cpfInput.setEditable(false);
         cpfInput.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 14)); // NOI18N
         cpfInput.setForeground(new java.awt.Color(9, 9, 91));
+        cpfInput.setEnabled(false);
         cpfInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cpfInputActionPerformed(evt);
@@ -337,7 +357,7 @@ public class Edit_Funcionario extends javax.swing.JFrame {
                         .addComponent(cpfInput, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(54, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formAreaLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(20, Short.MAX_VALUE)
                 .addGroup(formAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tittleEndLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(formAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -388,6 +408,7 @@ public class Edit_Funcionario extends javax.swing.JFrame {
 
         cargoBox.setSelectedItem("Entregador");
         cargoBox.setEnabled(false);
+        placaArea.setVisible(false);
 
         tittleArea.setBackground(new java.awt.Color(0, 255, 255));
         tittleArea.setPreferredSize(new java.awt.Dimension(100, 90));
@@ -493,7 +514,65 @@ public class Edit_Funcionario extends javax.swing.JFrame {
     }//GEN-LAST:event_cepInputKeyTyped
 
     private void cadastroButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastroButtonActionPerformed
-        // TODO add your handling code here:
+        boolean flag = true;
+        boolean end = false;
+        if (nomeInput.getText().equals("") || senhaInput.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Apenas os campos do endereço não são obrigatórios!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+            flag = false;
+        }
+        String auxUf = ufBox.getSelectedItem().toString();
+        if ((auxUf.equals(ufBox.getItemAt(0)) && ruaInput.getText().equals("")
+                && cidadeInput.getText().equals("")
+                && bairroInput.getText().equals("")
+                && numeroInput.getText().equals(""))) {
+            end = true;
+        } else {
+            if (!(auxUf.equals(ufBox.getItemAt(0)) || ruaInput.getText().equals("")
+                    || cidadeInput.getText().equals("")
+                    || bairroInput.getText().equals("")
+                    || numeroInput.getText().equals(""))) {
+                end = true;
+            } else {
+                JOptionPane.showMessageDialog(null, "O endereço informado precisa estar completo", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+                flag = false;
+
+            }
+        }
+        if (flag) {
+            if (func_alvo.getCargo().equals("Entregador")) {
+                try {
+                    Connection conexao = new ConexaoDAO().getConection();
+                    func_alvoen.setPlacaVeiculo(placaVeiculoInput.getText());
+                    func_alvoen.setNome(nomeInput.getText());
+                    func_alvoen.setSenha(senhaInput.getText());
+                    if (end) {
+                        Endereco ende = new Endereco(cidadeInput.getText(), bairroInput.getText(), ruaInput.getText(), cepInput.getText(), auxUf, numeroInput.getText());
+                        func_alvoen.setEndereco(ende);
+                    }
+                    new EntregadorDAO(conexao).updateEnt(func_alvoen);
+                    JOptionPane.showMessageDialog(null, "Dados atualizados com sucesso!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+                    conexao.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Tela_Funcionario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                try {
+                    Connection conexao = new ConexaoDAO().getConection();
+                    func_alvo.setNome(nomeInput.getText());
+                    func_alvo.setSenha(senhaInput.getText());
+                    if (end) {
+                        Endereco ende = new Endereco(cidadeInput.getText(), bairroInput.getText(), ruaInput.getText(), cepInput.getText(), auxUf, numeroInput.getText());
+                        func_alvo.setEndereco(ende);
+                    }
+                    new FuncionarioDAO(conexao).update(func_alvo);
+                    JOptionPane.showMessageDialog(null, "Dados atualizados com sucesso!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+                    conexao.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Tela_Funcionario.class.getName()).log(Level.SEVERE, null, ex);
+
+                }
+            }
+        }
     }//GEN-LAST:event_cadastroButtonActionPerformed
 
     private void senhaInputKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_senhaInputKeyReleased
@@ -508,7 +587,7 @@ public class Edit_Funcionario extends javax.swing.JFrame {
         String carg = (String) cargoBox.getSelectedItem();
         if (carg.equals("Entregador")) {
             placaArea.setVisible(true);
-        }else{
+        } else {
             placaArea.setVisible(false);
         }
     }//GEN-LAST:event_cargoBoxItemStateChanged
@@ -522,7 +601,12 @@ public class Edit_Funcionario extends javax.swing.JFrame {
     }//GEN-LAST:event_mostrarSenhaLabelMouseExited
 
     private void voltarbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarbuttonActionPerformed
-        // TODO add your handling code here:
+        this.setVisible(false);
+        try {
+            new Tela_Funcionario(func_log).setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Edit_Funcionario.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_voltarbuttonActionPerformed
 
     private void limitaNum(JTextField textField) {
@@ -628,4 +712,22 @@ public class Edit_Funcionario extends javax.swing.JFrame {
     private javax.swing.JLabel ufLabel;
     private javax.swing.JButton voltarbutton;
     // End of variables declaration//GEN-END:variables
+
+    private void preenchePerfil() throws SQLException {
+
+        nomeInput.setText(func_alvo.getNome());
+        cpfInput.setText(func_alvo.getCpf());
+        senhaInput.setText(func_alvo.getSenha());
+        cargoBox.setSelectedItem(func_alvo.getCargo());
+        if (func_alvo.getCargo().equals("Entregador")) {
+            placaVeiculoInput.setText(func_alvoen.getPlacaVeiculo());
+            placaArea.setVisible(false);
+        }
+        if (func_alvo.getEndereco() != null) {
+            cepInput.setText(func_alvo.getEndereco().getCep());
+            validaCep(cepInput);
+            numeroInput.setText(func_alvo.getEndereco().getNumero());
+        }
+    }
+
 }

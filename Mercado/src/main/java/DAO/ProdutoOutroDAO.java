@@ -33,7 +33,7 @@ public class ProdutoOutroDAO extends ProdutoDAO {
     }
 
     public void insert(ProdutoOutro produto) throws SQLException {
-        String sql = "INSERT INTO produto (fornecedor, nome, preco, quantidade) VALUES (?,?,?,?);";
+        String sql = "INSERT INTO produto (fornecedor, nome, preco, quantidade,tipo) VALUES (?,?,?,?,'Outros');";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setString(1, produto.getFornecedor());
         prepareStatement.setString(2, produto.getNome());

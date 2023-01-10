@@ -1,11 +1,39 @@
 package view;
 
+import DAO.ConexaoDAO;
+import DAO.FornecedorDAO;
+import DAO.ProdutoOutroDAO;
+import DAO.ProdutoPerecivelDAO;
+import DAO.RemedioDAO;
+import DAO.VestuarioDAO;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import model.Fornecedor;
+import model.ProdutoOutro;
+import model.ProdutoPerecivel;
+import model.Remedio;
+import model.Vestuario;
 
 public class Cadastro_Produto extends javax.swing.JFrame {
 
-    public Cadastro_Produto() {
+    private String tipo;
+    private Remedio prod_rem;
+    private ProdutoOutro prod_ou;
+    private ProdutoPerecivel prod_pp;
+    private Vestuario prod_ves;
+    private String id_func;
+
+    public Cadastro_Produto(String id_Func) throws SQLException {
+        this.id_func = id_Func;
         initComponents();
+        preencheFornecedorBox();
     }
 
     @SuppressWarnings("unchecked")
@@ -28,15 +56,16 @@ public class Cadastro_Produto extends javax.swing.JFrame {
         validadeInput = new javax.swing.JTextField();
         cReceitaRadioButton = new javax.swing.JRadioButton();
         scReceitaRadioButton = new javax.swing.JRadioButton();
-        quantidadeLabel = new javax.swing.JLabel();
-        quantidadeInput = new javax.swing.JTextField();
         tamanhoLabel = new javax.swing.JLabel();
         tamanhoInput = new javax.swing.JTextField();
         cadastrarButton = new javax.swing.JButton();
+        quantidadeLabel = new javax.swing.JLabel();
+        quantidadeInput = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         tittleArea = new javax.swing.JPanel();
         tittleLabel = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cadastro");
         setResizable(false);
 
@@ -97,7 +126,8 @@ public class Cadastro_Produto extends javax.swing.JFrame {
 
         fornecedorBox.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 14)); // NOI18N
         fornecedorBox.setForeground(new java.awt.Color(9, 9, 91));
-        fornecedorBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Selecione o Fornecedor>", "Item 1", "Item 2", "Item 3", "Item 4" }));
+        fornecedorBox.setMaximumRowCount(200);
+        fornecedorBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<Selecione o Fornecedor>" }));
 
         camp.setBackground(new java.awt.Color(169, 169, 169));
 
@@ -126,21 +156,6 @@ public class Cadastro_Produto extends javax.swing.JFrame {
         scReceitaRadioButton.setForeground(new java.awt.Color(9, 9, 91));
         scReceitaRadioButton.setText("Sem Receita");
 
-        quantidadeLabel.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
-        quantidadeLabel.setForeground(new java.awt.Color(9, 9, 91));
-        quantidadeLabel.setText("Quantidade");
-
-        quantidadeInput.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 14)); // NOI18N
-        quantidadeInput.setForeground(new java.awt.Color(9, 9, 91));
-        quantidadeInput.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                quantidadeInputKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                quantidadeInputKeyTyped(evt);
-            }
-        });
-
         tamanhoLabel.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
         tamanhoLabel.setForeground(new java.awt.Color(9, 9, 91));
         tamanhoLabel.setText("Tamanho");
@@ -153,48 +168,39 @@ public class Cadastro_Produto extends javax.swing.JFrame {
         campLayout.setHorizontalGroup(
             campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(campLayout.createSequentialGroup()
-                .addGap(130, 130, 130)
-                .addComponent(cReceitaRadioButton)
-                .addGap(18, 18, 18)
-                .addComponent(scReceitaRadioButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(campLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addGap(25, 25, 25)
                 .addGroup(campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(campLayout.createSequentialGroup()
+                        .addGap(112, 112, 112)
+                        .addComponent(cReceitaRadioButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(scReceitaRadioButton))
                     .addGroup(campLayout.createSequentialGroup()
                         .addComponent(tamanhoLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(tamanhoInput, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(campLayout.createSequentialGroup()
-                        .addComponent(quantidadeLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(quantidadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                        .addGap(27, 27, 27)
                         .addComponent(validadeLabel)
                         .addGap(18, 18, 18)
-                        .addComponent(validadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(86, 86, 86))))
+                        .addComponent(validadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(147, Short.MAX_VALUE))
         );
         campLayout.setVerticalGroup(
             campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(campLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(20, 20, 20)
+                .addGroup(campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(tamanhoLabel)
+                        .addComponent(tamanhoInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(validadeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(quantidadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(quantidadeLabel))
-                    .addComponent(validadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tamanhoLabel)
-                    .addComponent(tamanhoInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                        .addComponent(validadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(15, 15, 15)
                 .addGroup(campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cReceitaRadioButton)
                     .addComponent(scReceitaRadioButton))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         cadastrarButton.setBackground(new java.awt.Color(9, 9, 91));
@@ -207,6 +213,23 @@ public class Cadastro_Produto extends javax.swing.JFrame {
             }
         });
 
+        quantidadeLabel.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
+        quantidadeLabel.setForeground(new java.awt.Color(9, 9, 91));
+        quantidadeLabel.setText("Quantidade");
+
+        quantidadeInput.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 14)); // NOI18N
+        quantidadeInput.setForeground(new java.awt.Color(9, 9, 91));
+
+        jButton1.setBackground(new java.awt.Color(9, 9, 91));
+        jButton1.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Voltar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout formArea12Layout = new javax.swing.GroupLayout(formArea12);
         formArea12.setLayout(formArea12Layout);
         formArea12Layout.setHorizontalGroup(
@@ -214,26 +237,39 @@ public class Cadastro_Produto extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formArea12Layout.createSequentialGroup()
                 .addContainerGap(62, Short.MAX_VALUE)
                 .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cadastrarButton)
-                    .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(formArea12Layout.createSequentialGroup()
-                            .addComponent(fornecedorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(fornecedorBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(tipoBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(formArea12Layout.createSequentialGroup()
-                            .addComponent(nomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(nomeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(33, 33, 33)
-                            .addComponent(precoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(precoInput, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(camp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(formArea12Layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(cadastrarButton))
+                    .addGroup(formArea12Layout.createSequentialGroup()
+                        .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(formArea12Layout.createSequentialGroup()
+                                .addComponent(nomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(nomeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(33, 33, 33)
+                                .addComponent(precoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(precoInput, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(formArea12Layout.createSequentialGroup()
+                                .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(fornecedorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(quantidadeLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(formArea12Layout.createSequentialGroup()
+                                        .addComponent(fornecedorBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(tipoBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(quantidadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(32, 32, 32)))
                 .addGap(60, 60, 60))
+            .addGroup(formArea12Layout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addComponent(camp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         formArea12Layout.setVerticalGroup(
             formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -250,10 +286,16 @@ public class Cadastro_Produto extends javax.swing.JFrame {
                     .addComponent(fornecedorBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tipoLabel)
                     .addComponent(tipoBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(quantidadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(quantidadeLabel))
+                .addGap(16, 16, 16)
                 .addComponent(camp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(cadastrarButton)
+                .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cadastrarButton)
+                    .addComponent(jButton1))
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
@@ -343,21 +385,11 @@ public class Cadastro_Produto extends javax.swing.JFrame {
         mascaraData(validadeInput);
     }//GEN-LAST:event_validadeInputKeyTyped
 
-    private void quantidadeInputKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quantidadeInputKeyReleased
-        mascaraInt(quantidadeInput);
-    }//GEN-LAST:event_quantidadeInputKeyReleased
-
-    private void quantidadeInputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quantidadeInputKeyTyped
-        mascaraInt(quantidadeInput);
-    }//GEN-LAST:event_quantidadeInputKeyTyped
-
     private void tipoBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_tipoBoxItemStateChanged
         String tip = (String) tipoBox.getSelectedItem();
         if (!(tip.equals("Outros"))) {
             camp.setVisible(true);
             if (tip.equals("Vestuário")) {
-                quantidadeLabel.setVisible(true);
-                quantidadeInput.setVisible(true);
                 tamanhoLabel.setVisible(true);
                 tamanhoInput.setVisible(true);
                 validadeInput.setVisible(false);
@@ -366,17 +398,13 @@ public class Cadastro_Produto extends javax.swing.JFrame {
                 scReceitaRadioButton.setVisible(false);
             } else {
                 if (tip.equals("Remédio")) {
-                    quantidadeLabel.setVisible(true);
-                    quantidadeInput.setVisible(true);
                     tamanhoLabel.setVisible(false);
                     tamanhoInput.setVisible(false);
-                    validadeInput.setVisible(false);
-                    validadeLabel.setVisible(false);
+                    validadeInput.setVisible(true);
+                    validadeLabel.setVisible(true);
                     cReceitaRadioButton.setVisible(true);
                     scReceitaRadioButton.setVisible(true);
                 } else {
-                    quantidadeLabel.setVisible(false);
-                    quantidadeInput.setVisible(false);
                     tamanhoLabel.setVisible(false);
                     tamanhoInput.setVisible(false);
                     validadeInput.setVisible(true);
@@ -391,8 +419,48 @@ public class Cadastro_Produto extends javax.swing.JFrame {
     }//GEN-LAST:event_tipoBoxItemStateChanged
 
     private void cadastrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarButtonActionPerformed
-         // TODO add your handling code here:
+        boolean flag = true;
+        if (flag) {
+            Connection conexao;
+            try {
+                conexao = new ConexaoDAO().getConection();
+                tipo = tipoBox.getSelectedItem().toString();
+                switch (tipo) {
+                    case "Remédio":
+                        prod_rem = new Remedio(cReceitaRadioButton.isSelected(), Double.parseDouble(precoInput.getText()), nomeInput.getText(), fornecedorBox.getSelectedItem().toString(), validadeInput.getText(), Double.parseDouble(quantidadeInput.getText()));
+                        new RemedioDAO(conexao).insert(prod_rem);
+                        break;
+                    case "Vestuário":
+                        prod_ves = new Vestuario(Double.parseDouble(precoInput.getText()), nomeInput.getText(), fornecedorBox.getSelectedItem().toString(), validadeInput.getText(), Double.parseDouble(quantidadeInput.getText()));
+                        new VestuarioDAO(conexao).insert(prod_ves);
+                        break;
+                    case "Perecível":
+                        prod_pp = new ProdutoPerecivel(validadeInput.getText(), Double.parseDouble(precoInput.getText()), nomeInput.getText(), fornecedorBox.getSelectedItem().toString(), Double.parseDouble(quantidadeInput.getText()));
+                        new ProdutoPerecivelDAO(conexao).insert(prod_pp);
+                        break;
+                    case "Outros":
+                        prod_ou = new ProdutoOutro(Double.parseDouble(precoInput.getText()), nomeInput.getText(), fornecedorBox.getSelectedItem().toString(), Double.parseDouble(quantidadeInput.getText()));
+                        new ProdutoOutroDAO(conexao).insert(prod_ou);
+                        break;
+                    default:
+                        break;
+                }
+                JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                conexao.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(Edit_Produto.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_cadastrarButtonActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.setVisible(false);
+        try {
+            new Tela_Funcionario(id_func).setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Cadastro_Produto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void mascaraData(JTextField textField) {
         String texto = textField.getText();
@@ -456,6 +524,7 @@ public class Cadastro_Produto extends javax.swing.JFrame {
     private javax.swing.JPanel formArea12;
     private javax.swing.JComboBox<String> fornecedorBox;
     private javax.swing.JLabel fornecedorLabel;
+    private javax.swing.JButton jButton1;
     private javax.swing.JTextField nomeInput;
     private javax.swing.JLabel nomeLabel;
     private javax.swing.JTextField precoInput;
@@ -472,4 +541,13 @@ public class Cadastro_Produto extends javax.swing.JFrame {
     private javax.swing.JTextField validadeInput;
     private javax.swing.JLabel validadeLabel;
     // End of variables declaration//GEN-END:variables
+
+    private void preencheFornecedorBox() throws SQLException {
+        Connection conexao = new ConexaoDAO().getConection();
+        List<Fornecedor> strList = new FornecedorDAO(conexao).getAllList();
+        conexao.close();
+        for (int i = 0; i < strList.size(); i++) {
+            fornecedorBox.addItem(strList.get(i).getCNPJ());
+        }
+    }
 }

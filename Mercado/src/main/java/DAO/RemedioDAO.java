@@ -13,7 +13,7 @@ public class RemedioDAO extends ProdutoDAO {
     }
 
     public void insert(Remedio remedio) throws SQLException {
-        String sql = "INSERT INTO produto (fornecedor, nome, preco, quantidade) VALUES (?,?,?,?);";
+        String sql = "INSERT INTO produto (fornecedor, nome, preco, quantidade,tipo) VALUES (?,?,?,?,'Remédio');";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setString(1, remedio.getFornecedor());
         prepareStatement.setString(2, remedio.getNome());

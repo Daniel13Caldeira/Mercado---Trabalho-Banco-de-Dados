@@ -31,6 +31,25 @@ public class Produto {
         this.quantidade = quantidade;
         this.tipo = tipo;
     }
+    public Produto(double preco, String nome, String fornecedor, double quantidade, String tipo) {
+        this.preco = preco;
+        this.nome = nome;
+        this.fornecedor = fornecedor;
+        this.quantidade = quantidade;
+        this.tipo = tipo;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setFornecedor(String fornecedor) {
+        this.fornecedor = fornecedor;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 
     public Produto(int id, double quantidade) {
         this.id = id;

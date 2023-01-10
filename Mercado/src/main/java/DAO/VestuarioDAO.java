@@ -13,7 +13,7 @@ public class VestuarioDAO extends ProdutoDAO {
     }
 
     public void insert(Vestuario vestuario) throws SQLException {
-        String sql = "INSERT INTO produto (fornecedor, nome, preco, quantidade) VALUES (?,?,?,?);";
+        String sql = "INSERT INTO produto (fornecedor, nome, preco, quantidade,tipo) VALUES (?,?,?,?,'Vestuário');";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setString(1, vestuario.getFornecedor());
         prepareStatement.setString(2, vestuario.getNome());
@@ -75,7 +75,7 @@ public class VestuarioDAO extends ProdutoDAO {
     }
 
     public void delete(Vestuario vestuario) throws SQLException {
-        String sql = "DELETE FROM produtooutro WHERE id = ?;";
+        String sql = "DELETE FROM vestuario WHERE id = ?;";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setInt(1, vestuario.getId());
         prepareStatement.execute();

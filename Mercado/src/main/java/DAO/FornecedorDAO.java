@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import model.Fornecedor;
 
 public class FornecedorDAO {
@@ -47,5 +49,43 @@ public class FornecedorDAO {
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setString(1, fornecedor.getCNPJ());
         prepareStatement.execute();
+    }
+
+    public ArrayList<Fornecedor> getAll() throws SQLException {
+        ArrayList<Fornecedor> fornecedores = fornecedores = new ArrayList<>();;
+        String sql = "select cnpj,nome from fornecedor";
+        PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+        preparedStatement.execute();
+        ResultSet result = preparedStatement.getResultSet();
+        while (result.next()) {
+            Fornecedor forn = new Fornecedor(result.getString("cnpj"), result.getString("nome"));
+            fornecedores.add(forn);
+        }
+        return fornecedores;
+    }
+    public List<Fornecedor> getAllList() throws SQLException {
+        ArrayList<Fornecedor> fornecedores = fornecedores = new ArrayList<>();;
+        String sql = "select cnpj,nome from fornecedor";
+        PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+        preparedStatement.execute();
+        ResultSet result = preparedStatement.getResultSet();
+        while (result.next()) {
+            Fornecedor forn = new Fornecedor(result.getString("cnpj"), result.getString("nome"));
+            fornecedores.add(forn);
+        }
+        return fornecedores;
+    }
+
+    public Fornecedor getFornecedor(String cnpj) throws SQLException {
+        String sql = "select f.cnpj,f.nome from fornecedor as f where f.cnpj=?";
+        PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+        preparedStatement.setString(1, cnpj);
+        preparedStatement.execute();
+        ResultSet result = preparedStatement.getResultSet();
+        if (result.next()) {
+            Fornecedor forn = new Fornecedor(result.getString("cnpj"), result.getString("nome"));
+            return forn;
+        }
+        return null;
     }
 }

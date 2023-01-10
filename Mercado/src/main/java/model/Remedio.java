@@ -10,6 +10,11 @@ public class Remedio extends Produto {
         this.precisaReceita = precisaReceita;
         this.validade = validade;
     }
+    public Remedio(boolean precisaReceita,double preco, String nome, String fornecedor, String validade, double quantidade) {
+        super(preco, nome, fornecedor, quantidade,"Remédio");
+        this.precisaReceita = precisaReceita;
+        this.validade = validade;
+    }
 
     public Remedio(int id, double quantidade) {
         super(id, quantidade);

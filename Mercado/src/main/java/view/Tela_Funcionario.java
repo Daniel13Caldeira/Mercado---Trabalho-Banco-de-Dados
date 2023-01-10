@@ -7,18 +7,16 @@ package view;
 
 import DAO.ConexaoDAO;
 import DAO.EntregadorDAO;
+import DAO.FornecedorDAO;
 import DAO.FuncionarioDAO;
 import DAO.PedidoDAO;
 import DAO.ProdutoDAO;
-import DAO.ProdutoOutroDAO;
-import DAO.ProdutoPerecivelDAO;
-import DAO.RemedioDAO;
-import DAO.VestuarioDAO;
 import Utilitarios.BuscaCep;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,13 +27,13 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import model.Endereco;
 import model.Entregador;
+import model.Fornecedor;
 import model.Funcionario;
 import model.Pedido;
 import model.Produto;
 
 public class Tela_Funcionario extends javax.swing.JFrame {
 
-    private String id_func;
     private Funcionario func;
     private Entregador func_en;
 
@@ -48,7 +46,17 @@ public class Tela_Funcionario extends javax.swing.JFrame {
         initComponents();
         getPedidos();
         getProds();
+        getFuncs();
+        getForne();
         preenchePerfil();
+        if (func.getCargo().equals("Entregador")) {
+            tabbedPane.setEnabledAt(3, false);
+            tabbedPane.setEnabledAt(0, false);
+            tabbedPane.setEnabledAt(4, false);
+        }
+        if (!func.getCargo().equals("Gerente")) {
+            tabbedPane.setEnabledAt(3, false);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -98,6 +106,20 @@ public class Tela_Funcionario extends javax.swing.JFrame {
         numeroLabel = new javax.swing.JLabel();
         numeroInput = new javax.swing.JTextField();
         ufBox = new javax.swing.JComboBox<>();
+        funcionariosPainel = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        list_func = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
+        adicionarFuncButton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        list_Forne = new javax.swing.JTable();
+        jPanel5 = new javax.swing.JPanel();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         sairButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -220,6 +242,8 @@ public class Tela_Funcionario extends javax.swing.JFrame {
         pedidosPainel.setBackground(new java.awt.Color(0, 255, 255));
         pedidosPainel.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
 
+        list_pedidos.setBackground(new java.awt.Color(0, 255, 255));
+        list_pedidos.setForeground(new java.awt.Color(9, 9, 91));
         list_pedidos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -390,6 +414,7 @@ public class Tela_Funcionario extends javax.swing.JFrame {
         );
 
         editarButton.setBackground(new java.awt.Color(9, 9, 91));
+        editarButton.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
         editarButton.setForeground(new java.awt.Color(255, 255, 255));
         editarButton.setText("Editar");
         editarButton.addActionListener(new java.awt.event.ActionListener() {
@@ -594,10 +619,209 @@ public class Tela_Funcionario extends javax.swing.JFrame {
                 .addComponent(FormEndArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(editarButton)
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         tabbedPane.addTab("Perfil", perfilPainel);
+
+        funcionariosPainel.setBackground(new java.awt.Color(0, 255, 255));
+
+        list_func.setBackground(new java.awt.Color(0, 255, 255));
+        list_func.setForeground(new java.awt.Color(9, 9, 91));
+        list_func.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Id", "Nome", "Cargo"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(list_func);
+        if (list_func.getColumnModel().getColumnCount() > 0) {
+            list_func.getColumnModel().getColumn(0).setResizable(false);
+            list_func.getColumnModel().getColumn(1).setResizable(false);
+            list_func.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        jPanel3.setBackground(new java.awt.Color(0, 255, 255));
+
+        adicionarFuncButton.setBackground(new java.awt.Color(9, 9, 91));
+        adicionarFuncButton.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
+        adicionarFuncButton.setForeground(new java.awt.Color(255, 255, 255));
+        adicionarFuncButton.setText("Adicionar");
+        adicionarFuncButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adicionarFuncButtonActionPerformed(evt);
+            }
+        });
+
+        jButton1.setBackground(new java.awt.Color(9, 9, 91));
+        jButton1.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Editar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setBackground(new java.awt.Color(9, 9, 91));
+        jButton2.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Remover");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(adicionarFuncButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(52, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(adicionarFuncButton)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addGap(18, 18, 18)
+                .addComponent(jButton2)
+                .addContainerGap(129, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout funcionariosPainelLayout = new javax.swing.GroupLayout(funcionariosPainel);
+        funcionariosPainel.setLayout(funcionariosPainelLayout);
+        funcionariosPainelLayout.setHorizontalGroup(
+            funcionariosPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(funcionariosPainelLayout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
+        );
+        funcionariosPainelLayout.setVerticalGroup(
+            funcionariosPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(funcionariosPainelLayout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 2, Short.MAX_VALUE))
+            .addGroup(funcionariosPainelLayout.createSequentialGroup()
+                .addGap(61, 61, 61)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        tabbedPane.addTab("Funcionarios", funcionariosPainel);
+
+        jPanel4.setBackground(new java.awt.Color(0, 255, 255));
+
+        list_Forne.setBackground(new java.awt.Color(0, 255, 255));
+        list_Forne.setForeground(new java.awt.Color(9, 9, 91));
+        list_Forne.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "CNPJ", "Nome"
+            }
+        ));
+        jScrollPane4.setViewportView(list_Forne);
+
+        jPanel5.setBackground(new java.awt.Color(0, 255, 255));
+
+        jButton3.setBackground(new java.awt.Color(9, 9, 91));
+        jButton3.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("Adicionar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setBackground(new java.awt.Color(9, 9, 91));
+        jButton4.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("Remover");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setBackground(new java.awt.Color(9, 9, 91));
+        jButton5.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(255, 255, 255));
+        jButton5.setText("Editar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(38, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(jButton3)
+                .addGap(9, 9, 9)
+                .addComponent(jButton4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton5)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 43, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 2, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(75, 75, 75)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        tabbedPane.addTab("Fornecedores", jPanel4);
 
         sairButton.setBackground(new java.awt.Color(9, 9, 91));
         sairButton.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
@@ -651,14 +875,20 @@ public class Tela_Funcionario extends javax.swing.JFrame {
     }//GEN-LAST:event_sairButtonActionPerformed
 
     private void adicionarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarButtonActionPerformed
-        new Cadastro_Produto().setVisible(true);
+        try {
+            this.setVisible(false);
+            new Cadastro_Produto(func.getId() + "").setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Tela_Funcionario.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_adicionarButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         if (list_Prods.getSelectedRow() != -1) {
+            this.setVisible(false);
             try {
-                this.setVisible(false);
-                new Edit_Produto((String) list_Prods.getValueAt(list_Prods.getSelectedRow(), 0)).setVisible(true);
+                String idProd = list_Prods.getValueAt(list_Prods.getSelectedRow(), 0).toString();
+                new Edit_Produto(idProd, func.getId() + "").setVisible(true);
             } catch (SQLException ex) {
                 Logger.getLogger(Tela_Funcionario.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -670,13 +900,12 @@ public class Tela_Funcionario extends javax.swing.JFrame {
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         if (list_Prods.getSelectedRow() != -1) {
             DefaultTableModel defaultTablemodel = (DefaultTableModel) list_Prods.getModel();
-            defaultTablemodel.removeRow(list_Prods.getSelectedRow());
             Connection conexao;
             try {
                 conexao = new ConexaoDAO().getConection();
                 new ProdutoDAO(conexao).delete((String) list_Prods.getValueAt(list_Prods.getSelectedRow(), 0));
                 JOptionPane.showMessageDialog(null, "Produto removido com sucesso!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                getProds();
+                defaultTablemodel.removeRow(list_Prods.getSelectedRow());
                 conexao.close();
             } catch (SQLException ex) {
                 Logger.getLogger(Tela_Funcionario.class.getName()).log(Level.SEVERE, null, ex);
@@ -688,7 +917,20 @@ public class Tela_Funcionario extends javax.swing.JFrame {
     }//GEN-LAST:event_removeButtonActionPerformed
 
     private void finishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishButtonActionPerformed
-        // TODO add your handling code here:
+        if (list_pedidos.getSelectedRow() != -1) {
+            try {
+                Connection conexao = new ConexaoDAO().getConection();
+                Pedido pedido = new PedidoDAO(conexao).getPedido(Integer.parseInt((String) list_pedidos.getValueAt(list_pedidos.getSelectedRow(), 0)));
+                pedido.setStatus("Finalizado");
+                new PedidoDAO(conexao).updateStatus(pedido);
+                getPedidos();
+                JOptionPane.showMessageDialog(null, "Pedido finalizado com sucesso!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            } catch (SQLException ex) {
+                Logger.getLogger(Tela_Funcionario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Um pedido deve ser selecionado", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_finishButtonActionPerformed
 
     private void nameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameKeyReleased
@@ -798,6 +1040,91 @@ public class Tela_Funcionario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_editarButtonActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if (list_func.getSelectedRow() != -1) {
+            DefaultTableModel defaultTablemodel = (DefaultTableModel) list_func.getModel();
+            Connection conexao;
+            try {
+                conexao = new ConexaoDAO().getConection();
+                Funcionario funcionario = new FuncionarioDAO(conexao).getFuncionario(Integer.parseInt((String) list_func.getValueAt(list_func.getSelectedRow(), 0)));
+                new FuncionarioDAO(conexao).delete(funcionario);
+                JOptionPane.showMessageDialog(null, "Funcionario removido com sucesso!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                defaultTablemodel.removeRow(list_func.getSelectedRow());
+                conexao.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(Tela_Funcionario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Um funcionario deve ser selecionado", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (list_func.getSelectedRow() != -1) {
+            DefaultTableModel defaultTablemodel = (DefaultTableModel) list_func.getModel();
+            this.setVisible(false);
+            try {
+                new Edit_Funcionario(list_func.getValueAt(list_func.getSelectedRow(), 0) + "", func.getId() + "").setVisible(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(Tela_Funcionario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Um funcionario deve ser selecionado", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void adicionarFuncButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarFuncButtonActionPerformed
+        this.setVisible(false);
+        try {
+            new Cadastro_Funcionario(Login.getUser()).setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Tela_Funcionario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_adicionarFuncButtonActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        if (list_Forne.getSelectedRow() != -1) {
+            DefaultTableModel defaultTablemodel = (DefaultTableModel) list_Forne.getModel();
+            String cnpj = list_Forne.getValueAt(list_Forne.getSelectedRow(), 0).toString();
+            defaultTablemodel.removeRow(list_Forne.getSelectedRow());
+            Connection conexao;
+            try {
+                conexao = new ConexaoDAO().getConection();
+                Fornecedor fornecedor = new FornecedorDAO(conexao).getFornecedor(cnpj);
+                new FornecedorDAO(conexao).delete(fornecedor);
+                JOptionPane.showMessageDialog(null, "Fornecedor removido com sucesso!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+
+                conexao.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(Tela_Funcionario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Um Fornecedor deve ser selecionado", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        this.setVisible(false);
+        new Cadastro_Fornecedor(func.getId() + "").setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        if (list_Forne.getSelectedRow() != -1) {
+            DefaultTableModel defaultTablemodel = (DefaultTableModel) list_Forne.getModel();
+            try {
+                String cnpj = list_Forne.getValueAt(list_Forne.getSelectedRow(), 0).toString();
+                this.setVisible(false);
+                new Edit_Fornecedor(cnpj, func.getId() + "").setVisible(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(Tela_Funcionario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Um fornecedor deve ser selecionado", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
     private void mascaraInt(JTextField textField) {
         String texto = textField.getText();
         if (texto.length() > 0) {
@@ -880,6 +1207,7 @@ public class Tela_Funcionario extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel FormEndArea;
     private javax.swing.JButton adicionarButton;
+    private javax.swing.JButton adicionarFuncButton;
     private javax.swing.JTextField bairroInput;
     private javax.swing.JLabel bairroLabel;
     private javax.swing.JComboBox<String> cargoBox;
@@ -889,31 +1217,35 @@ public class Tela_Funcionario extends javax.swing.JFrame {
     private javax.swing.JLabel cidadeLabel;
     private javax.swing.JPanel container;
     private javax.swing.JTextField cpfInputs;
-    private javax.swing.JLabel cpfLabel;
-    private javax.swing.JLabel cpfLabel1;
     private javax.swing.JButton editButton;
     private javax.swing.JButton editarButton;
     private javax.swing.JButton finishButton;
-    private javax.swing.JPanel formArea;
-    private javax.swing.JPanel formArea1;
+    private javax.swing.JPanel funcionariosPainel;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JPanel line;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JPanel line1;
+    private javax.swing.JTable list_Forne;
     private javax.swing.JTable list_Prods;
     private javax.swing.JPanel list_ProdsPainel;
+    private javax.swing.JTable list_func;
     private javax.swing.JTable list_pedidos;
     private javax.swing.JLabel mostrarSenhaLabel;
     private javax.swing.JTextField name;
-    private javax.swing.JTextField nomeInput;
-    private javax.swing.JTextField nomeInput1;
     private javax.swing.JLabel nomeLabel;
-    private javax.swing.JLabel nomeLable;
-    private javax.swing.JLabel nomeLable1;
     private javax.swing.JTextField numeroInput;
     private javax.swing.JLabel numeroLabel;
     private javax.swing.JPanel pedidosPainel;
@@ -936,23 +1268,32 @@ public class Tela_Funcionario extends javax.swing.JFrame {
     private void getProds() throws SQLException {
         Connection conexao = new ConexaoDAO().getConection();
         ArrayList<Produto> produtos = new ProdutoDAO(conexao).getAll();
-        DefaultTableModel model = (DefaultTableModel) list_Prods.getModel();
-        model.setRowCount(0);
-        for (int i = 0; i < produtos.size(); i++) {
-            String[] linha = {produtos.get(i).getId() + "", produtos.get(i).getNome(), produtos.get(i).getPreco() + ""};
-            model.addRow(linha);
+        if (produtos != null) {
+            DefaultTableModel model = (DefaultTableModel) list_Prods.getModel();
+            model.setRowCount(0);
+            for (int i = 0; i < produtos.size(); i++) {
+                String[] linha = {produtos.get(i).getId() + "", produtos.get(i).getNome(), produtos.get(i).getPreco() + ""};
+                model.addRow(linha);
+            }
         }
         conexao.close();
     }
 
     private void getPedidos() throws SQLException {
         Connection conexao = new ConexaoDAO().getConection();
-        ArrayList<Pedido> pedidos = new PedidoDAO(conexao).getPedidosALL();
-        DefaultTableModel model = (DefaultTableModel) list_Prods.getModel();
-        model.setRowCount(0);
-        for (int i = 0; i < pedidos.size(); i++) {
-            String[] linha = {pedidos.get(i).getId() + "", pedidos.get(i).getCliente().getNome(), pedidos.get(i).getStatus()};
-            model.addRow(linha);
+        ArrayList<Pedido> pedidos = null;
+        if (func.getCargo().equals("Entregador")) {
+            pedidos = new PedidoDAO(conexao).getPedidosALLEntregador();
+        } else {
+            pedidos = new PedidoDAO(conexao).getPedidosALL();
+        }
+        if (pedidos != null) {
+            DefaultTableModel model = (DefaultTableModel) list_Prods.getModel();
+            model.setRowCount(0);
+            for (int i = 0; i < pedidos.size(); i++) {
+                String[] linha = {pedidos.get(i).getId() + "", pedidos.get(i).getCliente().getNome(), pedidos.get(i).getStatus()};
+                model.addRow(linha);
+            }
         }
         conexao.close();
     }
@@ -967,10 +1308,42 @@ public class Tela_Funcionario extends javax.swing.JFrame {
             placaVeiculoInput.setText(func_en.getPlacaVeiculo());
             list_ProdsPainel.setVisible(false);
         }
+        if (func.getCargo().equals("Gerente")) {
+            funcionariosPainel.setVisible(true);
+        }
         if (func.getEndereco() != null) {
             cepInput.setText(func.getEndereco().getCep());
             validaCep(cepInput);
             numeroInput.setText(func.getEndereco().getNumero());
+            ruaInput.setText(func.getEndereco().getRua());
+            bairroInput.setText(func.getEndereco().getBairro());
         }
+    }
+
+    private void getFuncs() throws SQLException {
+
+        Connection conexao = new ConexaoDAO().getConection();
+        ArrayList<Funcionario> funcionarios = new FuncionarioDAO(conexao).getAll();
+        DefaultTableModel model = (DefaultTableModel) list_func.getModel();
+        model.setRowCount(0);
+        for (int i = 0; i < funcionarios.size(); i++) {
+            String[] linha = {funcionarios.get(i).getId() + "", funcionarios.get(i).getNome(), funcionarios.get(i).getCargo()};
+            model.addRow(linha);
+        }
+        conexao.close();
+    }
+
+    public void getForne() throws SQLException {
+        Connection conexao = new ConexaoDAO().getConection();
+        ArrayList<Fornecedor> fornecedores = new FornecedorDAO(conexao).getAll();
+        DefaultTableModel model = (DefaultTableModel) list_Forne.getModel();
+        model.setRowCount(0);
+        if (fornecedores != null) {
+            for (int i = 0; i < fornecedores.size(); i++) {
+                String[] linha = {fornecedores.get(i).getCNPJ(), fornecedores.get(i).getNome()};
+                model.addRow(linha);
+            }
+        }
+        conexao.close();
     }
 }

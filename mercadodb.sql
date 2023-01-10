@@ -26,7 +26,7 @@ CREATE table if not exists cliente(
 );
 
 CREATE table if not exists fornecedor(
-	cnpj varchar(13) primary key,
+	cnpj varchar(15) primary key,
 	nome varchar(50) not null
 );
 
@@ -45,7 +45,7 @@ create table if not exists entregador(
 
 create table if not exists produto(
 	id serial primary key,
-	fornecedor varchar(13) not null,
+	fornecedor varchar(15) not null,
 	preco real not null,
 	nome varchar(50) not null,
 	quantidade real not null,

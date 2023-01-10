@@ -30,7 +30,7 @@ public class ProdutoPerecivelDAO extends ProdutoDAO {
 
     public void updateP(ProdutoPerecivel produtoPP) throws SQLException {
         update(produtoPP);
-        String sql = "update vestuario set validade  = ? where id = ?";
+        String sql = "update produtoperecivel set validade  = ? where id = ?";
         PreparedStatement preparedStatement = conexao.prepareStatement(sql);
         preparedStatement.setString(1, produtoPP.getValidade());
         preparedStatement.setInt(2, produtoPP.getId());
@@ -39,7 +39,7 @@ public class ProdutoPerecivelDAO extends ProdutoDAO {
     }
 
     public void insert(ProdutoPerecivel produto) throws SQLException {
-        String sql = "INSERT INTO produto (fornecedor, nome, preco, quantidade) VALUES (?,?,?,?);";
+        String sql = "INSERT INTO produto (fornecedor, nome, preco, quantidade,tipo) VALUES (?,?,?,?,'Perecível');";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setString(1, produto.getFornecedor());
         prepareStatement.setString(2, produto.getNome());
@@ -76,7 +76,7 @@ public class ProdutoPerecivelDAO extends ProdutoDAO {
     }
 
     public void delete(ProdutoPerecivel produto) throws SQLException {
-        String sql = "DELETE FROM produtoperceivel WHERE id = ?;";
+        String sql = "DELETE FROM produtoperecivel WHERE id = ?;";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setInt(1, produto.getId());
         prepareStatement.execute();

@@ -15,6 +15,12 @@ public class Pedido {
         return id;
     }
 
+    public Pedido(int id, Cliente cliente, String status) {
+        this.cliente = cliente;
+        this.id = id;
+        this.status = status;
+    }
+
     public Pedido(Carrinho carrinho, Cliente cliente) {
         this.carrinho = carrinho;
         this.cliente = cliente;

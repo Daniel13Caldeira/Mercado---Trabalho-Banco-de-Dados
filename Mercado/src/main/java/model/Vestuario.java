@@ -8,6 +8,10 @@ public class Vestuario extends Produto {
         super(id, preco, nome, fornecedor, quantidade, "Vestuário");
         this.tamanho = tamanho;
     }
+    public Vestuario(double preco, String nome, String fornecedor, String tamanho, double quantidade) {
+        super(preco, nome, fornecedor, quantidade, "Vestuário");
+        this.tamanho = tamanho;
+    }
 
     public Vestuario(int id) {
         super(id);
@@ -15,6 +19,9 @@ public class Vestuario extends Produto {
 
     public String getTamanho() {
         return tamanho;
+    }
+    public void setTamanho(String tam){
+        this.tamanho = tam;
     }
 
 }

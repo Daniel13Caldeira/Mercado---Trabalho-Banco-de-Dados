@@ -1,10 +1,21 @@
 package view;
 
+import DAO.ConexaoDAO;
+import DAO.FornecedorDAO;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import model.Fornecedor;
 
 public class Cadastro_Fornecedor extends javax.swing.JFrame {
 
-    public Cadastro_Fornecedor() {
+    private String id;
+
+    public Cadastro_Fornecedor(String id) {
+        this.id = id;
         initComponents();
     }
 
@@ -19,9 +30,10 @@ public class Cadastro_Fornecedor extends javax.swing.JFrame {
         cnpjLabel = new javax.swing.JLabel();
         cnpjInput = new javax.swing.JTextField();
         cadastrarButton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         tittleLabel = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cadastro");
         setResizable(false);
 
@@ -63,6 +75,21 @@ public class Cadastro_Fornecedor extends javax.swing.JFrame {
         cadastrarButton.setBackground(new java.awt.Color(9, 9, 91));
         cadastrarButton.setForeground(new java.awt.Color(255, 255, 255));
         cadastrarButton.setText("Cadastrar");
+        cadastrarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cadastrarButtonActionPerformed(evt);
+            }
+        });
+
+        jButton1.setBackground(new java.awt.Color(9, 9, 91));
+        jButton1.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Voltar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout formAreaLayout = new javax.swing.GroupLayout(formArea);
         formArea.setLayout(formAreaLayout);
@@ -70,6 +97,8 @@ public class Cadastro_Fornecedor extends javax.swing.JFrame {
             formAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formAreaLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(18, 18, 18)
                 .addComponent(cadastrarButton)
                 .addGap(46, 46, 46))
             .addGroup(formAreaLayout.createSequentialGroup()
@@ -95,7 +124,9 @@ public class Cadastro_Fornecedor extends javax.swing.JFrame {
                     .addComponent(cnpjInput)
                     .addComponent(cnpjLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37)
-                .addComponent(cadastrarButton)
+                .addGroup(formAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cadastrarButton)
+                    .addComponent(jButton1))
                 .addGap(29, 29, 29))
         );
 
@@ -158,6 +189,31 @@ public class Cadastro_Fornecedor extends javax.swing.JFrame {
         mascaraCnpj(cnpjInput);
     }//GEN-LAST:event_cnpjInputKeyTyped
 
+    private void cadastrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarButtonActionPerformed
+        if (nomeInput.getText().equals("") || cnpjInput.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Os campos precisam ser preenchidos", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            try {
+                Connection conexao = new ConexaoDAO().getConection();
+                new FornecedorDAO(conexao).insert(new Fornecedor(cnpjInput.getText(), nomeInput.getText()));
+                JOptionPane.showMessageDialog(null, "Fornecedor cadastrado com sucesso!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                this.setVisible(false);
+                new Tela_Funcionario(id).setVisible(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(Cadastro_Fornecedor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_cadastrarButtonActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.setVisible(false);
+        try {
+            new Tela_Funcionario(id).setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Cadastro_Fornecedor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void mascaraCnpj(JTextField textField) {
         String texto = textField.getText();
         if (texto.length() > 0) {
@@ -174,6 +230,7 @@ public class Cadastro_Fornecedor extends javax.swing.JFrame {
     private javax.swing.JLabel cnpjLabel;
     private javax.swing.JPanel cointainer;
     private javax.swing.JPanel formArea;
+    private javax.swing.JButton jButton1;
     private javax.swing.JTextField nomeInput;
     private javax.swing.JLabel nomeLabel;
     private javax.swing.JLabel tittleLabel;

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import model.Endereco;
 import model.Funcionario;
 import model.Pessoa;
@@ -16,9 +17,10 @@ public class FuncionarioDAO extends PessoaDAO {
 
     private void funcionarioBase(Funcionario funcionario) throws SQLException {
         //insere na tabela funcionario
-        String sql = "INSERT INTO funcionario (cpf) VALUES (?)";
+        String sql = "INSERT INTO funcionario (cpf,cargo) VALUES (?,?)";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setString(1, funcionario.getCpf());
+        prepareStatement.setString(2, funcionario.getCargo());
         prepareStatement.execute();
     }
 
@@ -142,16 +144,32 @@ public class FuncionarioDAO extends PessoaDAO {
         preparedStatement.setInt(1, id);
         preparedStatement.execute();
         ResultSet result = preparedStatement.getResultSet();
-        if(result.next()){
-            Funcionario func = new Funcionario(result.getString("nome"),result.getString("cpf"),result.getInt("id"),result.getString("cargo"),result.getString("senha"));
+        if (result.next()) {
+            Funcionario func = new Funcionario(result.getString("nome"), result.getString("cpf"), result.getInt("id"), result.getString("cargo"), result.getString("senha"));
             Endereco end = getEndereco(func);
-            if(end!=null){
+            if (end != null) {
                 func.setEndereco(end);
             }
             return func;
         }
         return null;
     }
+
+    public ArrayList<Funcionario> getAll() throws SQLException {
+        ArrayList<Funcionario> funcionarios = new ArrayList<>();
+        String sql = "select *\n"
+                + "from (select p.nome,p.cpf,p.senha,p.endereco,f.cargo,f.id\n"
+                + "from pessoa as p, funcionario as f\n"
+                + "where f.cpf = p.cpf) as foo";
+        PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+        preparedStatement.execute();
+        ResultSet result = preparedStatement.getResultSet();
+        while (result.next()) {
+
+            funcionarios.add(new Funcionario(result.getString("nome"), result.getString("cpf"), result.getInt("id"), result.getString("cargo"), result.getString("senha")));
+        }
+
+        return funcionarios;
+    }
+
 }
-
-

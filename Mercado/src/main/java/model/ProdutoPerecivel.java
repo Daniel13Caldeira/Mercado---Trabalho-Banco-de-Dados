@@ -7,6 +7,10 @@ public class ProdutoPerecivel extends Produto {
         super(id, preco, nome, fornecedor, quantidade,"Perecível");
         this.validade = validade;
     }
+    public ProdutoPerecivel(String validade,double preco, String nome, String fornecedor, double quantidade) {
+        super(preco, nome, fornecedor, quantidade,"Perecível");
+        this.validade = validade;
+    }
 
     public ProdutoPerecivel(String validade, String nome) {
         super(nome);

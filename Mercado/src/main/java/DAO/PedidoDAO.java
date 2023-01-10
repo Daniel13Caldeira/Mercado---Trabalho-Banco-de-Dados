@@ -82,13 +82,40 @@ public class PedidoDAO {
 
     public ArrayList<Pedido> getPedidosALL() throws SQLException {
         ArrayList<Pedido> pedidos = new ArrayList<>();
-        String sql = "SELECT id FROM pedido;";
+        String sql = "SELECT id,cliente,status FROM pedido;";
         PreparedStatement preparedStatement = conexao.prepareStatement(sql);
         preparedStatement.execute();
         ResultSet resultado = preparedStatement.getResultSet();
         while (resultado.next()) {
             int id = resultado.getInt("id");
-            pedidos.add(new Pedido(id));
+            Cliente cliente = new ClienteDAO(conexao).getCliente(resultado.getString("cliente"));
+            String status = resultado.getString("status");
+            pedidos.add(new Pedido(id, cliente, status));
+        }
+        return pedidos;
+    }
+
+    public Pedido getPedido(int id) throws SQLException {
+        String sql = "SELECT * FROM pedido where id=?;";
+        PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+        preparedStatement.setInt(1, id);
+        preparedStatement.execute();
+        ResultSet resultado = preparedStatement.getResultSet();
+        return new Pedido(resultado.getInt("id"), new ClienteDAO(conexao).getCliente(resultado.getString("cpf")), resultado.getString("status"));
+    }
+
+    public ArrayList<Pedido> getPedidosALLEntregador() throws SQLException {
+        ArrayList<Pedido> pedidos = new ArrayList<>();
+        String sql = "SELECT id,cliente,status FROM pedido where status=?;";
+        PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+        preparedStatement.setString(1, "Aguardando Entrega");
+        preparedStatement.execute();
+        ResultSet resultado = preparedStatement.getResultSet();
+        while (resultado.next()) {
+            int id = resultado.getInt("id");
+            Cliente cliente = new ClienteDAO(conexao).getCliente(resultado.getString("cliente"));
+            String status = resultado.getString("status");
+            pedidos.add(new Pedido(id, cliente, status));
         }
         return pedidos;
     }
