@@ -119,4 +119,24 @@ public class ClienteDAO extends PessoaDAO {
         }
         return null;
     }
+
+    public double getConta(Cliente cliente) throws SQLException {
+        String sql = "SELECT conta FROM cliente WHERE cpf = ?;";
+        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.setString(1, cliente.getCpf());
+        prepareStatement.execute();
+        ResultSet result = prepareStatement.getResultSet();
+        if (result.next()) {
+            return result.getDouble("conta");
+        }
+        return 0;
+    }
+
+    public void updateConta(Cliente cliente, double conta) throws SQLException {
+        String sql = "UPDATE cliente SET conta = ? WHERE cpf = ?";
+        PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+        preparedStatement.setDouble(1, conta);
+        preparedStatement.setString(2, cliente.getCpf());
+        preparedStatement.execute();
+    }
 }

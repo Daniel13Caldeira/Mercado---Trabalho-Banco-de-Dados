@@ -1,5 +1,9 @@
 package model;
 
+import DAO.ClienteDAO;
+import DAO.ConexaoDAO;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Cliente extends Pessoa {
@@ -8,12 +12,18 @@ public class Cliente extends Pessoa {
     private ArrayList<Pedido> pedidos;
     private double conta;
 
-    public double getConta() {
-        return conta;
+    public double getConta() throws SQLException {
+        ConexaoDAO conexaoDAO = new ConexaoDAO();
+        Connection conexao = conexaoDAO.getConection();
+        ClienteDAO clienteDAO = new ClienteDAO(conexao);
+        return clienteDAO.getConta(this);
     }
 
-    public void setConta(double conta) {
-        this.conta = conta;
+    public void setConta(double conta) throws SQLException {
+       ConexaoDAO conexaoDAO = new ConexaoDAO();
+        Connection conexao = conexaoDAO.getConection();
+        ClienteDAO clienteDAO = new ClienteDAO(conexao);
+        clienteDAO.updateConta(this,conta);
     }
 
     public Cliente(String nome, String cpf, Endereco endereco, String senha, float conta) {

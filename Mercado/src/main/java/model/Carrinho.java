@@ -74,9 +74,10 @@ public class Carrinho {
         Connection conexao = conexaoDAO.getConection();
         ArrayList<Produto> prods = this.getProdutos();
         ProdutoDAO produtoDAO = new ProdutoDAO(conexao);
+        CarrinhoDAO carrinhoDAO = new CarrinhoDAO(conexao);
         double precoTotal = 0;
         for (int i = 0; i < prods.size(); i++) {
-            double quantidade = produtoDAO.getQuantidade(prods.get(i));
+            double quantidade = carrinhoDAO.selectQuantidadeProduto(this, produtos.get(i));
             double preco = produtoDAO.getPreco(prods.get(i));
             precoTotal += (quantidade * preco);
         }
