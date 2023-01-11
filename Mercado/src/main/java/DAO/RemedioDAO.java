@@ -80,7 +80,7 @@ public class RemedioDAO extends ProdutoDAO {
     
     public void updateR(Remedio remedio) throws SQLException{
        update(remedio);
-       String sql = "update remedio set validade  = ? where id = ?";
+       String sql = "update remedio set validade  = ? where id = ?;";
         PreparedStatement preparedStatement = conexao.prepareStatement(sql);
         preparedStatement.setString(1, remedio.getValidade());
         preparedStatement.setInt(2, remedio.getId());

@@ -51,7 +51,7 @@ public class VestuarioDAO extends ProdutoDAO {
 
     public void updateV(Vestuario vestuario) throws SQLException {
         update(vestuario);
-        String sql = "update vestuario set tamanho  = ? where id = ?";
+        String sql = "update vestuario set tamanho  = ? where id = ?;";
         PreparedStatement preparedStatement = conexao.prepareStatement(sql);
         preparedStatement.setString(1, vestuario.getTamanho());
         preparedStatement.setInt(2, vestuario.getId());

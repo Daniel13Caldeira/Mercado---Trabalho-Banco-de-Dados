@@ -17,7 +17,7 @@ public class EntregadorDAO extends FuncionarioDAO {
 
     private void entregadorBase(Entregador entregador) throws SQLException {
         //insere na tabela funcionario
-        String sql = "INSERT INTO funcionario (cpf, cargo) VALUES (?,'Entregador')";
+        String sql = "INSERT INTO funcionario (cpf, cargo) VALUES (?,'Entregador');";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setString(1, entregador.getCpf());
         prepareStatement.execute();
@@ -149,9 +149,10 @@ public class EntregadorDAO extends FuncionarioDAO {
 
     public void updateEnt(Entregador entregador) throws SQLException {
         update(entregador);
-        String sql = "update entregador set placaveiculo = ?";
+        String sql = "update entregador set placaveiculo = ? WHERE id = ?;";
         PreparedStatement preparedStatement = conexao.prepareStatement(sql);
         preparedStatement.setString(1, entregador.getPlacaVeiculo());
+        preparedStatement.setInt(2,entregador.getId());
         preparedStatement.execute();
 
     }

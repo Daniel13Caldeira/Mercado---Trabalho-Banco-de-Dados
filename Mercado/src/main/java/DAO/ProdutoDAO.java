@@ -95,7 +95,7 @@ public class ProdutoDAO {
     }
 
     public void update(Produto produto) throws SQLException {
-        String sql = "update produto set (fornecedor, preco,nome,quantidade) = (?,?,?,?) where id = ?";
+        String sql = "update produto set (fornecedor, preco,nome,quantidade) = (?,?,?,?) where id = ?;";
         PreparedStatement preparedStatement = conexao.prepareStatement(sql);
         preparedStatement.setString(1, produto.getFornecedor());
         preparedStatement.setDouble(2, produto.getPreco());

@@ -4,12 +4,9 @@ import DAO.ClienteDAO;
 import DAO.ConexaoDAO;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class Cliente extends Pessoa {
 
-    private Carrinho carrino;
-    private ArrayList<Pedido> pedidos;
     private double conta;
 
     public double getConta() throws SQLException {
@@ -39,17 +36,4 @@ public class Cliente extends Pessoa {
     public Cliente(String cpf) {
         super(cpf);
     }
-
-    public Carrinho getCarrino() {
-        return carrino;
-    }
-
-    public ArrayList<Pedido> getPedidos() {
-        return pedidos;
-    }
-
-    public void updateAll() {
-
-    }
-
 }

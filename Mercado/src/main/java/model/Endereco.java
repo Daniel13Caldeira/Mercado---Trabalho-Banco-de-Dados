@@ -1,10 +1,10 @@
 package model;
 public class Endereco {
 
-    String Cidade, bairro, rua, cep, uf, numero;
+    String cidade, bairro, rua, cep, uf, numero;
 
     public Endereco(String Cidade, String bairro, String rua, String cep, String uf, String numero) {
-        this.Cidade = Cidade;
+        this.cidade = Cidade;
         this.bairro = bairro;
         this.rua = rua;
         this.cep = cep;
@@ -29,7 +29,7 @@ public class Endereco {
     }
 
     public String getCidade() {
-        return Cidade;
+        return cidade;
     }
 
     public String getBairro() {
@@ -45,7 +45,7 @@ public class Endereco {
     }
 
     public void setCidade(String Cidade) {
-        this.Cidade = Cidade;
+        this.cidade = Cidade;
     }
 
     public void setBairro(String bairro) {

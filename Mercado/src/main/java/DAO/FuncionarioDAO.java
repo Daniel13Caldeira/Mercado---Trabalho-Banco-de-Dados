@@ -17,7 +17,7 @@ public class FuncionarioDAO extends PessoaDAO {
 
     private void funcionarioBase(Funcionario funcionario) throws SQLException {
         //insere na tabela funcionario
-        String sql = "INSERT INTO funcionario (cpf,cargo) VALUES (?,?)";
+        String sql = "INSERT INTO funcionario (cpf,cargo) VALUES (?,?);";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setString(1, funcionario.getCpf());
         prepareStatement.setString(2, funcionario.getCargo());
