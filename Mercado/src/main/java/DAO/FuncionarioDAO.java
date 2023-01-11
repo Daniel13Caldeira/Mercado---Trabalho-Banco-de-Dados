@@ -172,4 +172,24 @@ public class FuncionarioDAO extends PessoaDAO {
         return funcionarios;
     }
 
+    public boolean existGerente() throws SQLException {
+
+        String sql = "select * from funcionario where cargo = 'Gerente'";
+        PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+        preparedStatement.execute();
+        ResultSet result = preparedStatement.getResultSet();
+        return result.next();
+    }
+
+    public int getMaxId() throws SQLException {
+        String sql = "SELECT MAX(id) as id FROM funcionario;";
+        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
+        prepareStatement.execute();
+        ResultSet result = prepareStatement.getResultSet();
+        if (result.next()) {
+            return result.getInt("id");
+        }
+        return -1;
+    }
+
 }

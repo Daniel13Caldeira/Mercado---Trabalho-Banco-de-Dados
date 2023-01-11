@@ -8,11 +8,10 @@ import DAO.RemedioDAO;
 import DAO.VestuarioDAO;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import model.Fornecedor;
@@ -391,11 +390,40 @@ public class Cadastro_Produto extends javax.swing.JFrame {
 
     private void cadastrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarButtonActionPerformed
         boolean flag = true;
+        if (!validadeInput.getText().equals("")) {
+            if (!verificaDataValida(validadeInput.getText())) {
+                JOptionPane.showMessageDialog(null, "Não é permitido cadastro de produtos que ja estejam vencidos ou que vão vencer hoje!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+                flag = false;
+            }
+        }
+        if (nomeInput.getText().equals("") || precoInput.getText().equals("")
+                || quantidadeInput.getText().equals("") || tipoBox.getSelectedItem().toString().equals(tipoBox.getItemAt(0)) || fornecedorBox.getSelectedItem().toString().equals(fornecedorBox.getItemAt(0))) {
+            tipo = tipoBox.getSelectedItem().toString();
+            switch (tipo) {
+                case "Remédio":
+                    if (validadeInput.getText().equals("")) {
+                        flag = false;
+                    }
+                    break;
+                case "Vestuário":
+                    if (tamanhoInput.getText().equals("")) {
+                        flag = false;
+                    }
+                case "Perecível":
+                    if (validadeInput.getText().equals("")) {
+                        flag = false;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            JOptionPane.showMessageDialog(null, "Todos os campos devem ser preenchidos!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+            flag = false;
+        }
         if (flag) {
             Connection conexao;
             try {
                 conexao = new ConexaoDAO().getConection();
-                tipo = tipoBox.getSelectedItem().toString();
                 switch (tipo) {
                     case "Remédio":
                         prod_rem = new Remedio(Double.parseDouble(precoInput.getText()), nomeInput.getText(), fornecedorBox.getSelectedItem().toString(), validadeInput.getText(), Double.parseDouble(quantidadeInput.getText()));
@@ -518,5 +546,131 @@ public class Cadastro_Produto extends javax.swing.JFrame {
         for (int i = 0; i < strList.size(); i++) {
             fornecedorBox.addItem(strList.get(i).getCNPJ());
         }
+    }
+
+    private boolean verificaDataAnteriorAtual(int dia, int mes, int ano) {
+        Date data = new Date();
+        String atual = data + "";
+
+        int anoAtual = Integer.parseInt(atual.charAt(24) + "") * 1000 + Integer.parseInt(atual.charAt(25) + "") * 100 + Integer.parseInt(atual.charAt(26) + "") * 10 + Integer.parseInt(atual.charAt(27) + "");
+
+        if (anoAtual > ano) {
+            return false;
+        }
+        if (anoAtual < ano) {
+            return true;
+        }
+
+        String mesAtualAux = atual.substring(4, 7);
+        int mesAtual = 0;
+        if (mesAtualAux.equalsIgnoreCase("jan")) {
+            mesAtual = 1;
+        } else {
+            if (mesAtualAux.equalsIgnoreCase("feb")) {
+                mesAtual = 2;
+            } else {
+                if (mesAtualAux.equalsIgnoreCase("mar")) {
+                    mesAtual = 3;
+                } else {
+                    if (mesAtualAux.equalsIgnoreCase("apr")) {
+                        mesAtual = 4;
+                    } else {
+                        if (mesAtualAux.equalsIgnoreCase("may")) {
+                            mesAtual = 5;
+                        } else {
+                            if (mesAtualAux.equalsIgnoreCase("jun")) {
+                                mesAtual = 6;
+                            } else {
+                                if (mesAtualAux.equalsIgnoreCase("jul")) {
+                                    mesAtual = 7;
+                                } else {
+                                    if (mesAtualAux.equalsIgnoreCase("aug")) {
+                                        mesAtual = 8;
+                                    } else {
+                                        if (mesAtualAux.equalsIgnoreCase("sep")) {
+                                            mesAtual = 9;
+                                        } else {
+                                            if (mesAtualAux.equalsIgnoreCase("oct")) {
+                                                mesAtual = 10;
+                                            } else {
+                                                if (mesAtualAux.equalsIgnoreCase("nov")) {
+                                                    mesAtual = 11;
+                                                } else {
+                                                    if (mesAtualAux.equalsIgnoreCase("dec")) {
+                                                        mesAtual = 12;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (mesAtual > mes) {
+            return false;
+        }
+        if (mesAtual < mes) {
+            return true;
+        }
+
+        //Declara o valor númerico do dia atual
+        int diaAtual = Integer.parseInt(atual.charAt(8) + "") * 10 + Integer.parseInt(atual.charAt(9) + "");
+
+        //Verifica se o dia atual é maior ou igual ao passado por parâmetro
+        if (diaAtual >= dia) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean verificaDataValida(String data) {
+
+        if (data.length() != 10) {
+            return false;
+        }
+        int dia = Integer.parseInt(data.charAt(0) + "") * 10 + Integer.parseInt(data.charAt(1) + "");
+        if (dia < 1 || dia > 31) {
+            return false;
+        }
+        int mes = Integer.parseInt(data.charAt(3) + "") * 10 + Integer.parseInt(data.charAt(4) + "");
+        if (mes < 0 || mes > 12) {
+            return false;
+        }
+        int ano = Integer.parseInt(data.charAt(6) + "") * 1000 + Integer.parseInt(data.charAt(7) + "") * 100 + Integer.parseInt(data.charAt(8) + "") * 10 + Integer.parseInt(data.charAt(9) + "");
+
+        int maxDias = 0;
+        switch (mes) {
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12: {
+                maxDias = 31;
+            }
+            break;
+            case 4:
+            case 6:
+            case 9:
+            case 11: {
+                maxDias = 30;
+            }
+            default: {
+                if (ano % 4 == 0 && (ano % 100 != 0 || ano % 400 == 0)) {
+                    maxDias = 29;
+                } else {
+                    maxDias = 28;
+                }
+            }
+        }
+        if (dia > maxDias || maxDias == 0) {
+            return false;
+        }
+        return verificaDataAnteriorAtual(dia, mes, ano);
     }
 }

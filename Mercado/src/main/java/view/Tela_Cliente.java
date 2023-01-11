@@ -233,16 +233,18 @@ public class Tela_Cliente extends javax.swing.JFrame {
 
         tabbedPane.addTab("Lista de Produtos", list_ProdsPainel);
 
+        pedidosPainel.setBackground(new java.awt.Color(0, 255, 255));
+
         pedidos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Número do pedido", "Status"
+                "Número do pedido", "Status", "Entregador"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -256,9 +258,8 @@ public class Tela_Cliente extends javax.swing.JFrame {
         pedidosPainelLayout.setHorizontalGroup(
             pedidosPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pedidosPainelLayout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(257, Short.MAX_VALUE))
+                .addGap(0, 275, Short.MAX_VALUE))
         );
         pedidosPainelLayout.setVerticalGroup(
             pedidosPainelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -498,7 +499,11 @@ public class Tela_Cliente extends javax.swing.JFrame {
 
     private void sairButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sairButtonActionPerformed
         this.setVisible(false);
-        new Login().setVisible(true);
+        try {
+            new Login().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Tela_Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_sairButtonActionPerformed
 
     private void pedidoRetiradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pedidoRetiradaActionPerformed
@@ -626,7 +631,11 @@ public class Tela_Cliente extends javax.swing.JFrame {
 
     private void pagarBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagarBTNActionPerformed
         contaLabel.setText("Conta: R$ 0,00");
-        clienteLogado.setConta(0);
+        try {
+            clienteLogado.setConta(0);
+        } catch (SQLException ex) {
+            Logger.getLogger(Tela_Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_pagarBTNActionPerformed
 
     private void esvaziaCarrinho() throws SQLException {
