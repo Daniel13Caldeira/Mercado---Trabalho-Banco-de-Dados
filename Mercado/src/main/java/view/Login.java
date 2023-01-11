@@ -19,8 +19,13 @@ public class Login extends javax.swing.JFrame {
         return user;
     }
 
-    public Login() {
+    public Login() throws SQLException {
         initComponents();
+        Connection conexao = new ConexaoDAO().getConection();
+        if (!new FuncionarioDAO(conexao).existGerente()) {
+            JOptionPane.showMessageDialog(null, "Não existe Gerente cadastrado no sistema.\nPor favor logue com usuario admin e senha admin!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+        }
+        conexao.close();
     }
 
     @SuppressWarnings("unchecked")
@@ -265,23 +270,33 @@ public class Login extends javax.swing.JFrame {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            if (flag) {
-                try {
-                    Connection conexao = new ConexaoDAO().getConection();
-                    FuncionarioDAO funcionarioDAO = new FuncionarioDAO(conexao);
-                    Funcionario funcionario = funcionarioDAO.getFuncionarioPorIdEsenha(Integer.parseInt(userInput.getText()), senhaInput.getText());
-                    if (funcionario != null) {
-                        user = funcionario.getId() + "";
-                        this.setVisible(false);
-                        new Tela_Funcionario(user).setVisible(true);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Usuario ou senha inválidos!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            if (!userInput.getText().equals("admin")) {
+                if (flag) {
+                    try {
+                        Connection conexao = new ConexaoDAO().getConection();
+                        FuncionarioDAO funcionarioDAO = new FuncionarioDAO(conexao);
+                        Funcionario funcionario = funcionarioDAO.getFuncionarioPorIdEsenha(Integer.parseInt(userInput.getText()), senhaInput.getText());
+                        if (funcionario != null) {
+                            user = funcionario.getId() + "";
+                            this.setVisible(false);
+                            new Tela_Funcionario(user).setVisible(true);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Usuario ou senha inválidos!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                        conexao.close();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    conexao.close();
+                }
+            } else {
+                this.setVisible(false);
+                try {
+                    new Cadastro_Funcionario("admin").setVisible(true);
                 } catch (SQLException ex) {
                     Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+
         }
 
     }//GEN-LAST:event_entrarButtonActionPerformed
@@ -309,7 +324,11 @@ public class Login extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                try {
+                    new Login().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

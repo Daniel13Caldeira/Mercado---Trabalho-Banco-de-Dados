@@ -500,7 +500,11 @@ public class Cadastro_Cliente extends javax.swing.JFrame {
 
     private void voltarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarButtonActionPerformed
         this.setVisible(false);
-        new Login().setVisible(true);
+        try {
+            new Login().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Cadastro_Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_voltarButtonActionPerformed
 
     private void nomeInputKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nomeInputKeyReleased

@@ -167,4 +167,5 @@ public class EntregadorDAO extends FuncionarioDAO {
         }
         return entregadores;
     }
+
 }

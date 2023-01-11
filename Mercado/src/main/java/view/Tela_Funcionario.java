@@ -16,7 +16,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,6 +55,8 @@ public class Tela_Funcionario extends javax.swing.JFrame {
         }
         if (!func.getCargo().equals("Gerente")) {
             tabbedPane.setEnabledAt(3, false);
+            editarButton.setEnabled(false);
+            editarButton.setVisible(false);
         }
     }
 
@@ -871,7 +872,11 @@ public class Tela_Funcionario extends javax.swing.JFrame {
 
     private void sairButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sairButtonActionPerformed
         this.setVisible(false);
-        new Login().setVisible(true);
+        try {
+            new Login().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Tela_Funcionario.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_sairButtonActionPerformed
 
     private void adicionarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarButtonActionPerformed

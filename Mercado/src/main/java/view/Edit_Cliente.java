@@ -1,8 +1,11 @@
 package view;
 
 import Utilitarios.BuscaCep;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JTextField;
@@ -471,7 +474,11 @@ public class Edit_Cliente extends javax.swing.JFrame {
 
     private void voltarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarButtonActionPerformed
         this.setVisible(false);
-        new Login().setVisible(true);
+        try {
+            new Login().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Edit_Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_voltarButtonActionPerformed
 
     private void limitaNum(JTextField textField) {

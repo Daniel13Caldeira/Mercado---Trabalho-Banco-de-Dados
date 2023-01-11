@@ -21,15 +21,25 @@ import model.Funcionario;
 import static view.Cadastro_Cliente.validaCPF;
 
 public class Cadastro_Funcionario extends javax.swing.JFrame {
-
+    
     private Funcionario func;
-
+    private boolean admin;
+    
     public Cadastro_Funcionario(String id_funcLog) throws SQLException {
-        Connection conexao = new ConexaoDAO().getConection();
-        func = new FuncionarioDAO(conexao).getFuncionario(Integer.parseInt(id_funcLog));
         initComponents();
+        if (!id_funcLog.equals("admin")) {
+            Connection conexao = new ConexaoDAO().getConection();
+            func = new FuncionarioDAO(conexao).getFuncionario(Integer.parseInt(id_funcLog));
+            conexao.close();
+        } else {
+            cargoBox.setSelectedItem("Gerente");
+            cargoBox.setEnabled(false);
+            this.admin = true;
+            voltarbutton.setEnabled(false);
+            voltarbutton.setVisible(false);
+        }
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -501,6 +511,20 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
                 flag = false;
             }
         }
+        String cargo = cargoBox.getSelectedItem().toString();
+        if (cargo.equals("Gerente") && !admin ) {
+            Connection conexao;
+            try {
+                conexao = new ConexaoDAO().getConection();
+                FuncionarioDAO funcDAO = new FuncionarioDAO(conexao);
+                flag = !funcDAO.existGerente();
+                JOptionPane.showMessageDialog(null, "Ja existe um gerente cadastrado no sistema!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
+                conexao.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(Cadastro_Funcionario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
         String auxUf = ufBox.getSelectedItem().toString();
         if ((auxUf.equals(ufBox.getItemAt(0)) && ruaInput.getText().equals("")
                 && cidadeInput.getText().equals("")
@@ -517,7 +541,7 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "O endereço informado precisa estar completo", "Atenção", JOptionPane.INFORMATION_MESSAGE);
                 end = false;
                 flag = false;
-
+                
             }
         }
         if (flag) {
@@ -526,16 +550,16 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
                 conexao = new ConexaoDAO().getConection();
                 if (cargoBox.getSelectedItem().toString().equals("Entregador")) {
                     EntregadorDAO entregadorDAO = new EntregadorDAO(conexao);
-                    Entregador newEntregador = new Entregador(placaVeiculoInput.getText(),cargoBox.getSelectedItem().toString(), nomeInput.getText(), cpfInput.getText(), senhaInput.getText());
+                    Entregador newEntregador = new Entregador(placaVeiculoInput.getText(), cargoBox.getSelectedItem().toString(), nomeInput.getText(), cpfInput.getText(), senhaInput.getText());
                     if (end) {
                         Endereco ende = new Endereco(cidadeInput.getText(), bairroInput.getText(), ruaInput.getText(), cepInput.getText(), auxUf, numeroInput.getText());
                         newEntregador.setEndereco(ende);
                         entregadorDAO.insertEntregadorComEndereco(newEntregador);
-                        JOptionPane.showMessageDialog(null, "Funcionario cadastrado com sucesso!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Funcionario cadastrado com sucesso!\nPara logar basta usar o id:" + entregadorDAO.getMaxId() + " e a senha informada.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                         conexao.close();
                     } else {
                         entregadorDAO.insertEntregadorSemEndereco(newEntregador);
-                        JOptionPane.showMessageDialog(null, "Funcionario cadastrado com sucesso!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Funcionario cadastrado com sucesso!\nPara logar basta usar o id:" + entregadorDAO.getMaxId() + " e a senha informada.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                         conexao.close();
                     }
                     
@@ -546,19 +570,22 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
                         Endereco ende = new Endereco(cidadeInput.getText(), bairroInput.getText(), ruaInput.getText(), cepInput.getText(), auxUf, numeroInput.getText());
                         newFuncionario.setEndereco(ende);
                         funcionarioDAO.insertComEndereco(newFuncionario);
-                        JOptionPane.showMessageDialog(null, "Funcionario cadastrado com sucesso!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Funcionario cadastrado com sucesso!\nPara logar basta usar o id:" + funcionarioDAO.getMaxId() + " e a senha informada.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                         conexao.close();
                     } else {
                         funcionarioDAO.insertSemEndereco(newFuncionario);
-                        JOptionPane.showMessageDialog(null, "Funcionario cadastrado com sucesso!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Funcionario cadastrado com sucesso!\nPara logar basta usar o id:" + funcionarioDAO.getMaxId() + " e a senha informada.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                         conexao.close();
                     }
                 }
-
+                if (admin) {
+                    this.setVisible(false);
+                    new Login().setVisible(true);
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(Cadastro_Cliente.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
         }
     }//GEN-LAST:event_cadastroButtonActionPerformed
 
@@ -619,7 +646,7 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
             placaArea.setVisible(false);
         }
     }//GEN-LAST:event_cargoBoxItemStateChanged
-
+    
     private void limitaNum(JTextField textField) {
         String texto = textField.getText();
         if (texto.length() > 0) {
@@ -629,7 +656,7 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
         }
         textField.setText(texto);
     }
-
+    
     private void limita(JTextField textField) {
         String texto = textField.getText();
         if (texto.length() > 0) {
@@ -639,7 +666,7 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
         }
         textField.setText(texto);
     }
-
+    
     private void limitaSenha(JTextField textField) {
         String texto = textField.getText();
         if (texto.length() > 0) {
@@ -649,7 +676,7 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
         }
         textField.setText(texto);
     }
-
+    
     private void mascaraCPF(JTextField textField) {
         String texto = textField.getText();
         if (texto.length() > 0) {
@@ -659,7 +686,7 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
         }
         textField.setText(texto);
     }
-
+    
     private void validaCep(JTextField textField) {
         String texto = textField.getText();
         if (texto.length() > 0) {
@@ -675,7 +702,7 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
             String json = BuscaCep.buscarCep(texto);
             Map<String, String> mapa = new HashMap<>();
             if (json != null) {
-
+                
                 Matcher matcher = Pattern.compile("\"\\D.*?\": \".*?\"").matcher(json);
                 while (matcher.find()) {
                     String[] group = matcher.group().split(":");
