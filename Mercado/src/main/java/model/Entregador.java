@@ -8,6 +8,11 @@ public class Entregador extends Funcionario {
         super(id);
     }
 
+    public Entregador(String placaVeiculo, String cargo, String nome, String cpf, String senha) {
+        super(cargo, nome, cpf, senha);
+        this.placaVeiculo = placaVeiculo;
+    }
+
     public Entregador(String placaVeiculo, String nome, String cpf, int id, String cargo, String senha) {
         super(nome, cpf, id, cargo, senha);
         this.placaVeiculo = placaVeiculo;

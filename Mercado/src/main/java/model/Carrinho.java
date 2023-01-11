@@ -3,7 +3,6 @@ package model;
 import DAO.CarrinhoDAO;
 import DAO.ConexaoDAO;
 import DAO.ProdutoDAO;
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,9 +13,6 @@ public class Carrinho {
 
     private ArrayList<Produto> produtos;
     private Cliente cliente;
-
-    public Carrinho() {
-    }
 
     public Carrinho(Cliente cliente) {
         this.cliente = cliente;
@@ -30,7 +26,8 @@ public class Carrinho {
         ConexaoDAO conexaoDAO = new ConexaoDAO();
         Connection conexao = conexaoDAO.getConection();
         CarrinhoDAO carrinhoDAO = new CarrinhoDAO(conexao);
-        return carrinhoDAO.getProdutos(new Cliente(Login.getUser()));
+        this.produtos = carrinhoDAO.getProdutos(new Cliente(Login.getUser()));
+        return this.produtos;
     }
 
     public boolean addProduto(int id, double quantidade) throws SQLException {
@@ -41,7 +38,7 @@ public class Carrinho {
         double quantidadeDB = produtoDAO.getQuantidade(produto);
         //verifica se tem estoque
         if (produto.quantidade > quantidadeDB) {
-            JOptionPane jOptionPane = new JOptionPane("Não temos essa quantidade em estoque");
+            JOptionPane.showMessageDialog(null, "Não temos estoque suficiente do produto!", "Atenção", JOptionPane.INFORMATION_MESSAGE);
             return false;
         }
         CarrinhoDAO carrinhoDAO = new CarrinhoDAO(conexao);
@@ -49,19 +46,15 @@ public class Carrinho {
         if (carrinhoDAO.produtoEstaNoCarrinho(this, produto)) {
             //atualiza a quantidade no carrinho
             produto.setQuantidade(quantidade + carrinhoDAO.selectQuantidadeProduto(this, produto));
-            produtoDAO.updateQuantidade(produto);
+            carrinhoDAO.updateQuantidadeCarrinho(produto, this);
         } else {
             //insere no carrinho
             carrinhoDAO.insertProduto(new Cliente(Login.getUser()), produto);
         }
-        //vrifica se o produto não existe mais no estoque
-        if (quantidade == quantidadeDB) {
-            produtoDAO.delete(id + "");
-        } else {
-            //atualiza quantidade no estoque
-            produto.setQuantidade(quantidadeDB - quantidade);
-            produtoDAO.updateQuantidade(produto);
-        }
+
+        //atualiza quantidade no estoque
+        produto.setQuantidade(quantidadeDB - quantidade);
+        produtoDAO.updateQuantidade(produto);
         return true;
     }
 
@@ -74,7 +67,6 @@ public class Carrinho {
         carrinhoDAO.deleteProdutoCarrinho(this, produto);
         produto.setQuantidade(quantidade + produtoDAO.getQuantidade(produto));
         produtoDAO.updateQuantidade(produto);
-
     }
 
     public double getPrecoTotal() throws SQLException {
@@ -89,5 +81,12 @@ public class Carrinho {
             precoTotal += (quantidade * preco);
         }
         return precoTotal;
+    }
+
+    public void esvazia() throws SQLException {
+        ConexaoDAO conexaoDAO = new ConexaoDAO();
+        Connection conexao = conexaoDAO.getConection();
+        CarrinhoDAO carrinhoDAO = new CarrinhoDAO(conexao);
+        carrinhoDAO.delete(this);
     }
 }

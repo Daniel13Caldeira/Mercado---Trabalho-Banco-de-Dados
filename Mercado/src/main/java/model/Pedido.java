@@ -5,7 +5,16 @@ public class Pedido {
     protected Carrinho carrinho;
     protected Cliente cliente;
     protected int id;
-    protected String status;
+    protected String status, pagamento;
+
+    public Pedido(Carrinho carrinho, String pagamento) {
+        this.carrinho = carrinho;
+        this.pagamento = pagamento;
+    }
+
+    public Pedido(Carrinho carrinho) {
+        this.carrinho = carrinho;
+    }
 
     public Pedido(int id) {
         this.id = id;

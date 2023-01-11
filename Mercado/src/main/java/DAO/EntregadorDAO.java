@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import model.Endereco;
 import model.Entregador;
 import model.Funcionario;
@@ -16,7 +17,7 @@ public class EntregadorDAO extends FuncionarioDAO {
 
     private void entregadorBase(Entregador entregador) throws SQLException {
         //insere na tabela funcionario
-        String sql = "INSERT INTO funcionario (cpf) VALUES (?)";
+        String sql = "INSERT INTO funcionario (cpf, cargo) VALUES (?,'Entregador')";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setString(1, entregador.getCpf());
         prepareStatement.execute();
@@ -135,7 +136,7 @@ public class EntregadorDAO extends FuncionarioDAO {
         preparedStatement.execute();
         ResultSet result = preparedStatement.getResultSet();
         if (result.next()) {
-            Entregador en = new Entregador(result.getString("placaveiculo"),result.getString("nome"), result.getString("cpf"), result.getInt("id"), result.getString("cargo"), result.getString("senha"));
+            Entregador en = new Entregador(result.getString("placaveiculo"), result.getString("nome"), result.getString("cpf"), result.getInt("id"), result.getString("cargo"), result.getString("senha"));
             Endereco end = getEndereco(func);
             if (end != null) {
                 en.setEndereco(end);
@@ -145,14 +146,25 @@ public class EntregadorDAO extends FuncionarioDAO {
         return null;
 
     }
-    
-    
-    public void updateEnt(Entregador entregador) throws SQLException{
+
+    public void updateEnt(Entregador entregador) throws SQLException {
         update(entregador);
         String sql = "update entregador set placaveiculo = ?";
         PreparedStatement preparedStatement = conexao.prepareStatement(sql);
         preparedStatement.setString(1, entregador.getPlacaVeiculo());
         preparedStatement.execute();
-   
+
+    }
+
+    public ArrayList<Entregador> selectAll() throws SQLException {
+        String sql = "SELECT id FROM entregador;";
+        PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+        preparedStatement.execute();
+        ResultSet result = preparedStatement.getResultSet();
+        ArrayList<Entregador> entregadores = new ArrayList<>();
+        while (result.next()) {
+            entregadores.add(new Entregador(result.getInt("id")));
+        }
+        return entregadores;
     }
 }

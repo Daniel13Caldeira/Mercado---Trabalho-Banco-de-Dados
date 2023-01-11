@@ -20,10 +20,11 @@ public class PedidoDAO {
         this.conexao = connection;
     }
 
-    private int pedidoBase(Cliente cliente) throws SQLException {
-        String sql = "INSERT INTO pedido (cliente) VALUES (?);";
+    private int pedidoBase(Cliente cliente, String pagamento) throws SQLException {
+        String sql = "INSERT INTO pedido (cliente, pagamento) VALUES (?, ?);";
         PreparedStatement prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setString(1, cliente.getCpf());
+        prepareStatement.setString(2, pagamento);
         prepareStatement.execute();
 
         sql = "SELECT MAX(id) as id FROM pedido;";
@@ -36,31 +37,27 @@ public class PedidoDAO {
         return -1;
     }
 
-    public void insert(Cliente cliente, Carrinho carrinho) throws SQLException {
-        int id = pedidoBase(cliente);
+    public void insert(Carrinho carrinho, String pagamento) throws SQLException {
+        int id = pedidoBase(carrinho.getCliente(), pagamento);
         String sql;
         int tam = carrinho.getProdutos().size();
         for (int i = 0; i < tam; i++) {
-            sql = "INSERT INTO pedidoretirar (id,produto,quantidade) VALUES (?,?,?);";
+            sql = "INSERT INTO pedidoretirar (id) VALUES (?);";
             PreparedStatement prepareStatement = conexao.prepareStatement(sql);
             prepareStatement.setInt(1, id);
-            prepareStatement.setInt(2, carrinho.getProdutos().get(i).getId());
-            prepareStatement.setDouble(3, carrinho.getProdutos().get(i).getQuantidade());
             prepareStatement.execute();
         }
     }
 
-    public void insert(Cliente cliente, Entregador entregador, Carrinho carrinho) throws SQLException {
-        int id = pedidoBase(cliente);
+    public void insert(Entregador entregador, Carrinho carrinho, String pagamento) throws SQLException {
+        int id = pedidoBase(carrinho.getCliente(), pagamento);
         String sql;
         int tam = carrinho.getProdutos().size();
         for (int i = 0; i < tam; i++) {
-            sql = "INSERT INTO pedidodelivery (id,entregador,produto,quantidade) VALUES (?,?,?,?);";
+            sql = "INSERT INTO pedidodelivery (id,entregador) VALUES (?,?);";
             PreparedStatement prepareStatement = conexao.prepareStatement(sql);
             prepareStatement.setInt(1, id);
             prepareStatement.setInt(2, entregador.getId());
-            prepareStatement.setInt(3, carrinho.getProdutos().get(i).getId());
-            prepareStatement.setDouble(4, carrinho.getProdutos().get(i).getQuantidade());
             prepareStatement.execute();
         }
     }

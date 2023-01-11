@@ -54,8 +54,6 @@ public class Cadastro_Produto extends javax.swing.JFrame {
         camp = new javax.swing.JPanel();
         validadeLabel = new javax.swing.JLabel();
         validadeInput = new javax.swing.JTextField();
-        cReceitaRadioButton = new javax.swing.JRadioButton();
-        scReceitaRadioButton = new javax.swing.JRadioButton();
         tamanhoLabel = new javax.swing.JLabel();
         tamanhoInput = new javax.swing.JTextField();
         cadastrarButton = new javax.swing.JButton();
@@ -146,16 +144,6 @@ public class Cadastro_Produto extends javax.swing.JFrame {
             }
         });
 
-        buttonGroup1.add(cReceitaRadioButton);
-        cReceitaRadioButton.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
-        cReceitaRadioButton.setForeground(new java.awt.Color(9, 9, 91));
-        cReceitaRadioButton.setText("Com receita");
-
-        buttonGroup1.add(scReceitaRadioButton);
-        scReceitaRadioButton.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
-        scReceitaRadioButton.setForeground(new java.awt.Color(9, 9, 91));
-        scReceitaRadioButton.setText("Sem Receita");
-
         tamanhoLabel.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
         tamanhoLabel.setForeground(new java.awt.Color(9, 9, 91));
         tamanhoLabel.setText("Tamanho");
@@ -169,20 +157,13 @@ public class Cadastro_Produto extends javax.swing.JFrame {
             campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(campLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(campLayout.createSequentialGroup()
-                        .addGap(112, 112, 112)
-                        .addComponent(cReceitaRadioButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(scReceitaRadioButton))
-                    .addGroup(campLayout.createSequentialGroup()
-                        .addComponent(tamanhoLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tamanhoInput, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(validadeLabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(validadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(tamanhoLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(tamanhoInput, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(validadeLabel)
+                .addGap(18, 18, 18)
+                .addComponent(validadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(147, Short.MAX_VALUE))
         );
         campLayout.setVerticalGroup(
@@ -196,11 +177,7 @@ public class Cadastro_Produto extends javax.swing.JFrame {
                     .addGroup(campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(validadeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(validadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(15, 15, 15)
-                .addGroup(campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cReceitaRadioButton)
-                    .addComponent(scReceitaRadioButton))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         cadastrarButton.setBackground(new java.awt.Color(9, 9, 91));
@@ -235,7 +212,7 @@ public class Cadastro_Produto extends javax.swing.JFrame {
         formArea12Layout.setHorizontalGroup(
             formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formArea12Layout.createSequentialGroup()
-                .addContainerGap(62, Short.MAX_VALUE)
+                .addContainerGap(42, Short.MAX_VALUE)
                 .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(formArea12Layout.createSequentialGroup()
                         .addComponent(jButton1)
@@ -296,7 +273,7 @@ public class Cadastro_Produto extends javax.swing.JFrame {
                 .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cadastrarButton)
                     .addComponent(jButton1))
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         camp.setVisible(false);
@@ -321,9 +298,9 @@ public class Cadastro_Produto extends javax.swing.JFrame {
         tittleAreaLayout.setVerticalGroup(
             tittleAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tittleAreaLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(11, Short.MAX_VALUE)
                 .addComponent(tittleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout containerLayout = new javax.swing.GroupLayout(container);
@@ -394,23 +371,17 @@ public class Cadastro_Produto extends javax.swing.JFrame {
                 tamanhoInput.setVisible(true);
                 validadeInput.setVisible(false);
                 validadeLabel.setVisible(false);
-                cReceitaRadioButton.setVisible(false);
-                scReceitaRadioButton.setVisible(false);
             } else {
                 if (tip.equals("Remédio")) {
                     tamanhoLabel.setVisible(false);
                     tamanhoInput.setVisible(false);
                     validadeInput.setVisible(true);
                     validadeLabel.setVisible(true);
-                    cReceitaRadioButton.setVisible(true);
-                    scReceitaRadioButton.setVisible(true);
                 } else {
                     tamanhoLabel.setVisible(false);
                     tamanhoInput.setVisible(false);
                     validadeInput.setVisible(true);
                     validadeLabel.setVisible(true);
-                    cReceitaRadioButton.setVisible(false);
-                    scReceitaRadioButton.setVisible(false);
                 }
             }
         } else {
@@ -427,7 +398,7 @@ public class Cadastro_Produto extends javax.swing.JFrame {
                 tipo = tipoBox.getSelectedItem().toString();
                 switch (tipo) {
                     case "Remédio":
-                        prod_rem = new Remedio(cReceitaRadioButton.isSelected(), Double.parseDouble(precoInput.getText()), nomeInput.getText(), fornecedorBox.getSelectedItem().toString(), validadeInput.getText(), Double.parseDouble(quantidadeInput.getText()));
+                        prod_rem = new Remedio(Double.parseDouble(precoInput.getText()), nomeInput.getText(), fornecedorBox.getSelectedItem().toString(), validadeInput.getText(), Double.parseDouble(quantidadeInput.getText()));
                         new RemedioDAO(conexao).insert(prod_rem);
                         break;
                     case "Vestuário":
@@ -517,7 +488,6 @@ public class Cadastro_Produto extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JRadioButton cReceitaRadioButton;
     private javax.swing.JButton cadastrarButton;
     private javax.swing.JPanel camp;
     private javax.swing.JPanel container;
@@ -531,7 +501,6 @@ public class Cadastro_Produto extends javax.swing.JFrame {
     private javax.swing.JLabel precoLabel;
     private javax.swing.JTextField quantidadeInput;
     private javax.swing.JLabel quantidadeLabel;
-    private javax.swing.JRadioButton scReceitaRadioButton;
     private javax.swing.JTextField tamanhoInput;
     private javax.swing.JLabel tamanhoLabel;
     private javax.swing.JComboBox<String> tipoBox;

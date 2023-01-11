@@ -60,8 +60,6 @@ public class Edit_Produto extends javax.swing.JFrame {
         camp = new javax.swing.JPanel();
         validadeLabel = new javax.swing.JLabel();
         validadeInput = new javax.swing.JTextField();
-        cReceitaRadioButton = new javax.swing.JRadioButton();
-        scReceitaRadioButton = new javax.swing.JRadioButton();
         tamanhoLabel = new javax.swing.JLabel();
         tamanhoInput = new javax.swing.JTextField();
         editarButton = new javax.swing.JButton();
@@ -154,18 +152,6 @@ public class Edit_Produto extends javax.swing.JFrame {
             }
         });
 
-        buttonGroup1.add(cReceitaRadioButton);
-        cReceitaRadioButton.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
-        cReceitaRadioButton.setForeground(new java.awt.Color(9, 9, 91));
-        cReceitaRadioButton.setText("Com receita");
-        cReceitaRadioButton.setEnabled(false);
-
-        buttonGroup1.add(scReceitaRadioButton);
-        scReceitaRadioButton.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
-        scReceitaRadioButton.setForeground(new java.awt.Color(9, 9, 91));
-        scReceitaRadioButton.setText("Sem Receita");
-        scReceitaRadioButton.setEnabled(false);
-
         tamanhoLabel.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
         tamanhoLabel.setForeground(new java.awt.Color(9, 9, 91));
         tamanhoLabel.setText("Tamanho");
@@ -179,21 +165,14 @@ public class Edit_Produto extends javax.swing.JFrame {
         campLayout.setHorizontalGroup(
             campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(campLayout.createSequentialGroup()
-                .addGroup(campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(campLayout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(tamanhoLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tamanhoInput, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)
-                        .addComponent(validadeLabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(validadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(campLayout.createSequentialGroup()
-                        .addGap(133, 133, 133)
-                        .addComponent(cReceitaRadioButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(scReceitaRadioButton)))
+                .addGap(19, 19, 19)
+                .addComponent(tamanhoLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(tamanhoInput, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addComponent(validadeLabel)
+                .addGap(18, 18, 18)
+                .addComponent(validadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(144, Short.MAX_VALUE))
         );
         campLayout.setVerticalGroup(
@@ -207,11 +186,7 @@ public class Edit_Produto extends javax.swing.JFrame {
                     .addGroup(campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(validadeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(validadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(campLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cReceitaRadioButton)
-                    .addComponent(scReceitaRadioButton))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         switch(tipo){
@@ -223,223 +198,215 @@ public class Edit_Produto extends javax.swing.JFrame {
             break;
 
         }
-        if(prod_rem!=null)
-        {
-            if(prod_rem.isPrecisaReceita()){
-                cReceitaRadioButton.setSelected(true);
-            }}
-            if(prod_rem!=null){if(!prod_rem.isPrecisaReceita()){
-                scReceitaRadioButton.setSelected(true);
-            }}
-            if(prod_ves!=null){tamanhoInput.setText(prod_ves.getTamanho());}
+        if(prod_ves!=null){tamanhoInput.setText(prod_ves.getTamanho());}
 
-            editarButton.setBackground(new java.awt.Color(9, 9, 91));
-            editarButton.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
-            editarButton.setForeground(new java.awt.Color(255, 255, 255));
-            editarButton.setText("Editar");
-            editarButton.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    editarButtonActionPerformed(evt);
-                }
-            });
+        editarButton.setBackground(new java.awt.Color(9, 9, 91));
+        editarButton.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
+        editarButton.setForeground(new java.awt.Color(255, 255, 255));
+        editarButton.setText("Editar");
+        editarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editarButtonActionPerformed(evt);
+            }
+        });
 
-            quantidadeLabel.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
-            quantidadeLabel.setForeground(new java.awt.Color(9, 9, 91));
-            quantidadeLabel.setText("Quantidade");
+        quantidadeLabel.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
+        quantidadeLabel.setForeground(new java.awt.Color(9, 9, 91));
+        quantidadeLabel.setText("Quantidade");
 
-            quantidadeInput.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 14)); // NOI18N
-            quantidadeInput.setForeground(new java.awt.Color(9, 9, 91));
+        quantidadeInput.setFont(new java.awt.Font("Franklin Gothic Medium", 0, 14)); // NOI18N
+        quantidadeInput.setForeground(new java.awt.Color(9, 9, 91));
 
-            javax.swing.GroupLayout formArea12Layout = new javax.swing.GroupLayout(formArea12);
-            formArea12.setLayout(formArea12Layout);
-            formArea12Layout.setHorizontalGroup(
-                formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formArea12Layout.createSequentialGroup()
-                    .addContainerGap(62, Short.MAX_VALUE)
-                    .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(editarButton)
-                        .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(formArea12Layout.createSequentialGroup()
-                                .addComponent(nomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(nomeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(33, 33, 33)
-                                .addComponent(precoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(precoInput, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(formArea12Layout.createSequentialGroup()
-                                .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(fornecedorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(quantidadeLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(quantidadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(formArea12Layout.createSequentialGroup()
-                                        .addComponent(fornecedorBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(tipoBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(camp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGap(60, 60, 60))
-            );
-            formArea12Layout.setVerticalGroup(
-                formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(formArea12Layout.createSequentialGroup()
-                    .addGap(94, 94, 94)
-                    .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(nomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(nomeInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(precoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(precoInput, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(29, 29, 29)
-                    .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(fornecedorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(fornecedorBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(tipoLabel)
-                        .addComponent(tipoBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(21, 21, 21)
-                    .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(quantidadeLabel)
-                        .addComponent(quantidadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(camp, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
+        javax.swing.GroupLayout formArea12Layout = new javax.swing.GroupLayout(formArea12);
+        formArea12.setLayout(formArea12Layout);
+        formArea12Layout.setHorizontalGroup(
+            formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formArea12Layout.createSequentialGroup()
+                .addContainerGap(68, Short.MAX_VALUE)
+                .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(editarButton)
-                    .addContainerGap(48, Short.MAX_VALUE))
-            );
+                    .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(formArea12Layout.createSequentialGroup()
+                            .addComponent(nomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(nomeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(33, 33, 33)
+                            .addComponent(precoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(precoInput, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(formArea12Layout.createSequentialGroup()
+                            .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(fornecedorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(quantidadeLabel))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(quantidadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(formArea12Layout.createSequentialGroup()
+                                    .addComponent(fornecedorBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(tipoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(tipoBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(camp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(60, 60, 60))
+        );
+        formArea12Layout.setVerticalGroup(
+            formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(formArea12Layout.createSequentialGroup()
+                .addGap(94, 94, 94)
+                .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nomeInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(precoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(precoInput, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
+                .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fornecedorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fornecedorBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tipoLabel)
+                    .addComponent(tipoBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
+                .addGroup(formArea12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(quantidadeLabel)
+                    .addComponent(quantidadeInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(camp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(editarButton)
+                .addContainerGap(49, Short.MAX_VALUE))
+        );
 
-            switch (tipo) {
-                case "Remédio":
-                nomeInput.setText(prod_rem.getNome());
-                break;
-                case "Vestuário":
-                nomeInput.setText(prod_ves.getNome());
-                break;
-                case "Perecível":
-                nomeInput.setText(prod_pp.getNome());
-                break;
-                case "Outros":
-                nomeInput.setText(prod_ou.getNome());
-                break;
-                default:
-                break;
+        switch (tipo) {
+            case "Remédio":
+            nomeInput.setText(prod_rem.getNome());
+            break;
+            case "Vestuário":
+            nomeInput.setText(prod_ves.getNome());
+            break;
+            case "Perecível":
+            nomeInput.setText(prod_pp.getNome());
+            break;
+            case "Outros":
+            nomeInput.setText(prod_ou.getNome());
+            break;
+            default:
+            break;
+        }
+        tipoBox.setSelectedItem(tipo);
+        switch (tipo) {
+            case "Remédio":
+            precoInput.setText(prod_rem.getPreco()+"");
+            break;
+            case "Vestuário":
+            precoInput.setText(prod_ves.getPreco()+"");
+            break;
+            case "Perecível":
+            precoInput.setText(prod_pp.getPreco()+"");
+            break;
+            case "Outros":
+            precoInput.setText(prod_ou.getPreco()+"");
+            break;
+            default:
+            break;
+        }
+        switch (tipo) {
+            case "Remédio":
+            fornecedorBox.setSelectedItem(prod_rem.getFornecedor());
+            break;
+            case "Vestuário":
+            fornecedorBox.setSelectedItem(prod_ves.getFornecedor());
+            break;
+            case "Perecível":
+            fornecedorBox.setSelectedItem(prod_pp.getFornecedor());
+            break;
+            case "Outros":
+            fornecedorBox.setSelectedItem(prod_ou.getFornecedor());
+            break;
+            default:
+            break;
+        }
+        camp.setVisible(false);
+        switch (tipo) {
+            case "Remédio":
+            quantidadeInput.setText(prod_rem.getQuantidade()+"");
+            break;
+            case "Vestuário":
+            quantidadeInput.setText(prod_ves.getQuantidade()+"");
+            break;
+            case "Perecível":
+            quantidadeInput.setText(prod_pp.getQuantidade()+"");
+            break;
+            case "Outros":
+            quantidadeInput.setText(prod_ou.getQuantidade()+"");
+            break;
+            default:
+            break;
+        }
+
+        tittleArea.setBackground(new java.awt.Color(0, 255, 255));
+        tittleArea.setPreferredSize(new java.awt.Dimension(100, 90));
+
+        voltarButton.setBackground(new java.awt.Color(9, 9, 91));
+        voltarButton.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
+        voltarButton.setForeground(new java.awt.Color(255, 255, 255));
+        voltarButton.setText("Voltar");
+        voltarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                voltarButtonActionPerformed(evt);
             }
-            tipoBox.setSelectedItem(tipo);
-            switch (tipo) {
-                case "Remédio":
-                precoInput.setText(prod_rem.getPreco()+"");
-                break;
-                case "Vestuário":
-                precoInput.setText(prod_ves.getPreco()+"");
-                break;
-                case "Perecível":
-                precoInput.setText(prod_pp.getPreco()+"");
-                break;
-                case "Outros":
-                precoInput.setText(prod_ou.getPreco()+"");
-                break;
-                default:
-                break;
-            }
-            switch (tipo) {
-                case "Remédio":
-                fornecedorBox.setSelectedItem(prod_rem.getFornecedor());
-                break;
-                case "Vestuário":
-                fornecedorBox.setSelectedItem(prod_ves.getFornecedor());
-                break;
-                case "Perecível":
-                fornecedorBox.setSelectedItem(prod_pp.getFornecedor());
-                break;
-                case "Outros":
-                fornecedorBox.setSelectedItem(prod_ou.getFornecedor());
-                break;
-                default:
-                break;
-            }
-            camp.setVisible(false);
-            switch (tipo) {
-                case "Remédio":
-                quantidadeInput.setText(prod_rem.getQuantidade()+"");
-                break;
-                case "Vestuário":
-                quantidadeInput.setText(prod_ves.getQuantidade()+"");
-                break;
-                case "Perecível":
-                quantidadeInput.setText(prod_pp.getQuantidade()+"");
-                break;
-                case "Outros":
-                quantidadeInput.setText(prod_ou.getQuantidade()+"");
-                break;
-                default:
-                break;
-            }
+        });
 
-            tittleArea.setBackground(new java.awt.Color(0, 255, 255));
-            tittleArea.setPreferredSize(new java.awt.Dimension(100, 90));
+        javax.swing.GroupLayout tittleAreaLayout = new javax.swing.GroupLayout(tittleArea);
+        tittleArea.setLayout(tittleAreaLayout);
+        tittleAreaLayout.setHorizontalGroup(
+            tittleAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tittleAreaLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(voltarButton)
+                .addContainerGap())
+        );
+        tittleAreaLayout.setVerticalGroup(
+            tittleAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tittleAreaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(voltarButton)
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
 
-            voltarButton.setBackground(new java.awt.Color(9, 9, 91));
-            voltarButton.setFont(new java.awt.Font("Franklin Gothic Medium", 1, 14)); // NOI18N
-            voltarButton.setForeground(new java.awt.Color(255, 255, 255));
-            voltarButton.setText("Voltar");
-            voltarButton.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    voltarButtonActionPerformed(evt);
-                }
-            });
+        javax.swing.GroupLayout containerLayout = new javax.swing.GroupLayout(container);
+        container.setLayout(containerLayout);
+        containerLayout.setHorizontalGroup(
+            containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(containerLayout.createSequentialGroup()
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(formArea12, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE)
+                    .addComponent(tittleArea, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
+        containerLayout.setVerticalGroup(
+            containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, containerLayout.createSequentialGroup()
+                .addComponent(tittleArea, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(formArea12, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(48, Short.MAX_VALUE))
+        );
 
-            javax.swing.GroupLayout tittleAreaLayout = new javax.swing.GroupLayout(tittleArea);
-            tittleArea.setLayout(tittleAreaLayout);
-            tittleAreaLayout.setHorizontalGroup(
-                tittleAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tittleAreaLayout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(voltarButton)
-                    .addContainerGap())
-            );
-            tittleAreaLayout.setVerticalGroup(
-                tittleAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(tittleAreaLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(voltarButton)
-                    .addContainerGap(16, Short.MAX_VALUE))
-            );
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
-            javax.swing.GroupLayout containerLayout = new javax.swing.GroupLayout(container);
-            container.setLayout(containerLayout);
-            containerLayout.setHorizontalGroup(
-                containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(containerLayout.createSequentialGroup()
-                    .addContainerGap(14, Short.MAX_VALUE)
-                    .addGroup(containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(formArea12, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE)
-                        .addComponent(tittleArea, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE))
-                    .addContainerGap(14, Short.MAX_VALUE))
-            );
-            containerLayout.setVerticalGroup(
-                containerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, containerLayout.createSequentialGroup()
-                    .addComponent(tittleArea, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(formArea12, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(48, Short.MAX_VALUE))
-            );
-
-            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-            getContentPane().setLayout(layout);
-            layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            );
-            layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(container, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            );
-
-            pack();
-            setLocationRelativeTo(null);
-        }// </editor-fold>//GEN-END:initComponents
+        pack();
+        setLocationRelativeTo(null);
+    }// </editor-fold>//GEN-END:initComponents
 
     private void nomeInputKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nomeInputKeyReleased
         limita(nomeInput);
@@ -458,23 +425,17 @@ public class Edit_Produto extends javax.swing.JFrame {
                 tamanhoInput.setVisible(true);
                 validadeInput.setVisible(false);
                 validadeLabel.setVisible(false);
-                cReceitaRadioButton.setVisible(false);
-                scReceitaRadioButton.setVisible(false);
             } else {
                 if (tip.equals("Remédio")) {
                     tamanhoLabel.setVisible(false);
                     tamanhoInput.setVisible(false);
                     validadeInput.setVisible(false);
                     validadeLabel.setVisible(false);
-                    cReceitaRadioButton.setVisible(true);
-                    scReceitaRadioButton.setVisible(true);
                 } else {
                     tamanhoLabel.setVisible(false);
                     tamanhoInput.setVisible(false);
                     validadeInput.setVisible(true);
                     validadeLabel.setVisible(true);
-                    cReceitaRadioButton.setVisible(false);
-                    scReceitaRadioButton.setVisible(false);
                 }
             }
         } else {
@@ -623,7 +584,6 @@ public class Edit_Produto extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JRadioButton cReceitaRadioButton;
     private javax.swing.JPanel camp;
     private javax.swing.JPanel container;
     private javax.swing.JButton editarButton;
@@ -636,7 +596,6 @@ public class Edit_Produto extends javax.swing.JFrame {
     private javax.swing.JLabel precoLabel;
     private javax.swing.JTextField quantidadeInput;
     private javax.swing.JLabel quantidadeLabel;
-    private javax.swing.JRadioButton scReceitaRadioButton;
     private javax.swing.JTextField tamanhoInput;
     private javax.swing.JLabel tamanhoLabel;
     private javax.swing.JComboBox<String> tipoBox;

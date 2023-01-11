@@ -2,6 +2,7 @@ package view;
 
 import DAO.ClienteDAO;
 import DAO.ConexaoDAO;
+import DAO.EntregadorDAO;
 import DAO.FuncionarioDAO;
 import Utilitarios.BuscaCep;
 import java.sql.Connection;
@@ -15,6 +16,7 @@ import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import model.Endereco;
+import model.Entregador;
 import model.Funcionario;
 import static view.Cadastro_Cliente.validaCPF;
 
@@ -522,18 +524,35 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
             Connection conexao;
             try {
                 conexao = new ConexaoDAO().getConection();
-                FuncionarioDAO funcionarioDAO = new FuncionarioDAO(conexao);
-                Funcionario newFuncionario = new Funcionario(cargoBox.getSelectedItem().toString(), nomeInput.getText(), cpfInput.getText(), senhaInput.getText());
-                if (end) {
-                    Endereco ende = new Endereco(cidadeInput.getText(), bairroInput.getText(), ruaInput.getText(), cepInput.getText(), auxUf, numeroInput.getText());
-                    newFuncionario.setEndereco(ende);
-                    funcionarioDAO.insertComEndereco(newFuncionario);
-                    JOptionPane.showMessageDialog(null, "Funcionario cadastrado com sucesso!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                    conexao.close();
+                if (cargoBox.getSelectedItem().toString().equals("Entregador")) {
+                    EntregadorDAO entregadorDAO = new EntregadorDAO(conexao);
+                    Entregador newEntregador = new Entregador(placaVeiculoInput.getText(),cargoBox.getSelectedItem().toString(), nomeInput.getText(), cpfInput.getText(), senhaInput.getText());
+                    if (end) {
+                        Endereco ende = new Endereco(cidadeInput.getText(), bairroInput.getText(), ruaInput.getText(), cepInput.getText(), auxUf, numeroInput.getText());
+                        newEntregador.setEndereco(ende);
+                        entregadorDAO.insertEntregadorComEndereco(newEntregador);
+                        JOptionPane.showMessageDialog(null, "Funcionario cadastrado com sucesso!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                        conexao.close();
+                    } else {
+                        entregadorDAO.insertEntregadorSemEndereco(newEntregador);
+                        JOptionPane.showMessageDialog(null, "Funcionario cadastrado com sucesso!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                        conexao.close();
+                    }
+                    
                 } else {
-                    funcionarioDAO.insertSemEndereco(newFuncionario);
-                    JOptionPane.showMessageDialog(null, "Funcionario cadastrado com sucesso!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                    conexao.close();
+                    FuncionarioDAO funcionarioDAO = new FuncionarioDAO(conexao);
+                    Funcionario newFuncionario = new Funcionario(cargoBox.getSelectedItem().toString(), nomeInput.getText(), cpfInput.getText(), senhaInput.getText());
+                    if (end) {
+                        Endereco ende = new Endereco(cidadeInput.getText(), bairroInput.getText(), ruaInput.getText(), cepInput.getText(), auxUf, numeroInput.getText());
+                        newFuncionario.setEndereco(ende);
+                        funcionarioDAO.insertComEndereco(newFuncionario);
+                        JOptionPane.showMessageDialog(null, "Funcionario cadastrado com sucesso!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                        conexao.close();
+                    } else {
+                        funcionarioDAO.insertSemEndereco(newFuncionario);
+                        JOptionPane.showMessageDialog(null, "Funcionario cadastrado com sucesso!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                        conexao.close();
+                    }
                 }
 
             } catch (SQLException ex) {
@@ -546,7 +565,7 @@ public class Cadastro_Funcionario extends javax.swing.JFrame {
     private void voltarbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarbuttonActionPerformed
         this.setVisible(false);
         try {
-            new Tela_Funcionario(func.getId()+"").setVisible(true);
+            new Tela_Funcionario(func.getId() + "").setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(Cadastro_Fornecedor.class.getName()).log(Level.SEVERE, null, ex);
         }

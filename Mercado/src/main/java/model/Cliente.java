@@ -6,7 +6,15 @@ public class Cliente extends Pessoa {
 
     private Carrinho carrino;
     private ArrayList<Pedido> pedidos;
-    private float conta;
+    private double conta;
+
+    public double getConta() {
+        return conta;
+    }
+
+    public void setConta(double conta) {
+        this.conta = conta;
+    }
 
     public Cliente(String nome, String cpf, Endereco endereco, String senha, float conta) {
         super(nome, cpf, endereco, senha);
@@ -29,4 +37,9 @@ public class Cliente extends Pessoa {
     public ArrayList<Pedido> getPedidos() {
         return pedidos;
     }
+
+    public void updateAll() {
+
+    }
+
 }

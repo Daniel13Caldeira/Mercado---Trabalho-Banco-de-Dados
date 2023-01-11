@@ -30,11 +30,10 @@ public class RemedioDAO extends ProdutoDAO {
             id = result.getInt("id");
         }
 
-        sql = "INSERT INTO remedio (id, precisareceita, validade) VALUES (?,?,?);";
+        sql = "INSERT INTO remedio (id, validade) VALUES (?, ?);";
         prepareStatement = conexao.prepareStatement(sql);
         prepareStatement.setInt(1, id);
-        prepareStatement.setBoolean(2, remedio.isPrecisaReceita());
-        prepareStatement.setString(3, remedio.getValidade());
+        prepareStatement.setString(2, remedio.getValidade());
         prepareStatement.execute();
     }
 
@@ -53,7 +52,7 @@ public class RemedioDAO extends ProdutoDAO {
     public Remedio getRemedio(String id) throws SQLException {
 
         String sql = "select *\n"
-                + "from (select p.id,p.fornecedor,p.preco,p.nome,p.quantidade,r.validade,r.precisareceita\n"
+                + "from (select p.id,p.fornecedor,p.preco,p.nome,p.quantidade,r.validade\n"
                 + "from produto as p , remedio as r\n"
                 + "where p.id = r.id) as foo\n"
                 + "where foo.id = ?";
@@ -62,21 +61,9 @@ public class RemedioDAO extends ProdutoDAO {
         prepareStatement.execute();
         ResultSet result = prepareStatement.getResultSet();
         if(result.next()){
-            return new Remedio(result.getBoolean("precisareceita"), result.getInt("id"),result.getDouble("preco"),result.getString("nome"), result.getString("fornecedor"), result.getString("validade"),result.getFloat("quantidade"));
+            return new Remedio(result.getInt("id"),result.getDouble("preco"),result.getString("nome"), result.getString("fornecedor"), result.getString("validade"),result.getFloat("quantidade"));
         }
         return null;
-    }
-
-    public boolean isPrecisaReceita(Remedio remedio) throws SQLException {
-        String sql = "SELECT precisareceita FROM remedio WHERE id = ?;";
-        PreparedStatement prepareStatement = conexao.prepareStatement(sql);
-        prepareStatement.setInt(1, remedio.getId());
-        prepareStatement.execute();
-        ResultSet result = prepareStatement.getResultSet();
-        if (result.next()) {
-            return result.getBoolean("precisareceita");
-        }
-        return true;
     }
 
     public void delete(Remedio remedio) throws SQLException {
