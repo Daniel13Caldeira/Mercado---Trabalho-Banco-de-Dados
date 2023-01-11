@@ -2,7 +2,7 @@
 --create schema public;/*
 
 CREATE table if not exists endereco(
-	id serial primary key  on DELETE CASCADE,
+	id serial primary key,
 	uf varchar(2) not null,
 	cidade varchar(50) not null,
 	bairro varchar(50) not null,
@@ -12,104 +12,104 @@ CREATE table if not exists endereco(
 );
 
 create table if not exists pessoa(
-	cpf varchar(11) primary key  on DELETE CASCADE,
+	cpf varchar(11) primary key,
 	nome varchar(50) not null,
 	senha varchar(20) not null,
 	endereco integer,
-	FOREIGN KEY (endereco) REFERENCES public.endereco (id)
+	FOREIGN KEY (endereco) REFERENCES public.endereco (id) on DELETE CASCADE
 );
 
 CREATE table if not exists cliente(
-	cpf varchar(11) primary key  on DELETE CASCADE,
+	cpf varchar(11) primary key,
 	conta real not null default 0,
-	FOREIGN KEY (cpf) REFERENCES public.pessoa (cpf)
+	FOREIGN KEY (cpf) REFERENCES public.pessoa (cpf) on DELETE CASCADE
 );
 
 CREATE table if not exists fornecedor(
-	cnpj varchar(15) primary key  on DELETE CASCADE,
+	cnpj varchar(15) primary key,
 	nome varchar(50) not null
 );
 
 CREATE table if not exists funcionario(
-	id serial primary key  on DELETE CASCADE,
+	id serial primary key,
 	cpf varchar(11) unique not null,
 	cargo varchar(11),
-	FOREIGN KEY (cpf) REFERENCES public.pessoa (cpf)
+	FOREIGN KEY (cpf) REFERENCES public.pessoa (cpf) on DELETE CASCADE
 );
 
 create table if not exists entregador(
 	placaVeiculo varchar(7) unique not null,
-	id integer primary key on DELETE CASCADE,
-	FOREIGN KEY (id) REFERENCES public.funcionario (id)
+	id integer primary key,
+	FOREIGN KEY (id) REFERENCES public.funcionario (id) on DELETE CASCADE
 );
 
 create table if not exists produto(
-	id serial primary key  on DELETE CASCADE,
+	id serial primary key,
 	fornecedor varchar(15) not null,
 	preco real not null,
 	nome varchar(50) not null,
 	quantidade real not null,
 	tipo varchar(25) not null,
-	FOREIGN KEY (fornecedor) REFERENCES public.fornecedor (cnpj)
+	FOREIGN KEY (fornecedor) REFERENCES public.fornecedor (cnpj) on DELETE CASCADE
 );
 
 create table if not exists vestuario(
 	id integer primary key,
 	tamanho varchar(5),
-	FOREIGN KEY (id) REFERENCES public.produto (id)
+	FOREIGN KEY (id) REFERENCES public.produto (id) on DELETE CASCADE
 );
 
 create table if not exists remedio(
 	id integer primary key,
 	precisaReceita bool not null,
 	validade varchar(10) not null,
-	FOREIGN KEY (id) REFERENCES public.produto (id)
+	FOREIGN KEY (id) REFERENCES public.produto (id) on DELETE CASCADE
 );
 
 create table if not exists produtoperecivel(
 	id integer primary key,
 	validade varchar(10) not null,
-	FOREIGN KEY (id) REFERENCES public.produto (id)
+	FOREIGN KEY (id) REFERENCES public.produto (id) on DELETE CASCADE
 );
 
 create table if not exists produtooutro(
 	id integer primary key,
-	FOREIGN KEY (id) REFERENCES public.produto (id)
+	FOREIGN KEY (id) REFERENCES public.produto (id) on DELETE CASCADE
 );
 
 create table if not exists carrinho(
 	cliente varchar(11) not null,
 	produto integer not null,
 	quantidade real not null,
-	FOREIGN KEY (cliente) REFERENCES public.cliente (cpf),
-	FOREIGN KEY (produto) REFERENCES public.produto (id),
+	FOREIGN KEY (cliente) REFERENCES public.cliente (cpf) on DELETE CASCADE,
+	FOREIGN KEY (produto) REFERENCES public.produto (id) on DELETE CASCADE,
 	CONSTRAINT PK_carrinho PRIMARY KEY (cliente, produto)
 );
 
 create table if not exists pedido(
-	id serial primary key  on DELETE CASCADE,
+	id serial primary key,
 	cliente varchar(11) not null,
 	status varchar(25) not null default 'Aguardando confirmação',
-	FOREIGN KEY (cliente) REFERENCES public.cliente (cpf)
+	FOREIGN KEY (cliente) REFERENCES public.cliente (cpf) on DELETE CASCADE
 );
 
 create table if not exists pedidodelivery(
 	entregador integer not null,
 	id integer primary key,
-	FOREIGN KEY (id) REFERENCES public.pedido (id),
-	FOREIGN KEY (entregador) REFERENCES public.entregador (id)
+	FOREIGN KEY (id) REFERENCES public.pedido (id) on DELETE CASCADE,
+	FOREIGN KEY (entregador) REFERENCES public.entregador (id) on DELETE CASCADE
 );
 
 create table if not exists pedidoretirar(
 	id integer primary key,
-	FOREIGN KEY (id) REFERENCES public.pedido (id)
+	FOREIGN KEY (id) REFERENCES public.pedido (id) on DELETE CASCADE
 );
 
 create table if not exists produtopedido(
 	pedido integer not null,
 	produto integer not null,
 	quantidade real not null,
-	FOREIGN KEY (pedido) REFERENCES public.pedido (id),
-	FOREIGN KEY (produto) REFERENCES public.produto (id),
+	FOREIGN KEY (pedido) REFERENCES public.pedido (id) on DELETE CASCADE,
+	FOREIGN KEY (produto) REFERENCES public.produto (id) on DELETE CASCADE,
 	CONSTRAINT PK_produtopedido PRIMARY KEY (pedido, produto)
 );
